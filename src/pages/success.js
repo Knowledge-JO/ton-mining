@@ -10,7 +10,7 @@ export default function Success() {
 
     useEffect(() => {
         const fetchSessionDetails = async () => {
-            const res = await fetch('/api/retrieve-session', {
+            const res = await fetch('/api/retrieve', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sessionId: session_id })
@@ -34,7 +34,7 @@ export default function Success() {
         if (session_id) {
             fetchSessionDetails();
         }
-    }, [session_id, router, toast]);
+    }, [session_id, router]);
 
     return (
         <Box textAlign="center" py={10} px={6}>

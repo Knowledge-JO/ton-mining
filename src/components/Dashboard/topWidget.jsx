@@ -41,6 +41,8 @@ export default function TopWidget({ miner, user }) {
       const db = getFirestore(app);
       const minerRef = doc(db, "miners", userId);
       await setDoc(minerRef, {
+        minerId: miner.minerId,
+        minerImage: miner.minerImage,
         userId: miner.userId,
         hashRate: miner.hashRate,
         cost: miner.cost,
