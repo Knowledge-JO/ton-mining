@@ -1,0 +1,49 @@
+{
+  "name": "mining",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/next-js": "^2.2.0",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@stripe/react-stripe-js": "^2.7.0",
+    "@stripe/stripe-js": "^3.3.0",
+    "axios": "^1.6.8",
+    "bcrypt": "^5.1.1",
+    "cookies": "^0.9.1",
+    "dotenv": "^16.4.5",
+    "ethers": "^5.7.2",
+    "firebase": "^10.11.0",
+    "framer-motion": "^11.0.24",
+    "jose": "^5.2.4",
+    "js-cookie": "^3.0.5",
+    "mongoose": "^8.2.4",
+    "next": "14.1.4",
+    "nodemailer": "^6.9.13",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-google-charts": "^4.0.1",
+    "react-icons": "^5.0.1",
+    "react-slick": "^0.30.2",
+    "react-toastify": "^10.0.5",
+    "recharts": "^2.12.4",
+    "stripe": "^15.3.0",
+    "uuid": "^9.0.1",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.79",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "5.4.5"
+  }
+}
