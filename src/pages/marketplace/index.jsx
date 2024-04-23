@@ -115,10 +115,10 @@ function NFTCard({ dets }) {
   return (
     <div className="border-2 border-solid border-[#301287] w-full rounded-lg ">
       <Image src={src} width={500} height={500} className="rounded-lg w-full" />
-      <div className="p-5 min-[400px]:px-3 min-[400px]:py-3 sm:p-5">
+      <div className="p-5 min-[460px]:px-3 min-[460px]:py-3 sm:p-5">
         <div className="flex justify-between items-center">
           <h2>#{tokenId}</h2>
-          <button className="bg-[#301287] w-[80px] min-[400px]:w-[60px] sm:w-[80px] py-1 rounded-lg">
+          <button className="bg-[#301287] w-[80px] min-[460px]:w-[60px] sm:w-[80px] py-1 rounded-lg">
             Buy
           </button>
         </div>
