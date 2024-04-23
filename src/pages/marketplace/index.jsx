@@ -102,7 +102,7 @@ const nftData = [
 ];
 function NFTCards() {
   return (
-    <div className="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-5 p-5">
+    <div className="grid grid-cols-1 min-[460px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-5 p-5">
       {nftData.map((data) => (
         <NFTCard dets={data} />
       ))}
