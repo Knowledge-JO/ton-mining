@@ -89,10 +89,20 @@ const nftData = [
     id: "2",
     title: "KdNFT",
   },
+  {
+    src: "https://gateway.pinata.cloud/ipfs/QmRqSZ2bFS46QYZ1HgwGurogGsrZrwMDaRgckM32yZKrQb/2.png",
+    id: "2",
+    title: "KdNFT",
+  },
+  {
+    src: "https://gateway.pinata.cloud/ipfs/QmRqSZ2bFS46QYZ1HgwGurogGsrZrwMDaRgckM32yZKrQb/2.png",
+    id: "2",
+    title: "KdNFT",
+  },
 ];
 function NFTCards() {
   return (
-    <div className="grid grid-cols-4 gap-5 p-5">
+    <div className="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-5 p-5">
       {nftData.map((data) => (
         <NFTCard dets={data} />
       ))}
@@ -103,14 +113,16 @@ function NFTCards() {
 function NFTCard({ dets }) {
   const { src, id: tokenId, title: collectionName } = dets;
   return (
-    <div className="border-2 border-solid border-[#301287] w-[230px] rounded-lg ">
-      <Image src={src} width={500} height={500} className="rounded-lg" />
-      <div className="p-5 ">
+    <div className="border-2 border-solid border-[#301287] w-full rounded-lg ">
+      <Image src={src} width={500} height={500} className="rounded-lg w-full" />
+      <div className="p-5 min-[400px]:px-3 min-[400px]:py-3 sm:p-5">
         <div className="flex justify-between items-center">
           <h2>#{tokenId}</h2>
-          <button className="bg-[#301287] w-[80px] py-1 rounded-lg">Buy</button>
+          <button className="bg-[#301287] w-[80px] min-[400px]:w-[60px] sm:w-[80px] py-1 rounded-lg">
+            Buy
+          </button>
         </div>
-        <p className="mt-5 font-bold">{collectionName}</p>
+        <p className="mt-3 font-bold">{collectionName}</p>
       </div>
     </div>
   );
