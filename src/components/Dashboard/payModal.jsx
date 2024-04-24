@@ -114,9 +114,10 @@ export default function PaymentModal({ user, payout, power }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          bg={useColorModeValue("ffffff", "#10062D")}
-          border="2px solid #301287"
-          textColor={"#ffffff"}
+          bg={useColorModeValue("White", "#10062D")}
+          color={useColorModeValue("#10062D", "#fff")}
+          border="2px solid"
+          borderColor={useColorModeValue("#EDE8FC", "#301287")}
         >
           <ModalHeader textAlign={"center"}>Payment method</ModalHeader>
           <ModalBody>
@@ -126,7 +127,7 @@ export default function PaymentModal({ user, payout, power }) {
                 it to your wallet, upgrade it, and resell it anytime.
               </Text>
               <Flex p={1}></Flex>
-              <Tabs isFitted variant="enclosed">
+              <Tabs isFitted variant="enclosed" textColor="white">
                 <TabList>
                   <Tab bg="#3b49df" textColor={"white"}>
                     By Card
@@ -154,14 +155,20 @@ export default function PaymentModal({ user, payout, power }) {
                         <option>Nigeria</option>
                       </Select>
                     </FormControl>
-                    <Flex p={1} bg={"gray.400"} rounded="lg" align={"center"}>
+                    <Flex
+                      p={2}
+                      bg={"gray.400"}
+                      margin={2}
+                      rounded="lg"
+                      align={"center"}
+                    >
                       <Text fontSize="xs">
                         For more payment options select another country or
                         region
                       </Text>
                     </Flex>
 
-                    <RadioGroup p={2} bg="gray.400" margin={5} rounded={"lg"}>
+                    <RadioGroup p={2} bg="gray.400" margin={2} rounded={"lg"}>
                       <Radio isChecked={showForm} onChange={handleRadioChange}>
                         <Flex align={"center"} gap={2}>
                           <Box bg={"orange"} rounded={"full"} p={2}>
@@ -206,6 +213,7 @@ export default function PaymentModal({ user, payout, power }) {
                       rounded="lg"
                       align={"center"}
                       justify={"center"}
+                      m={2}
                     >
                       <Text fontSize="10px">
                         The payment will be processed by a third party. By
@@ -357,7 +365,8 @@ export default function PaymentModal({ user, payout, power }) {
           <ModalFooter alignContent={"center"} justifyContent={"space-around"}>
             <Button onClick={onClose}>Back</Button>
             <Button
-              bg="#3b49df"
+              bg={useColorModeValue("#8F6AFB", "#3b49df")}
+              _hover="inherit"
               textColor={"white"}
               mr={3}
               onClick={() => handleCheckout(power, user.userId)}

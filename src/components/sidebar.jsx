@@ -67,7 +67,7 @@ export default function IndexSidebar() {
           bottom={0}
           left={0}
           right={0}
-          bg={useColorModeValue("ffffff", "#10062D")}
+          bg={useColorModeValue("white", "#10062D")}
           color={useColorModeValue("#10062D", "#fff")}
           p={5}
           justifyContent="space-around"

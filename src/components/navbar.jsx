@@ -36,7 +36,7 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 export default function Navbar() {
   // Define state to store user data
-  const { colorMode, toogleColormode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
   const [user, setUser] = useState(null);
   const fullName = user?.firstName + user?.lastName;
   useEffect(() => {
@@ -126,8 +126,10 @@ export default function Navbar() {
               >
                 Login
               </Button> */}
-              <Button onClick={toogleColormode}>
-                Toggle
+              <Button
+                bg={useColorModeValue("#8F6AFB", "#3b49df")}
+                onClick={toggleColorMode}
+              >
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>
               <Menu isLazy>
@@ -137,7 +139,6 @@ export default function Navbar() {
                   px={2}
                   py={5}
                   rounded="lg"
-                  bg={useColorModeValue("#8F6AFB", "#3b49df")}
                   _hover="inherit"
                 >
                   <Avatar

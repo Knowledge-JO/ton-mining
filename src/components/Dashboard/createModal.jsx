@@ -68,10 +68,10 @@ export default function CModal({ user }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          bg={useColorModeValue("ffffff", "#10062D")}
+          bg={useColorModeValue("white", "#10062D")}
+          color={useColorModeValue("#10062D", "#fff")}
           border="2px solid"
           borderColor={useColorModeValue("#EDE8FC", "#301287")}
-          textColor={"#ffffff"}
         >
           <ModalHeader textAlign={"center"}>Create Miner</ModalHeader>
           <ModalBody>
@@ -102,18 +102,18 @@ export default function CModal({ user }) {
                 >
                   100 TH
                 </Button>
-                <Button color={"#ffffff"} border="1px solid #301287">
+                <Button color={"#00D87D"} border="1px solid #301287">
                   Custom
                 </Button>
               </ButtonGroup>
               <Flex p={5}></Flex>
               <Heading size={"sm"}>Rewards Calculation</Heading>
-              <Tabs variant="enclosed">
+              <Tabs variant="enclosed" textColor="white">
                 <TabList>
-                  <Tab bg="#3b49df" textColor={"white"}>
+                  <Tab bg="#3b49df" textColor="white">
                     Annually
                   </Tab>
-                  <Tab bg="#3b49df" textColor={"white"}>
+                  <Tab bg="#3b49df" textColor="white">
                     Daily
                   </Tab>
                 </TabList>
@@ -156,7 +156,7 @@ export default function CModal({ user }) {
 
                     <Stack p={2} fontSize="xs">
                       <Text>Reward history</Text>
-                      <Flex
+                      {/* <Flex
                         p={3}
                         bg={"gray.400"}
                         rounded="2xl"
@@ -164,12 +164,12 @@ export default function CModal({ user }) {
                         justify={"space-between"}
                         gap={3}
                       >
-                        {/* <InfoOutlineIcon boxSize={4} />
+                        <InfoOutlineIcon boxSize={4} />
                         <Text fontSize={"9px"} color={"white"}>
                           Bitcoin halving is expected around 21 April. Make sure
                           you adjust your investment strategy.
-                        </Text> */}
-                      </Flex>
+                        </Text>
+                      </Flex> */}
                     </Stack>
 
                     <Flex p={2} align={"center"} justify="space-between">

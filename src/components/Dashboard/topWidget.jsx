@@ -87,7 +87,7 @@ export default function TopWidget({ miner, user }) {
             px={6}
             py={4}
           >
-            <Box bg={""} rounded="full" p={1}>
+            <Box bg={"white"} rounded="full" p={1}>
               <Icon
                 boxSize={8}
                 color={useColorModeValue("#8F6AFB", "#501EE1")}

@@ -32,7 +32,7 @@ import { app } from "../../Firebase/firebase";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 export default function Login() {
-  const { colorMode, toogleColormode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   const [password, setPassword] = useState("");
@@ -189,7 +189,7 @@ export default function Login() {
                       Signup
                     </Link>
                   </Stack>
-                  <Button onClick={toogleColormode}>
+                  <Button onClick={toggleColorMode}>
                     {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
                   </Button>
                 </Stack>
