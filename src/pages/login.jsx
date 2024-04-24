@@ -177,12 +177,15 @@ export default function Login() {
                     Login
                   </Button>{" "}
                   <Stack
-                    direction={{ base: "column", sm: "row" }}
-                    align={"start"}
+                    direction={{ base: "row", sm: "row" }}
+                    align={"center"}
                     justify={"center"}
                     spacing={10}
                   >
-                    <Text color={useColorModeValue("#10062D", "#fff")}>
+                    <Text
+                      color={useColorModeValue("#10062D", "#fff")}
+                      className="text-[13px] sm:text-base"
+                    >
                       Don't have an account?
                     </Text>
                     <Link as={NextLink} href="/signup" color={"#501EE1"}>

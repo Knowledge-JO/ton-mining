@@ -49,7 +49,7 @@ import { toast } from "react-toastify";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
-
+import { countryList } from "../countries";
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
@@ -150,9 +150,11 @@ export default function PaymentModal({ user, payout, power }) {
                         placeholder="Select country"
                         textColor={"black"}
                         bg={"gray.300"}
+                        className="w-fit"
                       >
-                        <option>United States of America</option>
-                        <option>Nigeria</option>
+                        {countryList.map((country) => (
+                          <option className="">{country}</option>
+                        ))}
                       </Select>
                     </FormControl>
                     <Flex

@@ -72,7 +72,7 @@ export default function TopWidget({ miner, user }) {
   console.log("miner from top widget", miner);
   return (
     <>
-      <SimpleGrid gap={10} columns={{ base: 2, sm: 2, md: 2, lg: 4 }}>
+      <SimpleGrid gap={10} columns={{ base: 1, sm: 2, md: 2, lg: 4 }}>
         {cardData.map((card) => (
           <Flex
             rounded={"2xl"}
