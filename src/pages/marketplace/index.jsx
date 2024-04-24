@@ -93,18 +93,14 @@ const nftData = [
 function NFTCards() {
   return (
     <div className="grid grid-cols-1 min-[460px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 p-5">
-      {nftData.map((data, index) =>
-        index == nftData.length - 1 ? (
-          <NFTCard paddingBtm={50} dets={data} />
-        ) : (
-          <NFTCard dets={data} />
-        )
-      )}
+      {nftData.map((data, index) => (
+        <NFTCard marginBtm={50} dets={data} />
+      ))}
     </div>
   );
 }
 
-function NFTCard({ dets, paddingBtm }) {
+function NFTCard({ dets, marginBtm }) {
   const { src, id: tokenId, title: collectionName } = dets;
   return (
     <>
@@ -131,7 +127,8 @@ function NFTCard({ dets, paddingBtm }) {
         color={useColorModeValue("#10062D", "#fff")}
         w="full"
         rounded={"lg"}
-        className={`mb-[${paddingBtm}px]`}
+        mb={{ base: marginBtm, md: 0 }}
+        // className={`mb-[${paddingBtm}px] `}
       >
         <Image
           src={src}
