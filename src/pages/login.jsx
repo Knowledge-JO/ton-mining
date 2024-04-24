@@ -17,6 +17,7 @@ import {
   InputRightElement,
   Link,
   IconButton,
+  useColorMode,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import spiralImg from "../images/Vector.png";
@@ -24,19 +25,19 @@ import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { signInWithEmailAndPassword, getAuth,  } from "@firebase/auth";
-import { increment} from "firebase/firestore";
-import { getDoc, getFirestore, doc, updateDoc,  } from "firebase/firestore";
+import { signInWithEmailAndPassword, getAuth } from "@firebase/auth";
+import { increment } from "firebase/firestore";
+import { getDoc, getFirestore, doc, updateDoc } from "firebase/firestore";
 import { app } from "../../Firebase/firebase";
-
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 export default function Login() {
+  const { colorMode, toogleColormode } = useColorMode();
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading]= useState(false)
-  
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -47,39 +48,43 @@ export default function Login() {
     try {
       // Simulate a 5-second delay before setting isLoading to false
       await new Promise((resolve) => setTimeout(resolve, 5000));
-  
-      const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredentials.user;
-  
+
       // Fetch the user's role from Firestore based on their UID
       const db = getFirestore(app);
       const userRef = doc(db, "users", user.uid);
-  
+
       const userDoc = await getDoc(userRef);
-  
-        // Get the current notifications array
-        const userData = userDoc.data();
-        const notifications = userData.notifications || [];
-  
-        // Add a new notification to the array
-        notifications.push({
-          message: "You've successfully logged in",
-          timestamp: new Date(), // Set the timestamp in your code
-        });
-  
-        // Update the notifications and increment unreadNotifications
-        await updateDoc(userRef, {
-          notifications,
-          unreadNotifications: increment(1),
-        });
-        router.push('/dashboard')
+
+      // Get the current notifications array
+      const userData = userDoc.data();
+      const notifications = userData.notifications || [];
+
+      // Add a new notification to the array
+      notifications.push({
+        message: "You've successfully logged in",
+        timestamp: new Date(), // Set the timestamp in your code
+      });
+
+      // Update the notifications and increment unreadNotifications
+      await updateDoc(userRef, {
+        notifications,
+        unreadNotifications: increment(1),
+      });
+      router.push("/dashboard");
       toast.success("Login successful");
     } catch (error) {
       console.log(error);
-  
+
       // Simulate a 4-second delay before setting isLoading to false
       await new Promise((resolve) => setTimeout(resolve, 4000));
-  
+
       toast.error(error.message);
     } finally {
       setIsLoading(false);
@@ -88,7 +93,7 @@ export default function Login() {
 
   return (
     <>
-      <Box bg={"#10062D"} position="relative">
+      <Box bg={useColorModeValue("ffffff", "#10062D")} position="relative">
         <Image
           src={spiralImg}
           placeholder="blur"
@@ -110,9 +115,10 @@ export default function Login() {
           >
             <Box
               rounded={"lg"}
-              bg={useColorModeValue("#10062D", "gray.700")}
+              bg={useColorModeValue("ffffff", "#10062D")}
               p={8}
-              border="2px solid #301287"
+              border="2px solid"
+              borderColor={useColorModeValue("#EDE8FC", "#301287")}
               boxShadow="0 0 10px 5px rgba(48, 18, 135, 0.5)"
               minW={{ sm: "md", md: "lg" }}
               minH={{ sm: "md", md: "lg" }}
@@ -129,7 +135,6 @@ export default function Login() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Username or E-mail"
                     _placeholder={{ color: "#C5C0C0" }}
-                    color={"white"}
                     border="2px solid #301287"
                   />
                 </FormControl>
@@ -146,7 +151,6 @@ export default function Login() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       _placeholder={{ color: "#C5C0C0" }}
-                      color={"white"}
                     />
                     <InputRightElement width="4.5rem">
                       <IconButton
@@ -161,14 +165,14 @@ export default function Login() {
                 </FormControl>
                 <Stack spacing={10} align="center">
                   <Button
-                 isLoading={isLoading}
-                 loadingText="Submitting"
-                 size="lg"
-                 bg="#301287"
-                 color="white"
-                 _hover={{ bg: "blue.500" }}
-                 onClick={login}
-                 disabled={isLoading} 
+                    isLoading={isLoading}
+                    loadingText="Submitting"
+                    size="lg"
+                    bg={useColorModeValue("#8F6AFB", "#301287")}
+                    color="white"
+                    _hover={{ bg: "blue.500" }}
+                    onClick={login}
+                    disabled={isLoading}
                   >
                     Login
                   </Button>{" "}
@@ -178,11 +182,16 @@ export default function Login() {
                     justify={"center"}
                     spacing={10}
                   >
-                    <Text color={"white"}>Don't have an account?</Text>
+                    <Text color={useColorModeValue("#10062D", "#fff")}>
+                      Don't have an account?
+                    </Text>
                     <Link as={NextLink} href="/signup" color={"#501EE1"}>
                       Signup
                     </Link>
                   </Stack>
+                  <Button onClick={toogleColormode}>
+                    {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                  </Button>
                 </Stack>
               </Stack>
             </Box>

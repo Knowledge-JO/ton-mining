@@ -1,5 +1,12 @@
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-import { Flex, Heading, Stack, Text, Button } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Stack,
+  Text,
+  Button,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 export default function Referrals() {
   return (
@@ -8,7 +15,9 @@ export default function Referrals() {
         <Stack p={5} spacing={10}>
           {/* 1st Section */}
           <Flex
-            border="2px solid #FFFFFF"
+            border="2px solid"
+            borderColor={useColorModeValue("#EDE8FC", "#301287")}
+            color={useColorModeValue("#10062D", "#fff")}
             rounded={"2xl"}
             py={10}
             px={5}
@@ -31,7 +40,7 @@ export default function Referrals() {
             </Stack>
             <Flex p={5}>
               <Button
-                bg="#301287"
+                bg={useColorModeValue("#8F6AFB", "#3b49df")}
                 color={"ffffff"}
                 rightIcon={<ArrowForwardIcon />}
               >
@@ -55,9 +64,10 @@ export default function Referrals() {
           <Flex
             align={"center"}
             justify={"space-around"}
-            bg="#301287"
+            bg={useColorModeValue("#EDE8FC", "#301287")}
             borderRadius={"lg"}
-            border="2px solid #301287"
+            border="2px solid"
+            borderColor={useColorModeValue("#EDE8FC", "#301287")}
             height={"70px"}
           >
             <Text>https://app.xxxxx.com/s/BLOCKCHAINBEAST</Text>

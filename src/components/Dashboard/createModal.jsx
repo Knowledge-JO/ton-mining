@@ -27,6 +27,7 @@ import {
   Image,
   Link,
   Icon,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { IoMdAdd } from "react-icons/io";
@@ -39,27 +40,26 @@ import PaymentModal from "./payModal";
 import { SiBitcoincash } from "react-icons/si";
 import { ArrowForwardIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 
-export default function CModal({ user}) {
+export default function CModal({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [power, setpower] = useState("");
-  const [payout, setPayout] = useState(0)
+  const [payout, setPayout] = useState(0);
 
   useEffect(() => {
     console.log(power);
-    const payout= (power * 24 *300)/100
-    setPayout(payout)
+    const payout = (power * 24 * 300) / 100;
+    setPayout(payout);
   }, [power]);
 
-  console.log(user)
+  console.log(user);
 
   const [miner, setMiner] = useState(null);
   const [balance, setBalance] = useState(0);
 
-
   return (
     <>
       <IconButton
-        bg="#3b49df"
+        bg={useColorModeValue("#8F6AFB", "#3b49df")}
         color="white"
         _hover="inherit"
         onClick={onOpen}
@@ -68,8 +68,9 @@ export default function CModal({ user}) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          bg={"#10062D"}
-          border="2px solid #301287"
+          bg={useColorModeValue("ffffff", "#10062D")}
+          border="2px solid"
+          borderColor={useColorModeValue("#EDE8FC", "#301287")}
           textColor={"#ffffff"}
         >
           <ModalHeader textAlign={"center"}>Create Miner</ModalHeader>
@@ -133,7 +134,7 @@ export default function CModal({ user}) {
                           <Tr>
                             <Td fontSize="xs">POOL PAYOUT</Td>
                             <Td isNumeric align="center">
-                             {payout}
+                              {payout}
                               <Icon
                                 boxSize={3}
                                 as={SiBitcoincash}
@@ -163,11 +164,11 @@ export default function CModal({ user}) {
                         justify={"space-between"}
                         gap={3}
                       >
-                        <InfoOutlineIcon boxSize={4} />
+                        {/* <InfoOutlineIcon boxSize={4} />
                         <Text fontSize={"9px"} color={"white"}>
                           Bitcoin halving is expected around 21 April. Make sure
                           you adjust your investment strategy.
-                        </Text>
+                        </Text> */}
                       </Flex>
                     </Stack>
 

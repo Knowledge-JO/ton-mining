@@ -1,4 +1,3 @@
-
 import {
   Modal,
   ModalOverlay,
@@ -36,6 +35,7 @@ import {
   Icon,
   Box,
   SimpleGrid,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { FaRegCreditCard } from "react-icons/fa";
 import { FaCcMastercard } from "react-icons/fa";
@@ -45,54 +45,51 @@ import { SiBinance } from "react-icons/si";
 import { SiBitcoincash } from "react-icons/si";
 import Rec9 from "../../images/Rectangle9.png";
 import { useState } from "react";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 const handleCheckout = async (power, userId) => {
   const stripe = await stripePromise;
-  const response = await fetch('/api/route', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-         amount: power * 24,
-         userId:userId
-         }),
+  const response = await fetch("/api/route", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      amount: power * 24,
+      userId: userId,
+    }),
   });
   const session = await response.json();
 
   const result = await stripe.redirectToCheckout({
-      sessionId: session.sessionId,
+    sessionId: session.sessionId,
   });
 
   if (result.error) {
-      alert(result.error.message);
+    alert(result.error.message);
   }
 };
 
-export default function PaymentModal({user, payout, power}) {
+export default function PaymentModal({ user, payout, power }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  
   const [miner, setMiner] = useState(null);
   const [balance, setBalance] = useState(0);
 
-
-
-
-
   const handleStartMining = async (e) => {
     e.preventDefault();
-    
+
     const cost = power * 24;
-    console.log(`the userId is ${user.userId}, with power ${power} which costs ${cost}`)
+    console.log(
+      `the userId is ${user.userId}, with power ${power} which costs ${cost}`
+    );
     startMining(user.userId, power, cost);
     toast.success("Miner created");
     onClose();
@@ -101,9 +98,6 @@ export default function PaymentModal({user, payout, power}) {
   const handleRadioChange = () => {
     setShowForm((prevState) => !prevState);
   };
-
-  
-  
 
   return (
     <>
@@ -120,7 +114,7 @@ export default function PaymentModal({user, payout, power}) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          bg={"#10062D"}
+          bg={useColorModeValue("ffffff", "#10062D")}
           border="2px solid #301287"
           textColor={"#ffffff"}
         >
@@ -205,7 +199,7 @@ export default function PaymentModal({user, payout, power}) {
                         </Flex>
                       </Radio>
                     </RadioGroup>
-                  
+
                     <Flex
                       p={2}
                       bg={"gray.400"}
@@ -362,8 +356,12 @@ export default function PaymentModal({user, payout, power}) {
 
           <ModalFooter alignContent={"center"} justifyContent={"space-around"}>
             <Button onClick={onClose}>Back</Button>
-            <Button bg="#3b49df" textColor={"white"} mr={3}
-            onClick={() => handleCheckout(power, user.userId)}>
+            <Button
+              bg="#3b49df"
+              textColor={"white"}
+              mr={3}
+              onClick={() => handleCheckout(power, user.userId)}
+            >
               Pay
             </Button>
           </ModalFooter>

@@ -7,6 +7,7 @@ import {
   Link,
   Text,
   Icon,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { IoHome } from "react-icons/io5";
@@ -34,8 +35,8 @@ export default function IndexSidebar() {
           minH={"100vh"}
           align="start"
           justify={"center"}
-          bg={"#10062D"}
-          color="#fff"
+          bg={useColorModeValue("ffffff", "#10062D")}
+          color={useColorModeValue("#10062D", "#fff")}
           p={5}
           zIndex={1}
         >
@@ -66,8 +67,8 @@ export default function IndexSidebar() {
           bottom={0}
           left={0}
           right={0}
-          bg={"#10062D"}
-          color="#fff"
+          bg={useColorModeValue("ffffff", "#10062D")}
+          color={useColorModeValue("#10062D", "#fff")}
           p={5}
           justifyContent="space-around"
           zIndex={1}

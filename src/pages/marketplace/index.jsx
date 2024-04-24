@@ -8,6 +8,7 @@ import {
   Text,
   Icon,
   Button,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import CardComponent from "@/components/Dashboard/dashCard2";
 import DashTab from "@/components/Dashboard/dashTab";
@@ -38,32 +39,21 @@ export default function marketplace() {
           {/* Dashscreen Components */}
           <Stack
             w={["100%", "100%", "85%", "85%"]}
-            bg={"#10062D"}
-            color="#fff"
-            borderLeft="2px solid #301287"
+            bg={useColorModeValue("ffffff", "#10062D")}
+            color={useColorModeValue("#10062D", "#fff")}
+            borderLeft="2px solid"
+            borderLeftColor={useColorModeValue("#EDE8FC", "#301287")}
             spacing={5}
             p={5}
           >
-            {/* <Flex p={5}>
-              <Button
-                border="2px solid #301287"
-                width={"100px"}
-                size={"sm"}
-                variant="outline"
-                color="white"
-                leftIcon={<IoMdList />}
-                _hover="inherit"
-              >
-                Filter
-              </Button>
-            </Flex> */}
             <Flex p={5}>
               <Button
-                border="2px solid #301287"
+                border="2px solid"
+                borderColor={useColorModeValue("#EDE8FC", "#301287")}
                 width={"100px"}
                 size={"sm"}
                 variant="outline"
-                color="white"
+                color={useColorModeValue("#10062D", "#fff")}
                 leftIcon={<IoMdList />}
                 _hover="inherit"
               >
@@ -113,12 +103,12 @@ function NFTCards() {
 function NFTCard({ dets }) {
   const { src, id: tokenId, title: collectionName } = dets;
   return (
-    <div className="border-2 border-solid border-[#301287] w-full rounded-lg ">
+    <div className="border-2 border-solid border-[#EDE8FC] dark:border-[#301287] w-full rounded-lg text-black dark:text-white ">
       <Image src={src} width={500} height={500} className="rounded-lg w-full" />
       <div className="p-5 min-[460px]:px-3 min-[460px]:py-3 sm:p-5">
         <div className="flex justify-between items-center">
           <h2>#{tokenId}</h2>
-          <button className="bg-[#301287] w-[80px] min-[460px]:w-[60px] sm:w-[80px] py-1 rounded-lg">
+          <button className="bg-[#EDE8FC] dark:bg-[#301287] w-[80px] min-[460px]:w-[60px] sm:w-[80px] py-1 rounded-lg">
             Buy
           </button>
         </div>

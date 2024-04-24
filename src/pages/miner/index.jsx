@@ -7,6 +7,7 @@ import {
   Link,
   Text,
   Icon,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import CardComponent from "@/components/Dashboard/dashCard2";
 import DashTab from "@/components/Dashboard/dashTab";
@@ -35,9 +36,10 @@ export default function minerDash() {
           {/* Dashscreen Components */}
           <Stack
             w={["100%", "100%", "85%", "85%"]}
-            bg={"#10062D"}
-            color="#fff"
-            borderLeft="2px solid #301287"
+            bg={useColorModeValue("ffffff", "#10062D")}
+            color={useColorModeValue("#10062D", "#fff")}
+            borderLeft="2px solid"
+            borderLeftColor={useColorModeValue("#EDE8FC", "#301287")}
             spacing={5}
             p={5}
           >

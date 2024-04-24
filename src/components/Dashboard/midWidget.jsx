@@ -14,6 +14,7 @@ import {
   StatGroup,
   Icon,
   CardBody,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { FaChartPie } from "react-icons/fa";
 import { ComputeChart, MonthChart } from "./chart";
@@ -31,8 +32,9 @@ export default function MidWidget() {
       <SimpleGrid gap={5} columns={{ base: 1, sm: 1, md: 1, lg: 2 }}>
         <Card
           rounded={"2xl"}
-          border="2px solid #301287"
-          bg="#301287"
+          border="2px solid"
+          borderColor={useColorModeValue("#EDE8FC", "#301287")}
+          bg={useColorModeValue("#8F6AFB", "#301287")}
           px={6}
           py={4}
           h={{ base: "500px", md: "400px" }}
@@ -43,8 +45,12 @@ export default function MidWidget() {
                 Monthly Analysis
               </Text>
             </Flex>
-            <Box bg={""} rounded="full" p={1}>
-              <Icon boxSize={8} color={"#EDE8FC"} as={FaChartPie} />
+            <Box bg={"#ffffff"} rounded="full" p={1}>
+              <Icon
+                boxSize={8}
+                color={useColorModeValue("#8F6AFB", "#501EE1")}
+                as={FaChartPie}
+              />
             </Box>
           </Flex>
           <Flex direction={{ base: "column", md: "row" }}>
@@ -74,8 +80,9 @@ export default function MidWidget() {
         </Card>
         <Card
           rounded={"2xl"}
-          border="2px solid #301287"
-          bg="#301287"
+          border="2px solid"
+          borderColor={useColorModeValue("#EDE8FC", "#301287")}
+          bg={useColorModeValue("#8F6AFB", "#301287")}
           px={6}
           py={4}
           h={{ base: "500px", md: "400px" }}
@@ -86,8 +93,12 @@ export default function MidWidget() {
                 Computing Power
               </Text>
             </Flex>
-            <Box bg={""} rounded="full" p={1}>
-              <Icon boxSize={8} color={"#EDE8FC"} as={FaChartPie} />
+            <Box bg={"#ffff"} rounded="full" p={1}>
+              <Icon
+                boxSize={8}
+                color={useColorModeValue("#8F6AFB", "#501EE1")}
+                as={FaChartPie}
+              />
             </Box>
           </Flex>
           <CardBody>

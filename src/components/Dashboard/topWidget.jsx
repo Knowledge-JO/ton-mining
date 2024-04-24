@@ -6,6 +6,7 @@ import {
   Text,
   Icon,
   Flex,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { FaChartPie } from "react-icons/fa";
 import { useState, useEffect } from "react";
@@ -77,19 +78,24 @@ export default function TopWidget({ miner, user }) {
             rounded={"2xl"}
             size="sm"
             key={card.src}
-            border="2px solid #301287"
+            border="2px solid"
+            borderColor={useColorModeValue("#EDE8FC", "#301287")}
             align={"center"}
             justify={"space-around"}
-            bg="#10062D"
+            bg={useColorModeValue("ffffff", "#10062D")}
             direction={"row"}
             px={6}
             py={4}
           >
             <Box bg={""} rounded="full" p={1}>
-              <Icon boxSize={8} color={"#EDE8FC"} as={FaChartPie} />
+              <Icon
+                boxSize={8}
+                color={useColorModeValue("#8F6AFB", "#501EE1")}
+                as={FaChartPie}
+              />
             </Box>
 
-            <Stack color={"white"} p={2}>
+            <Stack color={useColorModeValue("#10062D", "#fff")} p={2}>
               <Text fontSize={"xs"} fontWeight="500">
                 {card.title}
               </Text>

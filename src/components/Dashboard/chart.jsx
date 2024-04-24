@@ -14,7 +14,7 @@ export const options = {
   //   title: "Company Performance",
   curveType: "function",
   legend: { position: "bottom", textStyle: { color: "#fff" } },
-  backgroundColor: "#301287",
+  backgroundColor: "#8F6AFB",
   hAxis: {
     textStyle: { color: "#fff" },
     gridlines: { color: "transparent" },

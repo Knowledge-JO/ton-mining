@@ -34,7 +34,11 @@ const nftData = [
 const CardComponent = () => {
   return (
     <>
-      <Flex direction={"column"} p={5} bg={"#10062D"}>
+      <Flex
+        direction={"column"}
+        p={5}
+        bg={useColorModeValue("ffffff", "#10062D")}
+      >
         <Flex p={5}>
           <Button
             border="2px solid #301287"

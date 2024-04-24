@@ -16,6 +16,7 @@ import {
   TableCaption,
   TableContainer,
   Image,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { FaChartPie } from "react-icons/fa";
 import Rec9 from "../../images/Rectangle9.png";
@@ -33,8 +34,9 @@ export default function BtmWidget() {
           <Card
             rounded={"2xl"}
             key={card.src}
-            border="2px solid #301287"
-            bg="#301287"
+            border="2px solid"
+            borderColor={useColorModeValue("#EDE8FC", "#301287")}
+            bg={useColorModeValue("#8F6AFB", "#301287")}
             px={6}
             py={4}
             height={"500px"}
@@ -45,8 +47,12 @@ export default function BtmWidget() {
                   {card.text}
                 </Text>
               </Flex>
-              <Box bg={""} rounded="full" p={1}>
-                <Icon boxSize={8} color={"#EDE8FC"} as={FaChartPie} />
+              <Box bg={"#fff"} rounded="full" p={1}>
+                <Icon
+                  boxSize={8}
+                  color={useColorModeValue("#8F6AFB", "#501EE1")}
+                  as={FaChartPie}
+                />
               </Box>
             </Flex>
 

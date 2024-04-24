@@ -19,6 +19,7 @@ import {
   Flex,
   InputGroup,
   InputLeftElement,
+  useColorMode,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { ReactNode } from "react";
@@ -31,9 +32,11 @@ import CModal from "./Dashboard/createModal";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 import { app } from "../../Firebase/firebase";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 export default function Navbar() {
   // Define state to store user data
+  const { colorMode, toogleColormode } = useColorMode();
   const [user, setUser] = useState(null);
   const fullName = user?.firstName + user?.lastName;
   useEffect(() => {
@@ -74,11 +77,13 @@ export default function Navbar() {
     <Box
       py="2"
       boxShadow="sm"
-      borderBottom="2px solid #301287"
+      borderBottom="2px solid"
+      borderBottomColor={useColorModeValue("#EDE8FC", "#301287")}
       top="0"
       left={0}
       right={0}
-      bg={useColorModeValue("#10062D", "gray.700")}
+      bg={useColorModeValue("ffffff", "#10062D")}
+      color={useColorModeValue("#10062D", "#fff")}
       width="100%"
     >
       <Container px={4} mx="auto">
@@ -100,10 +105,10 @@ export default function Navbar() {
               <Input
                 maxW={{ base: "10rem", sm: "15rem", md: "20rem" }}
                 placeholder="Search..."
-                borderColor={useColorModeValue("#301287", "white")}
+                borderColor={useColorModeValue("#EDE8FC", "#301287")}
                 borderRadius="10px"
                 d={{ base: "none", md: "block" }}
-                color="white"
+                color={useColorModeValue("#10062D", "#fff")}
               />
             </InputGroup>
             <HStack>
@@ -121,7 +126,10 @@ export default function Navbar() {
               >
                 Login
               </Button> */}
-
+              <Button onClick={toogleColormode}>
+                Toggle
+                {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+              </Button>
               <Menu isLazy>
                 <MenuButton
                   as={Button}
@@ -129,7 +137,7 @@ export default function Navbar() {
                   px={2}
                   py={5}
                   rounded="lg"
-                  bg="#3b49df"
+                  bg={useColorModeValue("#8F6AFB", "#3b49df")}
                   _hover="inherit"
                 >
                   <Avatar
@@ -162,6 +170,8 @@ export default function Navbar() {
                   <MenuItem>
                     <Text fontWeight="500">Sign Out</Text>
                   </MenuItem>
+                  <MenuDivider />
+                  <MenuItem></MenuItem>
                 </MenuList>
               </Menu>
             </HStack>

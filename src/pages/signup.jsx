@@ -22,12 +22,17 @@ import spiralImg from "../images/Vector.png";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { getFirestore } from "firebase/firestore";
-import {  doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore";
 import { app } from "../../Firebase/firebase";
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,31 +40,35 @@ export default function SignupCard() {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const register = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-  
+
     const auth = getAuth(app);
     try {
       // Create user with email and password
-      const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredentials.user;
-  
+
       // Save additional user details to Firestore using the userId as the document ID
       const db = getFirestore(app);
-      await setDoc(doc(db, 'users', user.uid), {
+      await setDoc(doc(db, "users", user.uid), {
         firstName: firstName,
         lastName: lastName,
         Email: email,
-        role: 'User',
-        status: 'active',
+        role: "User",
+        status: "active",
       });
-  
-      toast.success('Registration successful');
-      router.push('/login');
+
+      toast.success("Registration successful");
+      router.push("/login");
     } catch (error) {
       const errorMessage = error.message;
       toast.error(`Error: ${errorMessage}`);
@@ -68,10 +77,9 @@ export default function SignupCard() {
       setIsLoading(false);
     }
   };
-  
 
   return (
-    <Box bg={"#10062D"} position="relative">
+    <Box bg={useColorModeValue("ffffff", "#10062D")} position="relative">
       <Image
         src={spiralImg}
         placeholder="blur"
@@ -93,12 +101,14 @@ export default function SignupCard() {
         >
           <Box
             rounded={"lg"}
-            bg={useColorModeValue("#10062D", "gray.700")}
+            bg={useColorModeValue("ffffff", "#10062D")}
             p={8}
-            border="2px solid #301287"
+            border="2px solid"
+            borderColor={useColorModeValue("#EDE8FC", "#301287")}
             boxShadow="0 0 10px 5px rgba(48, 18, 135, 0.5)"
             minW={{ sm: "md", md: "lg" }}
             minH={{ sm: "md", md: "lg" }}
+            color={useColorModeValue("#10062D", "#fff")}
           >
             <Stack spacing={10}>
               <Heading fontSize={"4xl"} textAlign={"center"} color={"#501EE1"}>
@@ -106,7 +116,7 @@ export default function SignupCard() {
               </Heading>
               <HStack>
                 <Box>
-                  <FormControl id="firstName" isRequired color={"white"}>
+                  <FormControl id="firstName" isRequired>
                     <FormLabel>First Name</FormLabel>
                     <Input
                       type="text"
@@ -119,7 +129,7 @@ export default function SignupCard() {
                   </FormControl>
                 </Box>
                 <Box>
-                  <FormControl id="lastName" color={"white"}>
+                  <FormControl id="lastName">
                     <FormLabel>Last Name</FormLabel>
                     <Input
                       type="text"
@@ -132,7 +142,7 @@ export default function SignupCard() {
                   </FormControl>
                 </Box>
               </HStack>
-              <FormControl id="email" isRequired color={"white"}>
+              <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
                 <Input
                   type="email"
@@ -143,7 +153,7 @@ export default function SignupCard() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormControl>
-              <FormControl id="password" isRequired color={"white"}>
+              <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
                 <InputGroup
                   size={"lg"}
@@ -177,22 +187,24 @@ export default function SignupCard() {
                 </InputGroup>
               </FormControl>
               <Stack spacing={10} pt={2}>
-              <Button
-  isLoading={isLoading}
-  loadingText="Submitting"
-  size="lg"
-  bg="#301287"
-  color="white"
-  _hover={{ bg: "blue.500" }}
-  onClick={register}
-  disabled={isLoading} // Disable the button while loading
->
-  Sign up
-</Button>
-
+                <Button
+                  isLoading={isLoading}
+                  loadingText="Submitting"
+                  size="lg"
+                  bg="#301287"
+                  color="white"
+                  _hover={{ bg: "blue.500" }}
+                  onClick={register}
+                  disabled={isLoading} // Disable the button while loading
+                >
+                  Sign up
+                </Button>
               </Stack>
               <Stack pt={6}>
-                <Text align={"center"} color="white">
+                <Text
+                  align={"center"}
+                  color={useColorModeValue("#10062D", "#fff")}
+                >
                   Already a user?{" "}
                   <Link as={NextLink} href="/login" color={"blue.400"}>
                     Login
