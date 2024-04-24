@@ -103,17 +103,45 @@ function NFTCards() {
 function NFTCard({ dets }) {
   const { src, id: tokenId, title: collectionName } = dets;
   return (
-    <div className="border-2 border-solid border-[#EDE8FC] dark:border-[#301287] w-full rounded-lg text-black dark:text-white ">
-      <Image src={src} width={500} height={500} className="rounded-lg w-full" />
-      <div className="p-5 min-[460px]:px-3 min-[460px]:py-3 sm:p-5">
-        <div className="flex justify-between items-center">
-          <h2>#{tokenId}</h2>
-          <button className="bg-[#EDE8FC] dark:bg-[#301287] w-[80px] min-[460px]:w-[60px] sm:w-[80px] py-1 rounded-lg">
-            Buy
-          </button>
+    <>
+      {/* <div className="border-2 border-solid border-[#EDE8FC] dark:border-[#301287] w-full rounded-lg text-black dark:text-white ">
+        <Image
+          src={src}
+          width={500}
+          height={500}
+          className="rounded-lg w-full"
+        />
+        <div className="p-5 min-[460px]:px-3 min-[460px]:py-3 sm:p-5">
+          <div className="flex justify-between items-center">
+            <h2>#{tokenId}</h2>
+            <button className="bg-[#EDE8FC] dark:bg-[#301287] w-[80px] min-[460px]:w-[60px] sm:w-[80px] py-1 rounded-lg">
+              Buy
+            </button>
+          </div>
+          <p className="mt-3 font-bold">{collectionName}</p>
         </div>
-        <p className="mt-3 font-bold">{collectionName}</p>
-      </div>
-    </div>
+      </div> */}
+      <Stack
+        border="2px solid"
+        borderColor={useColorModeValue("#EDE8FC", "#301287")}
+        color={useColorModeValue("#10062D", "#fff")}
+        w="full"
+        rounded={"lg"}
+      >
+        <Image
+          src={src}
+          width={500}
+          height={500}
+          className="rounded-lg w-full"
+        />
+        <Flex p={5} align="center" justify="space-between">
+          <Text fontSize="sm">#{tokenId}</Text>
+          <Button bg={useColorModeValue("#8F6AFB", "#301287")}>Buy</Button>
+        </Flex>
+        <Text as="b" pb={5} pl={5}>
+          {collectionName}
+        </Text>
+      </Stack>
+    </>
   );
 }
