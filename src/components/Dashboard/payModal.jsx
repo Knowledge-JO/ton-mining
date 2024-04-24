@@ -343,6 +343,31 @@ export default function PaymentModal({ user, payout, power }) {
                             </Flex>
                           </Radio>
                         </Flex>
+
+                        <Flex justifyContent={"center"}>
+                          <Radio value="3">
+                            <Flex
+                              p={2}
+                              align={"center"}
+                              gap={2}
+                              bg={"gray.400"}
+                              w={{ base: "260px", sm: "320px" }}
+                              rounded={"lg"}
+                            >
+                              <Box bg={"orange"} rounded={"full"} p={2}>
+                                <Icon
+                                  boxSize={6}
+                                  as={SiBinance}
+                                  color={"yellow.50"}
+                                />
+                              </Box>
+                              <Stack>
+                                <Text>Ton</Text>
+                                <Text as={"sub"}>Pay with your Ton</Text>
+                              </Stack>
+                            </Flex>
+                          </Radio>
+                        </Flex>
                       </Stack>
                     </RadioGroup>
                     <Flex p={5}></Flex>
