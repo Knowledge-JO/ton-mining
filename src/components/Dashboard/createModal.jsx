@@ -109,11 +109,23 @@ export default function CModal({ user }) {
               <Flex p={5}></Flex>
               <Heading size={"sm"}>Rewards Calculation</Heading>
               <Tabs variant="enclosed" textColor="white">
-                <TabList>
-                  <Tab bg="#3b49df" textColor="white">
+                <TabList gap={1} mb={2}>
+                  <Tab
+                    bg="#3b49df"
+                    rounded={"lg"}
+                    border={"none"}
+                    textColor="white"
+                    w={100}
+                  >
                     Annually
                   </Tab>
-                  <Tab bg="#3b49df" textColor="white">
+                  <Tab
+                    bg="#3b49df"
+                    rounded={"lg"}
+                    border={"none"}
+                    textColor="white"
+                    w={100}
+                  >
                     Daily
                   </Tab>
                 </TabList>
