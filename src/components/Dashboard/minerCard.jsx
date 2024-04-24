@@ -133,7 +133,7 @@ export default function MinerCard() {
       <Flex
         direction={"column"}
         p={5}
-        h={80}
+        h={"100vh"}
         bg={useColorModeValue("#ffffff", "#10062D")}
       >
         <Flex p={5} justify={"space-between"}>
