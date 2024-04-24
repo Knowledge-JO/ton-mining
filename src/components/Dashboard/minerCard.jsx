@@ -63,66 +63,66 @@ export default function MinerCard() {
     onOpen(); // Open the modal
   };
 
-  useEffect(() => {
-    const auth = getAuth();
+  // useEffect(() => {
+  //   const auth = getAuth();
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log(user.uid);
-        const userId = user.uid;
-        const docRef = doc(db, "users", user.uid);
-        getDoc(docRef)
-          .then((docSnap) => {
-            if (docSnap.exists()) {
-              const userData = docSnap.data();
-              console.log("User data:", userData);
-              setUser({ userId, ...userData });
-            } else {
-              console.log("User document not found.");
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching user data:", error.message);
-          });
-      } else {
-        setUser(null); // Set userdata to null when the user is not logged in
-        toast.error("please login");
-        router.push("/login");
-      }
-    });
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       console.log(user.uid);
+  //       const userId = user.uid;
+  //       const docRef = doc(db, "users", user.uid);
+  //       getDoc(docRef)
+  //         .then((docSnap) => {
+  //           if (docSnap.exists()) {
+  //             const userData = docSnap.data();
+  //             console.log("User data:", userData);
+  //             setUser({ userId, ...userData });
+  //           } else {
+  //             console.log("User document not found.");
+  //           }
+  //         })
+  //         .catch((error) => {
+  //           console.error("Error fetching user data:", error.message);
+  //         });
+  //     } else {
+  //       setUser(null); // Set userdata to null when the user is not logged in
+  //       toast.error("please login");
+  //       router.push("/login");
+  //     }
+  //   });
 
-    return () => unsubscribe();
-  }, []);
+  //   return () => unsubscribe();
+  // }, []);
 
   const handleButtonClick = () => {
     setIsOpen(true);
   };
 
-  async function getMinerDetailsByUserId(userId) {
-    if (!userId) {
-      // Check if userId is undefined
-      console.error("No user ID provided");
-      return; // Optionally handle this case more gracefully
-    }
-    const minersRef = collection(db, "miners");
-    const q = query(minersRef, where("userId", "==", userId));
+  // async function getMinerDetailsByUserId(userId) {
+  //   if (!userId) {
+  //     // Check if userId is undefined
+  //     console.error("No user ID provided");
+  //     return; // Optionally handle this case more gracefully
+  //   }
+  //   const minersRef = collection(db, "miners");
+  //   const q = query(minersRef, where("userId", "==", userId));
 
-    try {
-      const querySnapshot = await getDocs(q);
-      const miners = [];
-      querySnapshot.forEach((doc) => {
-        miners.push({ id: doc.id, ...doc.data() });
-      });
-      setMinerDeets(miners); // This returns an array of miners belonging to the user
-    } catch (error) {
-      console.error("Error fetching miner details:", error);
-      throw new Error("Failed to retrieve miner details.");
-    }
-  }
+  //   try {
+  //     const querySnapshot = await getDocs(q);
+  //     const miners = [];
+  //     querySnapshot.forEach((doc) => {
+  //       miners.push({ id: doc.id, ...doc.data() });
+  //     });
+  //     setMinerDeets(miners); // This returns an array of miners belonging to the user
+  //   } catch (error) {
+  //     console.error("Error fetching miner details:", error);
+  //     throw new Error("Failed to retrieve miner details.");
+  //   }
+  // }
 
-  useEffect(() => {
-    getMinerDetailsByUserId(user?.userId);
-  }, [user?.userId]);
+  // useEffect(() => {
+  //   getMinerDetailsByUserId(user?.userId);
+  // }, [user?.userId]);
 
   useEffect(() => {
     console.log(minerDeets);
@@ -133,7 +133,8 @@ export default function MinerCard() {
       <Flex
         direction={"column"}
         p={5}
-        bg={useColorModeValue("ffffff", "#10062D")}
+        h={80}
+        bg={useColorModeValue("#ffffff", "#10062D")}
       >
         <Flex p={5} justify={"space-between"}>
           <Button

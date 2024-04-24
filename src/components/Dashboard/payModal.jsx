@@ -128,11 +128,21 @@ export default function PaymentModal({ user, payout, power }) {
               </Text>
               <Flex p={1}></Flex>
               <Tabs isFitted variant="enclosed" textColor="white">
-                <TabList>
-                  <Tab bg="#3b49df" textColor={"white"}>
+                <TabList gap={1} mb={2}>
+                  <Tab
+                    bg="#3b49df"
+                    border={"none"}
+                    rounded={"lg"}
+                    textColor={"white"}
+                  >
                     By Card
                   </Tab>
-                  <Tab bg="#3b49df" textColor={"white"}>
+                  <Tab
+                    bg="#3b49df"
+                    border={"none"}
+                    rounded={"lg"}
+                    textColor={"white"}
+                  >
                     By Crypto
                   </Tab>
                 </TabList>
@@ -257,75 +267,82 @@ export default function PaymentModal({ user, payout, power }) {
                   <TabPanel>
                     <RadioGroup defaultValue="1">
                       <Stack>
-                        <Radio value="1">
-                          <Flex
-                            p={2}
-                            align={"center"}
-                            gap={2}
-                            bg={"gray.400"}
-                            w={"320px"}
-                            rounded={"lg"}
-                          >
-                            <Box bg={"orange"} rounded={"full"} p={2}>
-                              <Icon
-                                boxSize={6}
-                                as={SiBitcoincash}
-                                color={"yellow.50"}
-                              />
-                            </Box>
-                            <Stack>
-                              <Text>Miner</Text>
-                              <Text as={"sub"}>ERC-20/BEP-20</Text>
-                            </Stack>
-                          </Flex>
-                        </Radio>
-                        <Radio value="2">
-                          <Flex
-                            p={2}
-                            align={"center"}
-                            gap={2}
-                            bg={"gray.400"}
-                            w={"320px"}
-                            rounded={"lg"}
-                          >
-                            <Box bg={"green"} rounded={"full"} p={2}>
-                              <Icon
-                                boxSize={6}
-                                as={SiTether}
-                                color={"green.50"}
-                              />
-                            </Box>
-                            <Stack>
-                              <Text>USDT</Text>
-                              <Text as={"sub"}>ERC-20 /BEP-20 / TRC-20</Text>
-                            </Stack>
-                          </Flex>
-                        </Radio>
-                        <Radio value="3">
-                          {" "}
-                          <Flex
-                            p={2}
-                            align={"center"}
-                            gap={2}
-                            bg={"gray.400"}
-                            w={"320px"}
-                            rounded={"lg"}
-                          >
-                            <Box bg={"orange"} rounded={"full"} p={2}>
-                              <Icon
-                                boxSize={6}
-                                as={SiBinance}
-                                color={"yellow.50"}
-                              />
-                            </Box>
-                            <Stack>
-                              <Text>Binance Pay</Text>
-                              <Text as={"sub"}>
-                                Pay with your Binance account
-                              </Text>
-                            </Stack>
-                          </Flex>
-                        </Radio>
+                        <Flex justifyContent={"center"}>
+                          <Radio value="1">
+                            <Flex
+                              p={2}
+                              align={"center"}
+                              gap={2}
+                              bg={"gray.400"}
+                              w={{ base: "260px", sm: "320px" }}
+                              rounded={"lg"}
+                            >
+                              <Box bg={"orange"} rounded={"full"} p={2}>
+                                <Icon
+                                  boxSize={6}
+                                  as={SiBitcoincash}
+                                  color={"yellow.50"}
+                                />
+                              </Box>
+                              <Stack>
+                                <Text>Miner</Text>
+                                <Text as={"sub"}>ERC-20/BEP-20</Text>
+                              </Stack>
+                            </Flex>
+                          </Radio>
+                        </Flex>
+
+                        <Flex justifyContent={"center"}>
+                          <Radio value="2">
+                            <Flex
+                              p={2}
+                              align={"center"}
+                              gap={2}
+                              bg={"gray.400"}
+                              w={{ base: "260px", sm: "320px" }}
+                              rounded={"lg"}
+                            >
+                              <Box bg={"green"} rounded={"full"} p={2}>
+                                <Icon
+                                  boxSize={6}
+                                  as={SiTether}
+                                  color={"green.50"}
+                                />
+                              </Box>
+                              <Stack>
+                                <Text>USDT</Text>
+                                <Text as={"sub"}>ERC-20 /BEP-20 / TRC-20</Text>
+                              </Stack>
+                            </Flex>
+                          </Radio>
+                        </Flex>
+
+                        <Flex justifyContent={"center"}>
+                          <Radio value="3">
+                            <Flex
+                              p={2}
+                              align={"center"}
+                              gap={2}
+                              bg={"gray.400"}
+                              w={{ base: "260px", sm: "320px" }}
+                              rounded={"lg"}
+                            >
+                              <Box bg={"orange"} rounded={"full"} p={2}>
+                                <Icon
+                                  boxSize={6}
+                                  as={SiBinance}
+                                  color={"yellow.50"}
+                                />
+                              </Box>
+                              <Stack>
+                                <Text>Binance Pay</Text>
+                                <Text as={"sub"}>
+                                  Pay with your Binance account
+                                </Text>
+                              </Stack>
+                            </Flex>
+                          </Radio>
+                        </Flex>
                       </Stack>
                     </RadioGroup>
                     <Flex p={5}></Flex>
