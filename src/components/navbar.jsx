@@ -68,9 +68,7 @@ export default function Navbar() {
             console.error("Error fetching user data:", error.message);
           });
       } else {
-      
-          router.push("/login");
-        
+        router.push("/login");
       }
     });
 

@@ -8,6 +8,7 @@ import {
   Text,
   Icon,
   useColorModeValue,
+  Tooltip,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { IoHome, IoPerson } from "react-icons/io5";
@@ -45,23 +46,31 @@ export default function IndexSidebar() {
           zIndex={1}
         >
           <Flex flexDir="column" p={5} fontWeight={700}>
-            {navData.map((item) => (
-              <Flex
-                key={item.title}
-                p={5}
-                align="center"
-                justify={"left"}
-                gap={2}
+            {navData.map((item, index) => (
+              <Tooltip
+                label={`${index == 1 ? "Coming soon" : ""}`}
+                aria-label="A tooltip"
+                hasArrow={index == 1 ? true : false}
+                placement="top"
+                top={5}
               >
-                <Icon as={item.icon} boxSize={5} />
-                <Text
-                  as={NextLink}
-                  href={item.link}
-                  fontSize={{ base: "xs", md: "md" }}
+                <Flex
+                  key={item.title}
+                  p={5}
+                  align="center"
+                  justify={"left"}
+                  gap={2}
                 >
-                  {item.title}
-                </Text>
-              </Flex>
+                  <Icon as={item.icon} boxSize={5} />
+                  <Text
+                    as={NextLink}
+                    href={item.link}
+                    fontSize={{ base: "xs", md: "md" }}
+                  >
+                    {item.title}
+                  </Text>
+                </Flex>
+              </Tooltip>
             ))}
           </Flex>
         </Flex>
@@ -77,17 +86,23 @@ export default function IndexSidebar() {
           justifyContent="space-around"
           zIndex={1}
         >
-          {navData.map((item) => (
-            <Flex
-              key={item.title}
-              flexDir="column"
-              align="center"
-              as={NextLink}
-              href={item.link}
+          {navData.map((item, index) => (
+            <Tooltip
+              label={`${index == 1 ? "Coming soon" : ""}`}
+              hasArrow={index == 1 ? true : false}
+              placement="top"
             >
-              <Icon as={item.icon} boxSize={5} mb={2} />
-              <Text fontSize={{ base: "xs", md: "md" }}>{item.title}</Text>
-            </Flex>
+              <Flex
+                key={item.title}
+                flexDir="column"
+                align="center"
+                as={NextLink}
+                href={item.link}
+              >
+                <Icon as={item.icon} boxSize={5} mb={2} />
+                <Text fontSize={{ base: "xs", md: "md" }}>{item.title}</Text>
+              </Flex>
+            </Tooltip>
           ))}
         </Flex>
       )}
