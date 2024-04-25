@@ -180,15 +180,20 @@ export default function Login() {
                     direction={{ base: "row", sm: "row" }}
                     align={"center"}
                     justify={"center"}
-                    spacing={10}
+                    spacing={3}
                   >
                     <Text
                       color={useColorModeValue("#10062D", "#fff")}
-                      className="text-[13px] sm:text-base"
+                      fontSize={["13px", "initial"]}
                     >
                       Don't have an account?
                     </Text>
-                    <Link as={NextLink} href="/signup" color={"#501EE1"}>
+                    <Link
+                      as={NextLink}
+                      href="/signup"
+                      color={"#501EE1"}
+                      fontSize={["sm", "initial"]}
+                    >
                       Signup
                     </Link>
                   </Stack>
