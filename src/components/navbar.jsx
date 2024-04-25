@@ -183,7 +183,7 @@ export default function Navbar() {
                   </Link>
                   <MenuDivider />
                   <MenuItem>
-                    <Text fontWeight="500" onClick={signOut}>Sign Out</Text>
+                    <Text fontWeight="500" onClick={handlesignOut}>Sign Out</Text>
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem></MenuItem>
