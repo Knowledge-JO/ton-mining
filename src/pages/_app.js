@@ -14,11 +14,13 @@ const manifestUrl = 'https://raw.githubusercontent.com/Knowledge-JO/ton-mining/m
 
 export default function App({ Component, pageProps }) {
   return (
+    <TonConnectUIProvider manifestUrl={manifestUrl}>
     <ChakraProvider theme={theme}>
       <ColorModeProvider>
         <Component {...pageProps} />
         <ToastContainer />
       </ColorModeProvider>
     </ChakraProvider>
+    </TonConnectUIProvider>
   );
 }

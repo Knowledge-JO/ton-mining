@@ -33,12 +33,18 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 import { app } from "../../Firebase/firebase";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { TonConnectButton } from "@tonconnect/ui-react";
+import { useRouter } from "next/router";
+import { signOut } from "firebase/auth";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
   // Define state to store user data
   const { colorMode, toggleColorMode } = useColorMode();
   const [user, setUser] = useState(null);
   const fullName = user?.firstName + user?.lastName;
+
+  const router = useRouter();
   useEffect(() => {
     const auth = getAuth();
 
@@ -63,15 +69,22 @@ export default function Navbar() {
           });
       } else {
         // Redirect to login page if not already there
-        if (!Router.pathname.includes("/login")) {
+        if (!router.pathname.includes("/login")) {
           toast.error("Please login");
-          Router.push("/login");
+          router.push("/login");
         }
       }
     });
 
     return () => unsubscribe();
   }, []);
+
+  const handlesignOut = async (e) => {
+    e.preventDefault();
+    const auth = getAuth(app);
+    signOut(auth);
+    router.push("/login");
+  };
 
   return (
     <Box
@@ -111,6 +124,9 @@ export default function Navbar() {
             <HStack spacing={3}>
               <>
                 <CModal user={user} />
+              </>
+              <>
+                <TonConnectButton />
               </>
               {/* <Button
                 as={NextLink}
@@ -174,7 +190,9 @@ export default function Navbar() {
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem>
-                    <Text fontWeight="500">Sign Out</Text>
+                    <Text fontWeight="500" onClick={handlesignOut}>
+                      Sign Out
+                    </Text>
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem></MenuItem>

@@ -53,7 +53,7 @@ export default function MidWidget() {
               />
             </Box>
           </Flex>
-          <Flex direction={{ base: "column", md: "row" }}>
+          <Flex direction={{ base: "column", md: "row" }} h={400}>
             <Stat color="white">
               <StatNumber>$15.6K</StatNumber>
               <StatLabel>Total Spent</StatLabel>
@@ -62,20 +62,8 @@ export default function MidWidget() {
                 +2.45%
               </StatHelpText>
             </Stat>
-            {/* <Stack
-              w={"20%"}
-              direction={{ base: "row", md: "column" }}
-             
-            >
-              <Heading size={"lg"}>$15.6K</Heading>
-              <Text>Total Spent</Text>
-              <Flex align={"center"}>
-                <IoMdArrowDropup color={"#00D87D"} />
-                <Text>+2.45%</Text>
-              </Flex>
-            </Stack> */}
-            {/* <AreaExample /> */}
-            <MonthChart />
+            <AreaExample />
+            {/* <MonthChart /> */}
           </Flex>
         </Card>
         <Card
@@ -101,10 +89,13 @@ export default function MidWidget() {
               />
             </Box>
           </Flex>
-          <CardBody>
+          <Flex h={400}>
             <Example />
-            {/* <ComputeChart /> */}
-          </CardBody>
+          </Flex>
+          {/* <CardBody>
+           
+            <ComputeChart />
+          </CardBody> */}
         </Card>
       </SimpleGrid>
     </>

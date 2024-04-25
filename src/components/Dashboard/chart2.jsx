@@ -65,13 +65,13 @@ export default class Example extends PureComponent {
     return (
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
-          width={500}
+          width={600}
           height={300}
           data={data}
           margin={{
             top: 5,
-            right: 30,
-            left: 20,
+            right: 5,
+            left: 5,
             bottom: 5,
           }}
         >
@@ -79,7 +79,6 @@ export default class Example extends PureComponent {
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Legend />
           <Bar
             dataKey="pv"
             fill="#8884d8"
@@ -148,14 +147,14 @@ export class AreaExample extends PureComponent {
     return (
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
-          width={500}
+          width={600}
           height={400}
           data={areaData}
           margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
+            top: 5,
+            right: 5,
+            left: 5,
+            bottom: 5,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
