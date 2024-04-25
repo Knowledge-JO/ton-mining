@@ -10,18 +10,22 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { IoHome } from "react-icons/io5";
+import { IoHome, IoPerson } from "react-icons/io5";
 import { FaCartArrowDown } from "react-icons/fa";
 import { CiMoneyBill } from "react-icons/ci";
-import { MdGroups, MdSpaceDashboard } from "react-icons/md";
+import { MdGroups, MdSpaceDashboard, MdCollections } from "react-icons/md";
 import { GiMiner } from "react-icons/gi";
 import { useMediaQuery } from "@chakra-ui/react";
+import { IoMdWallet } from "react-icons/io";
 
 export default function IndexSidebar() {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   const navData = [
     { icon: MdSpaceDashboard, title: "Dashboard", link: "/dashboard" },
+    { icon: IoPerson, title: "My profile", link: "" },
+    { icon: IoMdWallet, title: "Wallet", link: "" },
+    { icon: MdCollections, title: "Collection", link: "" },
     { icon: GiMiner, title: "My Miner", link: "/miner" },
     { icon: FaCartArrowDown, title: "Marketplace", link: "/marketplace" },
     { icon: MdGroups, title: "Referrals", link: "/referrals" },
@@ -46,8 +50,8 @@ export default function IndexSidebar() {
                 key={item.title}
                 p={5}
                 align="center"
-                justify={"space-around"}
-                gap={1}
+                justify={"left"}
+                gap={2}
               >
                 <Icon as={item.icon} boxSize={5} />
                 <Text

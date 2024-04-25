@@ -166,6 +166,14 @@ export default function Navbar() {
                   </Link>
                   <MenuDivider />
                   <MenuItem>
+                    <Text fontWeight="500">My Profile</Text>
+                  </MenuItem>
+                  <MenuDivider />
+                  <MenuItem>
+                    <Text fontWeight="500">Wallet</Text>
+                  </MenuItem>
+                  <MenuDivider />
+                  <MenuItem>
                     <Text fontWeight="500">Sign Out</Text>
                   </MenuItem>
                   <MenuDivider />
