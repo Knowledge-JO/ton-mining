@@ -79,31 +79,28 @@ export default function Navbar() {
       boxShadow="sm"
       borderBottom="2px solid"
       borderBottomColor={useColorModeValue("#EDE8FC", "#301287")}
-      top="0"
-      left={0}
       right={0}
-      bg={useColorModeValue("ffffff", "#10062D")}
+      bg={useColorModeValue("#ffffff", "#10062D")}
       color={useColorModeValue("#10062D", "#fff")}
       width="100%"
     >
-      <Container px={4} mx="auto">
-        <HStack spacing={4} width="auto">
-          <Flex w={"10%"}>
-            {/* <Image
+      <Container>
+        <HStack width="auto">
+          {/* <Flex w={"10%"}>
+            <Image
               alt="dev logo"
               w={"auto"}
               h={12}
               src="https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
-            /> */}
-          </Flex>
-          <Flex w={"90%"} justify={"space-around"} spacing={10}>
-            {" "}
+            />
+          </Flex> */}
+          <Flex w={"100%"} justify={"space-between"} gap={5}>
             <InputGroup>
               <InputLeftElement>
                 <FaSearch />
               </InputLeftElement>
               <Input
-                maxW={{ base: "10rem", sm: "15rem", md: "20rem" }}
+                maxW={{ base: "100%", sm: "15rem", md: "20rem" }}
                 placeholder="Search..."
                 borderColor={useColorModeValue("#EDE8FC", "#301287")}
                 borderRadius="10px"
@@ -111,9 +108,9 @@ export default function Navbar() {
                 color={useColorModeValue("#10062D", "#fff")}
               />
             </InputGroup>
-            <HStack>
+            <HStack spacing={3}>
               <>
-                <CModal user={user} spacing={10} />
+                <CModal user={user} />
               </>
               {/* <Button
                 as={NextLink}

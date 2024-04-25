@@ -50,6 +50,8 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import { countryList } from "../countries";
+import { IoDiamond } from "react-icons/io5";
+
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
@@ -345,7 +347,7 @@ export default function PaymentModal({ user, payout, power }) {
                         </Flex>
 
                         <Flex justifyContent={"center"}>
-                          <Radio value="3">
+                          <Radio value="4">
                             <Flex
                               p={2}
                               align={"center"}
@@ -354,16 +356,16 @@ export default function PaymentModal({ user, payout, power }) {
                               w={{ base: "260px", sm: "320px" }}
                               rounded={"lg"}
                             >
-                              <Box bg={"orange"} rounded={"full"} p={2}>
+                              <Box bg={"blue"} rounded={"full"} p={2}>
                                 <Icon
                                   boxSize={6}
-                                  as={SiBinance}
-                                  color={"yellow.50"}
+                                  as={IoDiamond}
+                                  color={"blue.50"}
                                 />
                               </Box>
                               <Stack>
                                 <Text>Ton</Text>
-                                <Text as={"sub"}>Pay with your Ton</Text>
+                                <Text as={"sub"}>Pay with your Ton wallet</Text>
                               </Stack>
                             </Flex>
                           </Radio>
