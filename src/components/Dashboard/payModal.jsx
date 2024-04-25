@@ -129,9 +129,8 @@ export default function PaymentModal({ user, payout, power }) {
                 The miner will belong to you permanently. You'll be able to mint
                 it to your wallet, upgrade it, and resell it anytime.
               </Text>
-              <Flex p={1}></Flex>
               <Tabs isFitted variant="enclosed" textColor="white">
-                <TabList gap={1} mb={2}>
+                <TabList gap={1} mb={2} border={"none"}>
                   <Tab
                     bg="#3b49df"
                     border={"none"}

@@ -143,7 +143,7 @@ export default function CModal({ user }) {
               </Stack>
               <Heading size={"sm"}>Rewards Calculation</Heading>
               <Tabs variant="enclosed" textColor="white">
-                <TabList gap={1} mb={2}>
+                <TabList gap={1} mb={2} border={"none"}>
                   <Tab
                     bg="#3b49df"
                     rounded={"lg"}
