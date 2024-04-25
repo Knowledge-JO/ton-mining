@@ -36,6 +36,7 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useRouter } from "next/router";
 import { signOut } from "firebase/auth";
+import {toast} from 'react-toastify'
 
 export default function Navbar() {
   // Define state to store user data
