@@ -55,7 +55,7 @@ import MintSteps from "../MintSteps";
 export default function MinerCard() {
   const [minerDeets, setMinerDeets] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("");
   const [activeMinerId, setActiveMinerId] = useState(null);
 
   const handleMintClick = (minerId) => {
@@ -68,6 +68,7 @@ export default function MinerCard() {
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log('user Id from miner card', user.uid)
         setUser(user.uid)
       } else {
         setUser(null); // Set userdata to null when the user is not logged in
@@ -83,35 +84,37 @@ export default function MinerCard() {
     setIsOpen(true);
   };
 
+
   async function getMinerDetailsByUserId(userId) {
     if (!userId) {
-      // Check if userId is undefined
       console.error("No user ID provided");
-      return; // Optionally handle this case more gracefully
+      return;
     }
+  
     const minersRef = collection(db, "miners");
     const q = query(minersRef, where("userId", "==", userId));
-
+  
     try {
       const querySnapshot = await getDocs(q);
       const miners = [];
       querySnapshot.forEach((doc) => {
         miners.push({ id: doc.id, ...doc.data() });
       });
-      setMinerDeets(miners); // This returns an array of miners belonging to the user
+      setMinerDeets(miners); // Depending on your application's structure, you may want to return the data or use it otherwise
     } catch (error) {
       console.error("Error fetching miner details:", error);
-      throw new Error("Failed to retrieve miner details.");
+      
     }
   }
 
   useEffect(() => {
+    console.log("user from useefec", user)
     getMinerDetailsByUserId(user);
-  }, [user?.userId]);
+  },[user]);
 
   useEffect(() => {
     console.log(minerDeets);
-  }, [minerDeets]);
+  },[minerDeets]);
 
   return (
     <>
