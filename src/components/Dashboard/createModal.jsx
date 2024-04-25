@@ -66,7 +66,7 @@ export default function CModal({ user }) {
   const [balance, setBalance] = useState(0);
 
   const [value, setValue] = React.useState(0);
-  const handleChange = (value) => setValue(value);
+  const handleChange = (value) => setpower(value);
   return (
     <>
       <IconButton
