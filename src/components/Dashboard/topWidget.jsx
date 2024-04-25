@@ -63,7 +63,7 @@ export default function TopWidget({ miner, user }) {
       title: "Total Rewards",
       text: balance ? parseFloat(balance).toFixed(10) : 0,
     },
-    { title: "Miners", text: "1 Miner" },
+    { title: "Miners", text: miner? miner.length : 0 },
     { title: "Power", text: miner?.hashRate ? miner.hashRate : 1 },
     { title: "Mean Efficiency", text: "35 W/TH" },
     // Add more card data objects as needed
