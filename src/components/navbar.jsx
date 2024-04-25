@@ -68,11 +68,9 @@ export default function Navbar() {
             console.error("Error fetching user data:", error.message);
           });
       } else {
-        // Redirect to login page if not already there
-        if (!router.pathname.includes("/login")) {
-          toast.error("Please login");
+      
           router.push("/login");
-        }
+        
       }
     });
 

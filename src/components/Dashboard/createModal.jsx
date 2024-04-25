@@ -66,7 +66,7 @@ export default function CModal({ user }) {
   const [balance, setBalance] = useState(0);
 
   const [value, setValue] = React.useState(0);
-  const handleChange = (value) => setValue(value);
+  const handleChange = (value) => setpower(value);
   return (
     <>
       <IconButton
@@ -114,7 +114,7 @@ export default function CModal({ user }) {
                   100 TH
                 </Button>
                 <NumberInput
-                  value={value}
+                  value={power}
                   onChange={handleChange}
                   max={1000} // Set the maximum value for the NumberInput
                 >
@@ -131,7 +131,7 @@ export default function CModal({ user }) {
                   border="1px solid"
                   borderColor={useColorModeValue("#EDE8FC", "#301287")}
                   focusThumbOnChange={false}
-                  value={value}
+                  value={power}
                   onChange={handleChange}
                   max={1000} // Set the maximum value for the Slider
                 >
