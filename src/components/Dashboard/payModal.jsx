@@ -49,6 +49,7 @@ import { toast } from "react-toastify";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
+import CountrySelector from "./selectCountry";
 import { countryList } from "../countries";
 import { IoDiamond } from "react-icons/io5";
 
@@ -116,7 +117,7 @@ export default function PaymentModal({ user, payout, power }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          bg={useColorModeValue("White", "#10062D")}
+          bg={useColorModeValue("#8F6AFB", "#10062D")}
           color={useColorModeValue("#10062D", "#fff")}
           border="2px solid"
           borderColor={useColorModeValue("#EDE8FC", "#301287")}
@@ -156,7 +157,7 @@ export default function PaymentModal({ user, payout, power }) {
                   rounded={"lg"}
                 >
                   <TabPanel>
-                    <FormControl p={3}>
+                    {/* <FormControl p={3}>
                       <FormLabel>Country/Region</FormLabel>
                       <Select
                         placeholder="Select country"
@@ -168,7 +169,8 @@ export default function PaymentModal({ user, payout, power }) {
                           <option className="">{country}</option>
                         ))}
                       </Select>
-                    </FormControl>
+                    </FormControl> */}
+                    <CountrySelector />
                     <Flex
                       p={2}
                       bg={"gray.400"}
@@ -411,7 +413,7 @@ export default function PaymentModal({ user, payout, power }) {
           <ModalFooter alignContent={"center"} justifyContent={"space-around"}>
             <Button onClick={onClose}>Back</Button>
             <Button
-              bg={useColorModeValue("#8F6AFB", "#3b49df")}
+              bg="#3b49df"
               _hover="inherit"
               textColor={"white"}
               mr={3}

@@ -79,7 +79,7 @@ export default function SignupCard() {
   };
 
   return (
-    <Box bg={useColorModeValue("ffffff", "#10062D")} position="relative">
+    <Box bg={useColorModeValue("white", "#10062D")} position="relative">
       <Image
         src={spiralImg}
         placeholder="blur"
@@ -101,7 +101,7 @@ export default function SignupCard() {
         >
           <Box
             rounded={"lg"}
-            bg={useColorModeValue("ffffff", "#10062D")}
+            bg={useColorModeValue("white", "#10062D")}
             p={8}
             border="2px solid"
             borderColor={useColorModeValue("#EDE8FC", "#301287")}

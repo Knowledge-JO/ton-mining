@@ -28,6 +28,11 @@ import {
   Link,
   Icon,
   useColorModeValue,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { IoMdAdd } from "react-icons/io";
@@ -68,7 +73,7 @@ export default function CModal({ user }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          bg={useColorModeValue("white", "#10062D")}
+          bg={useColorModeValue("#8F6AFB", "#10062D")}
           color={useColorModeValue("#10062D", "#fff")}
           border="2px solid"
           borderColor={useColorModeValue("#EDE8FC", "#301287")}
@@ -102,9 +107,19 @@ export default function CModal({ user }) {
                 >
                   100 TH
                 </Button>
-                <Button color={"#00D87D"} border="1px solid #301287">
-                  Custom
-                </Button>
+                <NumberInput
+                  color={"#00D87D"}
+                  border="1px solid #301287"
+                  defaultValue={15}
+                  precision={2}
+                  step={0.2}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
               </ButtonGroup>
               <Flex p={5}></Flex>
               <Heading size={"sm"}>Rewards Calculation</Heading>
