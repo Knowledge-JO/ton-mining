@@ -33,12 +33,16 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { IoMdAdd } from "react-icons/io";
 import Rec9 from "../../images/Rectangle9.png";
 import NextImage from "next/image";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Miner from "../../pages/api/Controllers/miner";
 import { toast } from "react-toastify";
 import PaymentModal from "./payModal";
@@ -61,6 +65,8 @@ export default function CModal({ user }) {
   const [miner, setMiner] = useState(null);
   const [balance, setBalance] = useState(0);
 
+  const [value, setValue] = React.useState(0);
+  const handleChange = (value) => setValue(value);
   return (
     <>
       <IconButton
@@ -108,11 +114,9 @@ export default function CModal({ user }) {
                   100 TH
                 </Button>
                 <NumberInput
-                  color={"#00D87D"}
-                  border="1px solid #301287"
-                  defaultValue={15}
-                  precision={2}
-                  step={0.2}
+                  value={value}
+                  onChange={handleChange}
+                  max={1000} // Set the maximum value for the NumberInput
                 >
                   <NumberInputField />
                   <NumberInputStepper>
@@ -121,7 +125,22 @@ export default function CModal({ user }) {
                   </NumberInputStepper>
                 </NumberInput>
               </ButtonGroup>
-              <Flex p={5}></Flex>
+              <Stack>
+                <Slider
+                  color={"#00D87D"}
+                  border="1px solid"
+                  borderColor={useColorModeValue("#EDE8FC", "#301287")}
+                  focusThumbOnChange={false}
+                  value={value}
+                  onChange={handleChange}
+                  max={1000} // Set the maximum value for the Slider
+                >
+                  <SliderTrack>
+                    <SliderFilledTrack />
+                  </SliderTrack>
+                  <SliderThumb fontSize="sm" boxSize="32px" children={value} />
+                </Slider>
+              </Stack>
               <Heading size={"sm"}>Rewards Calculation</Heading>
               <Tabs variant="enclosed" textColor="white">
                 <TabList gap={1} mb={2}>
