@@ -16,6 +16,9 @@
     "@emotion/styled": "^11.11.5",
     "@stripe/react-stripe-js": "^2.7.0",
     "@stripe/stripe-js": "^3.3.0",
+    "@ton/core": "^0.56.3",
+    "@ton/crypto": "^3.2.0",
+    "@tonconnect/ui-react": "^2.0.2",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "cookies": "^0.9.1",
@@ -38,6 +41,8 @@
     "react-toastify": "^10.0.5",
     "recharts": "^2.12.4",
     "stripe": "^15.3.0",
+    "ton": "^13.9.0",
+    "tonweb": "^0.0.66",
     "uuid": "^9.0.1",
     "ws": "^8.16.0"
   },
