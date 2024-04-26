@@ -26,7 +26,7 @@ export default function IndexSidebar() {
     { icon: MdSpaceDashboard, title: "Dashboard", link: "/dashboard" },
     // { icon: IoPerson, title: "My profile", link: "" },
     // { icon: IoMdWallet, title: "Wallet", link: "" },
-    { icon: MdCollections, title: "Collection", link: "" },
+    { icon: MdCollections, title: "Collection", link: "#" },
     { icon: GiMiner, title: "My Miner", link: "/miner" },
     { icon: FaCartArrowDown, title: "Marketplace", link: "/marketplace" },
     { icon: MdGroups, title: "Referrals", link: "/referrals" },
