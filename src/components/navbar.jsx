@@ -37,43 +37,15 @@ import { TonConnectButton } from "@tonconnect/ui-react";
 import { useRouter } from "next/router";
 import { signOut } from "firebase/auth";
 import { toast } from "react-toastify";
+import useFirebaseUser from "../utils/useUser";
 
 export default function Navbar() {
   // Define state to store user data
   const { colorMode, toggleColorMode } = useColorMode();
-  const [user, setUser] = useState(null);
+  const { user } = useFirebaseUser();
   const fullName = user?.firstName + user?.lastName;
 
   const router = useRouter();
-  useEffect(() => {
-    const auth = getAuth();
-
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const userId = user.uid; // Get userId from user object
-        console.log("User ID:", userId);
-        const db = getFirestore(app);
-        const docRef = doc(db, "users", userId);
-        getDoc(docRef)
-          .then((docSnap) => {
-            if (docSnap.exists()) {
-              const userData = docSnap.data();
-              console.log("User data:", userData);
-              setUser({ userId, ...userData }); // Include userId in the user data object
-            } else {
-              console.log("User document not found.");
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching user data:", error.message);
-          });
-      } else {
-        router.push("/login");
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const handlesignOut = async (e) => {
     e.preventDefault();
