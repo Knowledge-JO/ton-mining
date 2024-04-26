@@ -93,9 +93,9 @@ export default function Navbar() {
               <>
                 <CModal user={user} />
               </>
-              <>
+              {/* <>
                 <TonConnectButton />
-              </>
+              </> */}
               {/* <Button
                 as={NextLink}
                 color="#fff"

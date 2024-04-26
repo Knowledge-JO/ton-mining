@@ -36,11 +36,11 @@ export default function IndexSidebar() {
     <>
       {isLargerThan768 ? (
         <Flex
-          w={["0", "0", "15%", "15%"]}
+          w={["0", "0", "18%", "18%"]}
           minH={"100vh"}
           align="start"
           justify={"center"}
-          bg={useColorModeValue("ffffff", "#10062D")}
+          bg={useColorModeValue("#ffffff", "#130736")}
           color={useColorModeValue("#10062D", "#fff")}
           p={5}
           zIndex={1}
@@ -80,7 +80,7 @@ export default function IndexSidebar() {
           bottom={0}
           left={0}
           right={0}
-          bg={useColorModeValue("white", "#10062D")}
+          bg={useColorModeValue("white", "#130736")}
           color={useColorModeValue("#10062D", "#fff")}
           p={5}
           justifyContent="space-around"

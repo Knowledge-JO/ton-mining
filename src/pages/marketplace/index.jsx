@@ -122,8 +122,6 @@ function NFTCard({ dets, marginBtm }) {
         </div>
       </div> */}
       <Stack
-        border="2px solid"
-        borderColor={useColorModeValue("#EDE8FC", "#301287")}
         color={useColorModeValue("#10062D", "#fff")}
         w="full"
         rounded={"lg"}
