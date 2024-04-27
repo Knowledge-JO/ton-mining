@@ -11,8 +11,18 @@ import {
 import { FaChartPie } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Miner from "@/pages/api/Controllers/miner";
-import { collection, doc, getFirestore, setDoc, query, where, getDocs} from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getFirestore,
+  setDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { app } from "../../../Firebase/firebase";
+import { FaBitcoin } from "react-icons/fa6";
+import { LuBitcoin } from "react-icons/lu";
 
 export default function TopWidget({ miner, user }) {
   const [balance, setBalance] = useState(0);
@@ -64,39 +74,37 @@ export default function TopWidget({ miner, user }) {
       const db = getFirestore(app);
       const q = query(collection(db, "miners"), where("userId", "==", userId));
       const querySnapshot = await getDocs(q);
-      setNumberOfMiners(querySnapshot.size)// Returns the number of documents found
+      setNumberOfMiners(querySnapshot.size); // Returns the number of documents found
     } catch (error) {
       console.error("Error fetching number of miners:", error);
       return 0; // Return 0 in case of an error
     }
   };
 
-  
-  useEffect(() => { 
-      console.log("user form detch miner number",user?.userId)
-      fetchNumberOfMiners(user?.userId)
-    
+  useEffect(() => {
+    console.log("user form detch miner number", user?.userId);
+    fetchNumberOfMiners(user?.userId);
   }, [user]);
 
-const cardData = [
-  {
-    title: "Total Rewards",
-    text: balance ? parseFloat(balance).toFixed(10) : 0,
-  },
-  {
-    title: "Miners",
-    text: numberOfMiners, // Use the state variable here
-  },
-  {
-    title: "Power",
-    text: miner?.hashRate ? miner.hashRate : 1,
-  },
-  {
-    title: "Mean Efficiency",
-    text: "35 W/TH",
-  },
-  // Add more card data objects as needed
-];
+  const cardData = [
+    {
+      title: "Total Rewards",
+      text: balance ? parseFloat(balance).toFixed(10) : 0,
+    },
+    {
+      title: "Miners",
+      text: numberOfMiners, // Use the state variable here
+    },
+    {
+      title: "Power",
+      text: miner?.hashRate ? miner.hashRate : 1,
+    },
+    {
+      title: "Mean Efficiency",
+      text: "35 W/TH",
+    },
+    // Add more card data objects as needed
+  ];
 
   console.log("miner from top widget", miner);
   return (
@@ -105,7 +113,7 @@ const cardData = [
         gap={{ base: 5, md: 10 }}
         columns={{ base: 1, sm: 2, md: 2, lg: 4 }}
       >
-        {cardData.map((card) => (
+        {cardData.map((card, index) => (
           <Flex
             rounded={"2xl"}
             size="sm"
@@ -118,14 +126,37 @@ const cardData = [
             direction={"row"}
             px={6}
             py={4}
+            gap={3}
           >
-            <Box bg={"white"} rounded="full" p={1}>
-              <Icon
-                boxSize={8}
-                color={useColorModeValue("#8F6AFB", "#501EE1")}
-                as={FaChartPie}
-              />
-            </Box>
+            {index == 0 ? (
+              <Flex
+                bg={"white"}
+                rounded="full"
+                align={"center"}
+                justify={"center"}
+                h={10}
+                w={10}
+              >
+                <Flex
+                  bg={"#ED8936"}
+                  rounded="full"
+                  w={7}
+                  h={7}
+                  align={"center"}
+                  justify={"center"}
+                >
+                  <Icon boxSize={5} color={"#fff"} as={LuBitcoin} />
+                </Flex>
+              </Flex>
+            ) : (
+              <Box bg={"white"} rounded="full" p={1}>
+                <Icon
+                  boxSize={8}
+                  color={useColorModeValue("#8F6AFB", "#501EE1")}
+                  as={FaChartPie}
+                />
+              </Box>
+            )}
 
             <Stack color={useColorModeValue("#10062D", "#fff")} p={2}>
               <Text fontSize={"xs"} fontWeight="500">

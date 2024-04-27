@@ -37,11 +37,9 @@ export default function BtmWidget() {
             border="2px solid"
             borderColor={useColorModeValue("#EDE8FC", "#301287")}
             bg={useColorModeValue("#8F6AFB", "#301287")}
-            px={6}
             py={4}
-            height={"500px"}
           >
-            <Flex justify="space-between">
+            <Flex justify="space-between" px={6}>
               <Flex>
                 <Text color={"white"} fontWeight={"500"}>
                   {card.text}
@@ -58,46 +56,65 @@ export default function BtmWidget() {
 
             <Stack color={"white"}>
               <TableContainer>
-                <Table variant="simple">
+                <Table variant={"unstyled"}>
                   <Thead>
-                    <Tr>
+                    <Tr
+                      color={useColorModeValue("#D2C3FD", "#A88BFC")}
+                      borderBottom={"1px"}
+                      borderColor={useColorModeValue("#fff", "#501EE1")}
+                    >
                       <Th isNumeric>Date</Th>
                       <Th isNumeric>Computing Power</Th>
                       <Th isNumeric>Reward</Th>
-                      <Th isNumeric>Addres</Th>
+                      <Th isNumeric>Address</Th>
                       <Th>Status</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
-                    <Tr>
+                    <Tr
+                      borderBottom={"1px"}
+                      borderColor={useColorModeValue("#fff", "#501EE1")}
+                    >
                       <Td isNumeric>4/8/2024</Td>
                       <Td isNumeric>1</Td>
                       <Td isNumeric>0.00000082</Td>
                       <Td isNumeric>18ihh9rs...3hcFPX1EF</Td>
                       <Td color={"#00D87D"}>Approved</Td>
                     </Tr>
-                    <Tr>
+                    <Tr
+                      borderBottom={"1px"}
+                      borderColor={useColorModeValue("#fff", "#501EE1")}
+                    >
                       <Td isNumeric>4/8/2024</Td>
                       <Td isNumeric>1</Td>
                       <Td isNumeric>0.00000082</Td>
                       <Td isNumeric>18ihh9rs...3hcFPX1EF</Td>
                       <Td color={"#00D87D"}>Approved</Td>
                     </Tr>
-                    <Tr>
+                    <Tr
+                      borderBottom={"1px"}
+                      borderColor={useColorModeValue("#fff", "#501EE1")}
+                    >
                       <Td isNumeric>4/8/2024</Td>
                       <Td isNumeric>1</Td>
                       <Td isNumeric>0.00000082</Td>
                       <Td isNumeric>18ihh9rs...3hcFPX1EF</Td>
                       <Td color="#FF4949">Declined</Td>
                     </Tr>
-                    <Tr>
+                    <Tr
+                      borderBottom={"1px"}
+                      borderColor={useColorModeValue("#fff", "#501EE1")}
+                    >
                       <Td isNumeric>4/8/2024</Td>
                       <Td isNumeric>1</Td>
                       <Td isNumeric>0.00000082</Td>
                       <Td isNumeric>18ihh9rs...3hcFPX1EF</Td>
                       <Td color={"#00D87D"}>Approved</Td>
                     </Tr>
-                    <Tr>
+                    <Tr
+                      borderBottom={"1px"}
+                      borderColor={useColorModeValue("#fff", "#501EE1")}
+                    >
                       <Td isNumeric>4/8/2024</Td>
                       <Td isNumeric>1</Td>
                       <Td isNumeric>0.00000082</Td>

@@ -125,6 +125,7 @@ function NFTCard({ dets, marginBtm }) {
         color={useColorModeValue("#10062D", "#fff")}
         w="full"
         rounded={"lg"}
+        border="1px solid #301287"
         mb={{ base: marginBtm, md: 0 }}
         // className={`mb-[${paddingBtm}px] `}
       >

@@ -379,26 +379,26 @@ const Step1 = () => {
   return (
     <Box
       bg={useColorModeValue("gray.100", "rgba(0,0,0,0.2)")}
-      px={5}
+      px={[3, 5]}
       py={6}
       rounded={"20px"}
     >
-      <Flex justify={"space-between"}>
+      <Flex justify={"space-between"} align={"center"}>
         <HStack>
           <Image
             src={
               "https://gateway.pinata.cloud/ipfs/QmRqSZ2bFS46QYZ1HgwGurogGsrZrwMDaRgckM32yZKrQb/1.png"
             }
-            width={[30, 30, 50]}
-            height={[30, 30, 50]}
+            width={[45, 35, 50]}
+            height={[45, 35, 50]}
             rounded={"lg"}
           />
 
           <Box>
-            <Text color={"purple.500"} fontSize={["12px", "sm", "initial"]}>
+            <Text color={"purple.500"} fontSize={["13px", "sm", "initial"]}>
               The miner Box #14401
             </Text>
-            <HStack fontSize={["12px", "sm", "sm"]}>
+            <HStack fontSize={["13px", "sm"]}>
               <HStack gap={"5px"}>
                 <Box p={"1px"} bg={"green.400"} rounded={"full"} color={"#fff"}>
                   <IoIosFlash />

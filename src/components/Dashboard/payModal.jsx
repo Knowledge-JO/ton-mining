@@ -155,7 +155,7 @@ export default function PaymentModal({ user, payout, power }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          bg={useColorModeValue("#8F6AFB", "#10062D")}
+          bg={useColorModeValue("#fff", "#10062D")}
           color={useColorModeValue("#10062D", "#fff")}
           border="2px solid"
           borderColor={useColorModeValue("#EDE8FC", "#301287")}
@@ -277,7 +277,6 @@ export default function PaymentModal({ user, payout, power }) {
                     </Flex>
                     <Stack
                       margin={2}
-                      bg={"gray.700"}
                       border={"2px solid #301287"}
                       rounded={"lg"}
                       p={2}
@@ -290,12 +289,9 @@ export default function PaymentModal({ user, payout, power }) {
                         <Text>Historical ROI</Text>
                         <Text>${payout}</Text>
                       </Flex>
-                      <Flex align={"center"} justify={"space-between"}>
-                        <Flex>
-                          <Text>Total</Text>
-                        </Flex>
+                      <Flex justify={"space-between"}>
+                        <Text>Total</Text>
                         <Stack align={"end"}>
-                          <Text>${payout}</Text>
                           <Text>{power * 24 + 1.15}</Text>
                           <Text>Includes fee 1.15 USD</Text>
                         </Stack>
@@ -307,7 +303,7 @@ export default function PaymentModal({ user, payout, power }) {
                     </Stack>
                   </TabPanel>
                   <TabPanel>
-                    <RadioGroup defaultValue="1">
+                    {/* <RadioGroup defaultValue="1">
                       <Stack>
                         <Flex justifyContent={"center"}>
                           <Radio value="1">
@@ -411,14 +407,9 @@ export default function PaymentModal({ user, payout, power }) {
                           </Radio>
                         </Flex>
                       </Stack>
-                    </RadioGroup>
-                    <Flex p={5}></Flex>
-                    <Stack
-                      bg={"gray.700"}
-                      border={"2px solid #301287"}
-                      rounded={"lg"}
-                      p={2}
-                    >
+                    </RadioGroup> */}
+
+                    <Stack border={"2px solid #301287"} rounded={"lg"} p={2}>
                       <Flex align={"center"} justify={"space-between"}>
                         <Text>Price per TH</Text>
                         <Text>$27.99</Text>
