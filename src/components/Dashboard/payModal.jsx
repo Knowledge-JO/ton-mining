@@ -60,26 +60,26 @@ const stripePromise = loadStripe(
 
 const handleCheckout = async (power, userId) => {
   console.log(power, userId)
-  const stripe = await stripePromise;
-  const response = await fetch("/api/route", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      amount: power * 24,
-      userId: userId,
-    }),
-  });
-  const session = await response.json();
+  // const stripe = await stripePromise;
+  // const response = await fetch("/api/route", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({
+  //     amount: power * 24,
+  //     userId: userId,
+  //   }),
+  // });
+  // const session = await response.json();
 
-  const result = await stripe.redirectToCheckout({
-    sessionId: session.sessionId,
-  });
+  // const result = await stripe.redirectToCheckout({
+  //   sessionId: session.sessionId,
+  // });
 
-  if (result.error) {
-    alert(result.error.message);
-  }
+  // if (result.error) {
+  //   alert(result.error.message);
+  // }
 };
 
 export default function PaymentModal({ user, payout, power }) {
