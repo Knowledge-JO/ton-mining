@@ -35,8 +35,8 @@ export default function BtmWidget() {
             rounded={"2xl"}
             key={card.src}
             border="2px solid"
-            borderColor={useColorModeValue("#EDE8FC", "#301287")}
-            bg={useColorModeValue("#8F6AFB", "#301287")}
+            borderColor={useColorModeValue("#fff", "#130736")}
+            bg={useColorModeValue("#8F6AFB", "#130736")}
             py={4}
           >
             <Flex justify="space-between" px={6}>
