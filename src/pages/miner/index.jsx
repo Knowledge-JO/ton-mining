@@ -28,18 +28,15 @@ export default function minerDash() {
         <Flex>
           <Navbar />
         </Flex>
-        <Spacer />
         {/* Sidebar and dashscreen */}
         <Flex flexDir={["column", "column", "row", "row"]}>
           {/* Sidebar Component */}
           <IndexSidebar />
           {/* Dashscreen Components */}
           <Stack
-            w={["100%", "100%", "85%", "85%"]}
+            w={"100%"}
             bg={useColorModeValue("ffffff", "#10062D")}
             color={useColorModeValue("#10062D", "#fff")}
-            borderLeft="2px solid"
-            borderLeftColor={useColorModeValue("#EDE8FC", "#301287")}
             spacing={5}
             p={5}
           >
@@ -47,7 +44,6 @@ export default function minerDash() {
             <MinerCard />
             {/* Tab Section */}
             {/* <DashTab /> */}
-            <Flex w={"20%"} p={5}></Flex>
           </Stack>
         </Flex>
       </Box>

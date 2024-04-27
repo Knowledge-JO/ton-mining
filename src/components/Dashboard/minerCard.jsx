@@ -21,22 +21,19 @@ import {
   ModalBody,
   ModalCloseButton,
   useColorModeValue,
-} from "@chakra-ui/react";
-import {
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
+  Heading,
+  useSteps,
+  HStack,
 } from "@chakra-ui/react";
+
 import nft1 from "../../images/Nft1.png";
 import nft2 from "../../images/Nft2.png";
 import nft3 from "../../images/Nft3.png";
 import NextImage from "next/image";
-import { IoMdList } from "react-icons/io";
 import CModal from "./createModal";
 import {
   collection,
@@ -48,7 +45,14 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../Firebase/firebase";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
-import { IoMdMore } from "react-icons/io";
+import {
+  IoMdMore,
+  IoIosArrowBack,
+  IoIosArrowDown,
+  IoIosClose,
+  IoMdList,
+  IoIosFlash,
+} from "react-icons/io";
 import { TbTriangleSquareCircle } from "react-icons/tb";
 import MintSteps from "../MintSteps";
 import { useTonConnect } from "@/hooks/useTonConnect";
@@ -58,6 +62,7 @@ import { Address, toNano } from '@ton/core';
 import { useMainCOntract } from "@/hooks/useMainContract";
 
 
+import { BiSolidPlug } from "react-icons/bi";
 
 export default function MinerCard() {
   const [minerDeets, setMinerDeets] = useState(null);
@@ -80,8 +85,8 @@ export default function MinerCard() {
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log('user Id from miner card', user.uid)
-        setUser(user.uid)
+        console.log("user Id from miner card", user.uid);
+        setUser(user.uid);
       } else {
         setUser(null); // Set userdata to null when the user is not logged in
         toast.error("please login");
@@ -96,16 +101,15 @@ export default function MinerCard() {
     setIsOpen(true);
   };
 
-
   async function getMinerDetailsByUserId(userId) {
     if (!userId) {
       console.error("No user ID provided");
       return;
     }
-  
+
     const minersRef = collection(db, "miners");
     const q = query(minersRef, where("userId", "==", userId));
-  
+
     try {
       const querySnapshot = await getDocs(q);
       const miners = [];
@@ -115,18 +119,17 @@ export default function MinerCard() {
       setMinerDeets(miners); // Depending on your application's structure, you may want to return the data or use it otherwise
     } catch (error) {
       console.error("Error fetching miner details:", error);
-      
     }
   }
 
   useEffect(() => {
-    console.log("user from useefec", user)
+    console.log("user from useefec", user);
     getMinerDetailsByUserId(user);
-  },[user]);
+  }, [user]);
 
   useEffect(() => {
     console.log(minerDeets);
-  },[minerDeets]);
+  }, [minerDeets]);
 
 
   
@@ -134,13 +137,8 @@ export default function MinerCard() {
 
   return (
     <>
-      <Flex
-        direction={"column"}
-        p={5}
-        h={"100vh"}
-        bg={useColorModeValue("white", "#10062D")}
-      >
-        <Flex p={5} justify={"space-between"}>
+      <Box p={5} h={"100vh"} bg={useColorModeValue("white", "#10062D")}>
+        <Flex pb={5} justify={"space-between"}>
           <Button
             border="2px solid"
             borderColor={useColorModeValue("#EDE8FC", "#301287")}
@@ -170,10 +168,8 @@ export default function MinerCard() {
                 <Card
                   key={miner.minerId}
                   border="2px solid #301287"
-                  bg="white"
+                  bg={"transparent"}
                   rounded={"2xl"}
-                  p={5}
-                  h={"50vh"}
                 >
                   <Image
                     // as={NextImage}
@@ -181,6 +177,7 @@ export default function MinerCard() {
                     src={miner?.minerImage}
                     alt="NFT"
                     width="100%"
+                    rounded={"2xl"}
                   />
 
                   <Stack p={5}>
@@ -216,19 +213,262 @@ export default function MinerCard() {
               );
             })}
         </SimpleGrid>
-
-        {/* Modal for MintSteps */}
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Mint Miner</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              {activeMinerId && <MintSteps minerId={activeMinerId} />}
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      </Flex>
+      </Box>
+      {/* Modal for MintSteps */}
+      <MinerModal
+        isOpen={isOpen}
+        onClose={onClose}
+        activeMinerId={activeMinerId}
+      />
     </>
   );
 }
+
+const steps = [
+  {
+    title: "Choose miner",
+    description: "The miner that will be minted to your wallet",
+  },
+  {
+    title: "Choose network",
+    description: "The network on which you want to mint your miner",
+  },
+  {
+    title: "Connect wallet",
+    description:
+      "Connect your wallet to the network chosen in the previous step",
+  },
+  { title: "Mint", description: "Mint you NFT" },
+];
+
+function MinerModal({ isOpen, onClose, activeMinerId }) {
+  const { activeStep, setActiveStep } = useSteps({
+    initialStep: 0,
+  });
+
+  const activeStepTitle = steps[activeStep].title;
+  const activeStepDesc = steps[activeStep].description;
+
+  // Function to go to the next step
+  const nextStep = () => {
+    if (activeStep < steps.length - 1) {
+      setActiveStep(activeStep + 1);
+    }
+  };
+
+  // Function to go to the previous step
+  const prevStep = () => {
+    if (activeStep > 0) {
+      setActiveStep(activeStep - 1);
+    }
+  };
+
+  return (
+    <Modal isOpen={isOpen} size={"full"} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalBody p={0} bg={useColorModeValue("#fff", "#10062D")}>
+          <Box p={5} mb={[0, 0, 5]}>
+            <Button
+              bg={"transparent"}
+              color={"purple.400"}
+              leftIcon={<IoIosArrowBack />}
+              _hover={{
+                bg: "purple.500",
+                color: "#fff",
+              }}
+              fontWeight={"bold"}
+              textAlign={"center"}
+              onClick={onClose}
+            >
+              Back
+            </Button>
+          </Box>
+          <Flex justify={"center"} align={"center"}>
+            <Box
+              w={["100%", "100%", "700px"]}
+              border={["none", "none", "1px"]}
+              borderColor={["", "", useColorModeValue("#EDE8FC", "#301287")]}
+              rounded={"lg"}
+              px={10}
+              py={8}
+            >
+              {/* steps */}
+              {activeMinerId && (
+                <MintSteps
+                  activeStep={activeStep}
+                  minerId={activeMinerId}
+                  steps={steps}
+                />
+              )}
+
+              <Box mt={5}>
+                <Heading fontSize={"xl"}>{`${
+                  activeStep + 1
+                }. ${activeStepTitle}`}</Heading>
+                <Text fontSize={"sm"} color={"gray.400"} my={3}>
+                  {activeStepDesc}
+                </Text>
+              </Box>
+
+              <Steps activeStep={activeStep} />
+
+              {/* buttons */}
+              <Flex w={"100%"} justify={"space-between"} mt={"32px"}>
+                <Button
+                  border={"none"}
+                  variant="outline"
+                  mr={3}
+                  bg={useColorModeValue("gray.100", "rgba(0,0,0,0.2)")}
+                  w={"100%"}
+                  onClick={prevStep}
+                  isDisabled={activeStep === 0}
+                  display={activeStep === 0 ? "none" : "block"}
+                >
+                  back
+                </Button>
+                <Button
+                  _hover={{ bg: "purple.400" }}
+                  bg="purple.500"
+                  color={"#fff"}
+                  border={"none"}
+                  w={"100%"}
+                  onClick={nextStep}
+                  isDisabled={activeStep === steps.length - 1}
+                >
+                  Next
+                </Button>
+              </Flex>
+            </Box>
+          </Flex>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+}
+
+const networks = [
+  { name: "Binance smart chain", symbol: "BEP-20" },
+  { name: "Ethereum", symbol: "ETH" },
+  { name: "Ordinals", symbol: "BRC" },
+  { name: "Ton", symbol: "TON" },
+];
+
+const Steps = ({ activeStep }) => {
+  const [isActive, setIsActive] = useState(false);
+
+  return (
+    <Box>
+      {activeStep + 1 == 1 && <Step1 />}
+      {activeStep + 1 == 2 &&
+        networks.map((network, index) => (
+          <Step2
+            key={network.symbol}
+            name={network.name}
+            index={index}
+            isActive={isActive}
+            setIsActive={setIsActive}
+            symbol={network.symbol}
+          />
+        ))}
+    </Box>
+  );
+};
+
+const Step1 = () => {
+  return (
+    <Box
+      bg={useColorModeValue("gray.100", "rgba(0,0,0,0.2)")}
+      px={5}
+      py={6}
+      rounded={"20px"}
+    >
+      <Flex justify={"space-between"}>
+        <HStack>
+          <Image
+            src={
+              "https://gateway.pinata.cloud/ipfs/QmRqSZ2bFS46QYZ1HgwGurogGsrZrwMDaRgckM32yZKrQb/1.png"
+            }
+            width={[30, 30, 50]}
+            height={[30, 30, 50]}
+            rounded={"lg"}
+          />
+
+          <Box>
+            <Text color={"purple.500"} fontSize={["12px", "sm", "initial"]}>
+              The miner Box #14401
+            </Text>
+            <HStack fontSize={["12px", "sm", "sm"]}>
+              <HStack gap={"5px"}>
+                <Box p={"1px"} bg={"green.400"} rounded={"full"} color={"#fff"}>
+                  <IoIosFlash />
+                </Box>
+                <Text>1 TH</Text>
+              </HStack>
+              <HStack ml={"5px"} gap={"5px"}>
+                <Box
+                  p={"1px"}
+                  bg={"yellow.400"}
+                  rounded={"full"}
+                  color={"#fff"}
+                >
+                  <BiSolidPlug />
+                </Box>
+                <Text>35 W/TH</Text>
+              </HStack>
+            </HStack>
+          </Box>
+        </HStack>
+
+        <HStack
+          fontWeight={"extrabold"}
+          fontSize={["15px", "15px", "20px"]}
+          gap={0}
+          color={"gray.400"}
+        >
+          <IoIosClose fontSize={"20px"} />
+          <IoIosArrowDown />
+        </HStack>
+      </Flex>
+    </Box>
+  );
+};
+
+const Step2 = ({ name, isActive, setIsActive, symbol }) => {
+  const clicked = symbol == isActive;
+
+  function handleCustomRadio() {
+    setIsActive(clicked ? null : symbol);
+  }
+  return (
+    <Box
+      bg={useColorModeValue("gray.100", "rgba(0,0,0,0.2)")}
+      px={5}
+      py={6}
+      rounded={"20px"}
+      mb={"8px"}
+    >
+      <Flex justify={"space-between"} align={"center"}>
+        <HStack>
+          <Text fontSize={["sm", "md"]} fontWeight={"extrabold"}>
+            {name}
+          </Text>
+          <Text fontSize={["xs", "md"]} fontWeight={"bold"} color={"gray.400"}>
+            {symbol}
+          </Text>
+        </HStack>
+
+        <Box
+          border={"1px"}
+          w={"16px"}
+          h={"16px"}
+          rounded={"full"}
+          borderColor={"gray.400"}
+          cursor={"pointer"}
+          bg={clicked ? "purple.500" : ""}
+          onClick={() => handleCustomRadio()}
+        ></Box>
+      </Flex>
+    </Box>
+  );
+};

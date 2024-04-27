@@ -11,7 +11,12 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 
+import useFirebaseUser from "@/utils/useUser";
+import { useEffect } from "react";
+
 export default function Referrals() {
+  const { user } = useFirebaseUser();
+
   return (
     <Stack p={5} spacing={10}>
       {/* 1st Section */}
@@ -58,7 +63,7 @@ export default function Referrals() {
         <Heading fontSize={"md"}>Refer Friends & Get Rewarded!</Heading>
         <Text whiteSpace={"pre-wrap"} mt={2} fontSize={"sm"}>
           Get rewarded for sharing xxxxx with your friends. Invite them by using
-          your unique code BLOCKCHAINBEAST link below.
+          your unique code <b>{user ? user.userId : ""}</b> link below.
         </Text>
       </Box>
 
@@ -72,13 +77,13 @@ export default function Referrals() {
           border="2px solid"
           borderColor={useColorModeValue("#EDE8FC", "#301287")}
           height={"70px"}
-          px={[5, 5, 10]}
+          px={[5, 5, 6]}
         >
           <Text
-            fontSize={["13px", "13px", "lg"]}
+            fontSize={["13px", "13px", "md"]}
             w={["145px", "230px", "auto"]}
           >
-            https://app.xxxxx.com/s/BLOCKCHAINBEAST
+            https://app.xxxxx.com/s/{user ? user.userId : ""}
           </Text>
           <Button size={["sm", "lg"]} bg="#501EE1" color={"#FFFFFF"}>
             Copy

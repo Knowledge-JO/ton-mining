@@ -114,6 +114,7 @@ export default function CModal({ user }) {
                   100 TH
                 </Button>
                 <NumberInput
+                  min={1}
                   value={power}
                   onChange={handleChange}
                   max={1000} // Set the maximum value for the NumberInput
