@@ -58,7 +58,11 @@ export default function BtmWidget() {
               <TableContainer>
                 <Table variant={"unstyled"}>
                   <Thead>
-                    <Tr color={useColorModeValue("#D2C3FD", "#A88BFC")}>
+                    <Tr
+                      color={useColorModeValue("#D2C3FD", "#A88BFC")}
+                      borderBottom={"1px"}
+                      borderColor={useColorModeValue("#fff", "#501EE1")}
+                    >
                       <Th isNumeric>Date</Th>
                       <Th isNumeric>Computing Power</Th>
                       <Th isNumeric>Reward</Th>
