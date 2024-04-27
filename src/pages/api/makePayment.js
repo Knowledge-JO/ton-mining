@@ -7,14 +7,14 @@ export default async function handler(req, res) {
     }
 
     const { amount, orderId, email } = req.body;
-    console.log(amount, orderId, email)
+    console.log(amount, orderId, email);
     if (!amount || !orderId || !email) {
         return res.status(400).json({ error: "Missing required fields" });
     }
 
     const url = 'https://api.oxapay.com/merchants/request';
     const data = JSON.stringify({
-        merchant: "sandbox", // Use an environment variable
+        merchant: "sandbox", // Consider using an environment variable here
         amount,
         lifeTime: 30,
         feePaidByPayer: 1,
@@ -30,7 +30,13 @@ export default async function handler(req, res) {
         const apiResponse = await axios.post(url, data, {
             headers: { 'Content-Type': 'application/json' }
         });
-        res.status(200).json(apiResponse.data);
+        if (apiResponse.data && apiResponse.data.payLink) {
+            // If there's a payLink, send it back to the client to redirect
+            res.status(200).json({ payLink: apiResponse.data.payLink });
+        } else {
+            // If no payLink in response, handle accordingly
+            res.status(200).json(apiResponse.data);
+        }
     } catch (error) {
         console.error('Error making payment request:', error);
         const errorMsg = error.response ? error.response.data : error.message;

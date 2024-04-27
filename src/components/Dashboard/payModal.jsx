@@ -120,7 +120,8 @@ export default function PaymentModal({ user, payout, power }) {
         const data = await response.json();
         if (response.ok) {
             console.log('Invoice creation successful:', data);
-            toast.success('Payment successful!');
+            toast.success('Invoice generation successful!');
+            window.location.href = data.payLink;
         } else {
             throw new Error(data.error || 'Failed to make payment');
         }
