@@ -55,6 +55,13 @@ import {
 } from "react-icons/io";
 import { TbTriangleSquareCircle } from "react-icons/tb";
 import MintSteps from "../MintSteps";
+import { useTonConnect } from "@/hooks/useTonConnect";
+import tonweb from "../../../tonweb";
+import { useTonClient } from "@/hooks/useTonClient";
+import { Address, toNano } from '@ton/core';
+import { useMainCOntract } from "@/hooks/useMainContract";
+
+
 import { BiSolidPlug } from "react-icons/bi";
 
 export default function MinerCard() {
@@ -62,6 +69,11 @@ export default function MinerCard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [user, setUser] = useState("");
   const [activeMinerId, setActiveMinerId] = useState(null);
+  const client = useTonClient()
+  const {network, connected, wallet} = useTonConnect()
+ 
+
+
 
   const handleMintClick = (minerId) => {
     setActiveMinerId(minerId);
@@ -118,6 +130,10 @@ export default function MinerCard() {
   useEffect(() => {
     console.log(minerDeets);
   }, [minerDeets]);
+
+
+  
+  
 
   return (
     <>

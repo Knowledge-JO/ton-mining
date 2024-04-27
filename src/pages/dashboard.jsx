@@ -16,7 +16,7 @@ import axios from "axios";
 import Miner from "./api/Controllers/miner";
 import DashScreen from "@/components/Dashboard/dashScreen";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, getDoc, doc } from "firebase/firestore";
+import { getFirestore, getDoc, doc, query, collection, where, getDocs } from "firebase/firestore";
 import { app } from "../../Firebase/firebase";
 import { useRouter } from "next/router";
 
@@ -28,6 +28,22 @@ export default function dashboard() {
  const router = useRouter()
 
  const { userId, amount, paymentSuccess } = router.query;
+
+ const existingMiner = async (userId, db)=>{
+  const minersQuery = query(collection(db, 'miners'), where('userId', '==', userId));
+  const querySnapshot = await getDocs(minersQuery);
+  if (!querySnapshot.empty) {
+    const minerData = querySnapshot.docs[0].data();
+    console.log('Miner data:', minerData);
+    const existingMiner = new Miner(minerData.userId, minerData.hashRate, minerData.cost);
+    // Optionally restore additional state
+    existingMiner.totalMinedToday = minerData.totalMinedToday;
+    existingMiner.miningStarted = minerData.miningStarted;
+    existingMiner.minerImage = minerData.minerImage;
+    existingMiner.startMining()
+    setMiner(existingMiner);
+  }
+ }
 
 
 useEffect(() => {
@@ -45,6 +61,8 @@ useEffect(() => {
            const userData = docSnap.data();
            console.log('User data:', userData);
            setUser({userId, ...userData});
+            // Assuming each user has only one miner
+            existingMiner(user.uid, db)
          } else {
            console.log('User document not found.');
          }
@@ -74,6 +92,7 @@ const startMining = (userId, hashRate, cost) => {
 useEffect(() => {
  if (paymentSuccess === 'true' && userId && amount) {
    const hashRate = amount/24
+   console.log("user Id from payment success",userId)
      startMining(userId, hashRate, amount);
  }
 }, [userId, amount, paymentSuccess]);

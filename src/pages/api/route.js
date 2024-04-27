@@ -14,7 +14,7 @@ export default async function handler(req, res) {
                     product_data: {
                         name: 'Miner Purchase',
                     },
-                    unit_amount: amount + 1.15 * 100, // Stripe requires amount in cents
+                    unit_amount: amount * 100, // Stripe requires amount in cents
                 },
                 quantity: 1,
             }],

@@ -11,13 +11,22 @@ import {
 import { FaChartPie } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Miner from "@/pages/api/Controllers/miner";
-import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getFirestore,
+  setDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { app } from "../../../Firebase/firebase";
 import { FaBitcoin } from "react-icons/fa6";
 import { LuBitcoin } from "react-icons/lu";
 
 export default function TopWidget({ miner, user }) {
   const [balance, setBalance] = useState(0);
+  const [numberOfMiners, setNumberOfMiners] = useState(0);
   console.log(`user deets from top widget`, user);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,6 +69,42 @@ export default function TopWidget({ miner, user }) {
     }
   }
 
+  const fetchNumberOfMiners = async (userId) => {
+    try {
+      const db = getFirestore(app);
+      const q = query(collection(db, "miners"), where("userId", "==", userId));
+      const querySnapshot = await getDocs(q);
+      setNumberOfMiners(querySnapshot.size); // Returns the number of documents found
+    } catch (error) {
+      console.error("Error fetching number of miners:", error);
+      return 0; // Return 0 in case of an error
+    }
+  };
+
+  useEffect(() => {
+    console.log("user form detch miner number", user?.userId);
+    fetchNumberOfMiners(user?.userId);
+  }, [user]);
+
+  const cardData = [
+    {
+      title: "Total Rewards",
+      text: balance ? parseFloat(balance).toFixed(10) : 0,
+    },
+    {
+      title: "Miners",
+      text: numberOfMiners, // Use the state variable here
+    },
+    {
+      title: "Power",
+      text: miner?.hashRate ? miner.hashRate : 1,
+    },
+    {
+      title: "Mean Efficiency",
+      text: "35 W/TH",
+    },
+    // Add more card data objects as needed
+  ];
   const cardData = [
     {
       title: "Total Rewards",

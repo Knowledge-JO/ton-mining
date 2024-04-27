@@ -52,12 +52,14 @@ import { loadStripe } from "@stripe/stripe-js";
 import CountrySelector from "./selectCountry";
 import { countryList } from "../countries";
 import { IoDiamond } from "react-icons/io5";
+import { v4 as uuidv4 } from 'uuid';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
 const handleCheckout = async (power, userId) => {
+  console.log(power, userId)
   const stripe = await stripePromise;
   const response = await fetch("/api/route", {
     method: "POST",
@@ -85,6 +87,8 @@ export default function PaymentModal({ user, payout, power }) {
 
   const [miner, setMiner] = useState(null);
   const [balance, setBalance] = useState(0);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(0);
+
 
   const handleStartMining = async (e) => {
     e.preventDefault();
@@ -100,6 +104,40 @@ export default function PaymentModal({ user, payout, power }) {
   const [showForm, setShowForm] = useState(false); // Initialize showForm state
   const handleRadioChange = () => {
     setShowForm((prevState) => !prevState);
+  };
+
+  const handleCrypto = async (power, user) => {
+    try {
+        const response = await fetch('/api/makePayment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                amount: power * 24, // Ensure power is defined and correct
+                orderId: uuidv4(),
+                email: user?.Email
+            })
+        });
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Invoice creation successful:', data);
+            toast.success('Invoice generation successful!');
+            window.location.href = data.payLink;
+        } else {
+            throw new Error(data.error || 'Failed to make payment');
+        }
+    } catch (error) {
+        console.error('Payment Error:', error);
+        toast.error(`Payment failed: ${error.message || 'Unknown error'}`);
+    }
+};
+
+
+  const handlePayment = async () => {
+    if (selectedPaymentMethod === 0) {
+      await handleCheckout(power, user?.userId);  // Assume this is already implemented
+    } else if (selectedPaymentMethod === 1) {
+      await handleCrypto(power, user);  // You need to implement this
+    }
   };
 
   return (
@@ -129,7 +167,8 @@ export default function PaymentModal({ user, payout, power }) {
                 The miner will belong to you permanently. You'll be able to mint
                 it to your wallet, upgrade it, and resell it anytime.
               </Text>
-              <Tabs isFitted variant="enclosed" textColor="white">
+              <Tabs isFitted variant="enclosed" textColor="white"
+              onChange={(index) => setSelectedPaymentMethod(index)}>
                 <TabList gap={1} mb={2} border={"none"}>
                   <Tab
                     bg="#3b49df"
@@ -407,7 +446,7 @@ export default function PaymentModal({ user, payout, power }) {
               _hover="inherit"
               textColor={"white"}
               mr={3}
-              onClick={() => handleCheckout(power, user.userId)}
+              onClick={handlePayment}
             >
               Pay
             </Button>
