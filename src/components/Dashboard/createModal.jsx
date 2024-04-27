@@ -79,7 +79,7 @@ export default function CModal({ user }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          bg={useColorModeValue("#8F6AFB", "#10062D")}
+          bg={useColorModeValue("#fff", "#10062D")}
           color={useColorModeValue("#10062D", "#fff")}
           border="2px solid"
           borderColor={useColorModeValue("#EDE8FC", "#301287")}
@@ -88,12 +88,13 @@ export default function CModal({ user }) {
           <ModalBody>
             <Stack>
               <Heading size={"sm"}>Computing power</Heading>
-              <ButtonGroup gap="4" variant={"outline"}>
+              <ButtonGroup gap="4" variant={"outline"} mb={4}>
                 <Button
                   value={1}
                   onClick={(e) => setpower(e.target.value)}
                   color={"#00D87D"}
                   border="1px solid #301287"
+                  fontSize={["12px", "initial"]}
                 >
                   1 TH
                 </Button>
@@ -102,6 +103,7 @@ export default function CModal({ user }) {
                   onClick={(e) => setpower(e.target.value)}
                   color={"#00D87D"}
                   border="1px solid #301287"
+                  fontSize={["12px", "initial"]}
                 >
                   10 TH
                 </Button>
@@ -110,6 +112,7 @@ export default function CModal({ user }) {
                   onClick={(e) => setpower(e.target.value)}
                   color={"#00D87D"}
                   border="1px solid #301287"
+                  fontSize={["12px", "initial"]}
                 >
                   100 TH
                 </Button>
@@ -119,14 +122,10 @@ export default function CModal({ user }) {
                   onChange={handleChange}
                   max={1000} // Set the maximum value for the NumberInput
                 >
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
+                  <NumberInputField placeholder={"Value"} p={"5px"} />
                 </NumberInput>
               </ButtonGroup>
-              <Stack>
+              {/* <Stack>
                 <Slider
                   color={"#00D87D"}
                   border="1px solid"
@@ -141,7 +140,7 @@ export default function CModal({ user }) {
                   </SliderTrack>
                   <SliderThumb fontSize="sm" boxSize="32px" children={value} />
                 </Slider>
-              </Stack>
+              </Stack> */}
               <Heading size={"sm"}>Rewards Calculation</Heading>
               <Tabs variant="enclosed" textColor="white">
                 <TabList gap={1} mb={2} border={"none"}>
@@ -171,11 +170,7 @@ export default function CModal({ user }) {
                     backgroundPosition="center"
                     rounded={"lg"}
                   >
-                    <TableContainer
-                      p={2}
-                      borderRadius={"lg"}
-                      bg={"rgba(59, 73, 223, 0.5)"}
-                    >
+                    <TableContainer p={2} borderRadius={"lg"}>
                       <Table variant="simple">
                         <Tbody>
                           <Tr>
@@ -226,12 +221,7 @@ export default function CModal({ user }) {
                         <ArrowForwardIcon />
                       </Link>
                     </Flex>
-                    <Stack
-                      bg={"gray.700"}
-                      border={"2px solid #301287"}
-                      rounded={"lg"}
-                      p={2}
-                    >
+                    <Stack border={"2px solid #301287"} rounded={"lg"} p={2}>
                       <Flex align={"center"} justify={"space-between"}>
                         <Text>Price per TH</Text>
                         <Text>$24</Text>

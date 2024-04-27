@@ -8,11 +8,9 @@ export default function DashScreen({ miner, user }) {
   return (
     <>
       <Stack
-        w={["100%", "100%", "85%", "85%"]}
+        w={["100%", "100%", "82%", "82%"]}
         bg={useColorModeValue("ffffff", "#10062D")}
         color={useColorModeValue("#10062D", "#fff")}
-        borderLeft="2px solid"
-        borderLeftColor={useColorModeValue("#EDE8FC", "#301287")}
         spacing={10}
         p={5}
       >
