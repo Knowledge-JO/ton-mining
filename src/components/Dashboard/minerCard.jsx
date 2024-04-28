@@ -186,7 +186,7 @@ export default function MinerCard() {
                       justify={"space-between"}
                       alignItems={"center"}
                     >
-                      <Text>#{miner?.minerId.slice(0, 7)}</Text>
+                      <Text>#{miner?.minerId}</Text>
                       <Menu>
                         <MenuButton
                           as={IconButton}

@@ -105,31 +105,67 @@ export default function PaymentModal({ user, payout, power }) {
   const handleRadioChange = () => {
     setShowForm((prevState) => !prevState);
   };
-
+  
   const handleCrypto = async (power, user) => {
-    try {
-        const response = await fetch('/api/makePayment', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                amount: power * 24, // Ensure power is defined and correct
-                orderId: uuidv4(),
-                email: user?.Email
-            })
-        });
-        const data = await response.json();
-        if (response.ok) {
-            console.log('Invoice creation successful:', data);
-            toast.success('Invoice generation successful!');
-            window.location.href = data.payLink;
-        } else {
-            throw new Error(data.error || 'Failed to make payment');
-        }
-    } catch (error) {
-        console.error('Payment Error:', error);
-        toast.error(`Payment failed: ${error.message || 'Unknown error'}`);
-    }
-};
+      if (power > 1) {
+          try {
+              // Calculate the amount with a 10% discount if power is greater than 1
+              const amount = power * 24 * 0.90; // 10% discount applied
+              const response = await fetch('/api/makePayment', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                      amount: amount, // Use the discounted amount here
+                      orderId: uuidv4(),
+                      email: user?.Email
+                  })
+              });
+              const data = await response.json();
+              if (response.ok) {
+                  console.log('Invoice creation successful:', data);
+                  toast.success('Invoice generation successful!');
+                  // Redirect to the payment link provided by the API
+                  window.location.href = data.payLink;
+              } else {
+                  // If the response is not OK, throw an error with the message returned by the server (if any)
+                  throw new Error(data.error || 'Failed to make payment');
+              }
+          } catch (error) {
+              // Catch any errors in the fetch operation or JSON parsing and display an error toast
+              console.error('Payment Error:', error);
+              toast.error(`Payment failed: ${error.message || 'Unknown error'}`);
+          }
+      } else {
+          // Calculate the amount without any discount if power is not greater than 1
+          const amount = power * 24;
+          try {
+              const response = await fetch('/api/makePayment', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                      amount: amount, // Use the regular amount here
+                      orderId: uuidv4(),
+                      email: user?.Email
+                  })
+              });
+              const data = await response.json();
+              if (response.ok) {
+                  console.log('Invoice creation successful:', data);
+                  toast.success('Invoice generation successful!');
+                  // Redirect to the payment link provided by the API
+                  window.location.href = data.payLink;
+              } else {
+                  // If the response is not OK, throw an error with the message returned by the server (if any)
+                  throw new Error(data.error || 'Failed to make payment');
+              }
+          } catch (error) {
+              // Catch any errors in the fetch operation or JSON parsing and display an error toast
+              console.error('Payment Error:', error);
+              toast.error(`Payment failed: ${error.message || 'Unknown error'}`);
+          }
+      }
+  };
+  
 
 
   const handlePayment = async () => {

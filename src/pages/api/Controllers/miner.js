@@ -3,9 +3,9 @@ import axios from 'axios';
 
 
 export default class Miner {
-  constructor(userId, hashRate, cost) {
+  constructor(userId, hashRate, cost, Image) {
     this.minerId = uuidv4();  // Generates a unique UUID for each miner
-    this.minerImage=`https://picsum.photos/seed/${this.minerId}/300/300`;
+    this.minerImage=Image;
     this.userId = userId;
     this.hashRate = hashRate;
     this.cost = cost;

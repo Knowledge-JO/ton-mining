@@ -23,6 +23,7 @@ import {
 import { app } from "../../../Firebase/firebase";
 import { FaBitcoin } from "react-icons/fa6";
 import { LuBitcoin } from "react-icons/lu";
+import { db } from "../../../Firebase/firebase";
 
 export default function TopWidget({ miner, user }) {
   const [balance, setBalance] = useState(0);
@@ -39,47 +40,45 @@ export default function TopWidget({ miner, user }) {
     return () => clearInterval(interval);
   }, [miner]);
 
-  useEffect(() => {
-    // Save miner details to database
-    const userId = user?.userId;
-    console.log(userId);
-    if (miner) {
-      saveToDatabase(miner, userId);
-    }
-  }, [balance, miner]);
+  // useEffect(() => {
+  //   // Save miner details to database
+  //   const userId = user?.userId;
+  //   console.log(userId);
+  //   if (miner) {
+  //     saveToDatabase(miner, userId);
+  //   }
+  // }, [balance, miner, user]);
 
-  async function saveToDatabase(miner, userId) {
+  async function fetchNumberOfMiners(userId) {
     try {
-      const db = getFirestore(app);
-      const minerRef = doc(db, "miners", userId);
-      await setDoc(minerRef, {
-        minerId: miner.minerId,
-        minerImage: miner.minerImage,
-        userId: miner.userId,
-        hashRate: miner.hashRate,
-        cost: miner.cost,
-        totalMinedToday: miner.totalMinedToday,
-        miningStarted: miner.miningStarted,
-        btcToUsd: miner.btcToUsd,
-      });
-
-      console.log("Miner details saved to database successfully.");
+        const q = query(collection(db, "miners"), where("minerId", "==", miner.minerId));
+        const querySnapshot = await getDocs(q);
+        setNumberOfMiners(querySnapshot.size);
     } catch (error) {
-      console.error("Error saving miner details:", error);
+        console.error("Error fetching number of miners:", error);
+        setNumberOfMiners(0);
     }
-  }
+}
 
-  const fetchNumberOfMiners = async (userId) => {
+async function saveToDatabase(miner, userId) {
     try {
-      const db = getFirestore(app);
-      const q = query(collection(db, "miners"), where("userId", "==", userId));
-      const querySnapshot = await getDocs(q);
-      setNumberOfMiners(querySnapshot.size); // Returns the number of documents found
+        const minerRef = doc(db, "miners", userId);
+        await setDoc(minerRef, {
+            minerId: miner.minerId,
+            minerImage: miner.minerImage,
+            userId: miner.userId,
+            hashRate: miner.hashRate,
+            cost: miner.cost,
+            totalMinedToday: miner.totalMinedToday,
+            miningStarted: miner.miningStarted,
+            btcToUsd: miner.btcToUsd,
+        });
+        console.log("Miner details saved to database successfully.");
     } catch (error) {
-      console.error("Error fetching number of miners:", error);
-      return 0; // Return 0 in case of an error
+        console.error("Error saving miner details:", error);
     }
-  };
+}
+
 
   useEffect(() => {
     console.log("user form detch miner number", user?.userId);

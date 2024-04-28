@@ -82,7 +82,7 @@ export default function Success() {
         if (session_id || trackId) {
             fetchData();
         }
-    }, [session_id, trackId, router, toast]);
+    }, [session_id, trackId, router, toast, user]);
 
     return (
         <Box textAlign="center" py={10} px={6}>

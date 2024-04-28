@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NextLink from "next/link";
 import {
   Box,
@@ -31,6 +31,7 @@ import { getDoc, getFirestore, doc, updateDoc } from "firebase/firestore";
 import { app } from "../../Firebase/firebase";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
+
 export default function Login() {
   const { colorMode, toggleColorMode } = useColorMode();
   const [show, setShow] = React.useState(false);
@@ -39,9 +40,12 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+
+
   const router = useRouter();
 
   const login = async (e) => {
+    
     e.preventDefault();
     setIsLoading(true);
     const auth = getAuth(app);
