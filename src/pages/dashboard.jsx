@@ -53,7 +53,7 @@ export default function dashboard() {
       // Optionally restore additional state
       existingMiner.totalMinedToday = minerData.totalMinedToday;
       existingMiner.miningStarted = minerData.miningStarted;
-      existingMiner.minerImage = minerData.minerImage;
+      existingMiner.minerImage = "url";
       existingMiner.startMining();
       setMiner(existingMiner);
     }

@@ -64,6 +64,8 @@ import {
   getDocs,
   setDoc,
   updateDoc,
+  arrayUnion,
+  increment,
 } from "firebase/firestore";
 import { app } from "../../../Firebase/firebase";
 import { useRouter } from "next/router";
@@ -124,15 +126,15 @@ export default function PaymentModal({ user, payout, power }) {
   const handleCrypto = async (power, user) => {
     if (power > 1) {
       const amount = power * 24 * 0.9; // 10% discount applied
-      await pay(amount);
+      await pay(amount, user);
     } else {
       // Calculate the amount without any discount if power is not greater than 1
       const amount = power * 24;
-      await pay(amount);
+      await pay(amount, user);
     }
   };
 
-  const pay = async (amount) => {
+  const pay = async (amount, user) => {
     try {
       const response = await fetch("/api/makePayment", {
         method: "POST",
@@ -163,26 +165,26 @@ export default function PaymentModal({ user, payout, power }) {
 
   async function fetchUnassignedImage() {
     const imagesRef = collection(db, "images");
-    const q = query(imagesRef, where("assignedTo", "==", null), limit(1));
+    const q = query(imagesRef, where("assignedTo", "==", null));
     const snapshot = await getDocs(q);
     if (snapshot.empty) {
       console.log("No unassigned images available.");
       return null;
     }
-    return snapshot.docs[0].data();
+    return { minerImage: snapshot.docs[0].data(), id: snapshot.docs[0].id };
   }
 
   // create miner on payment made
   const createMiner = async (power, cost) => {
-    const minerImage = await fetchUnassignedImage();
-    const miner = new Miner(user.userid, power, cost, minerImage.url);
+    const { minerImage, id } = await fetchUnassignedImage();
+    const miner = new Miner(user.userId, power, cost, minerImage.url);
     const minerId = miner.minerId;
     try {
       const minerRef = doc(db, "miners", user.userId);
       const docSnap = await getDoc(minerRef);
-      if (docSnap.exists()) {
+      if (!docSnap.exists()) {
         await setDoc(minerRef, {
-          minerId,
+          minerId: [minerId],
           minerImage: [minerImage.url],
           userId: user.userId,
           hashRate: power,
@@ -192,8 +194,17 @@ export default function PaymentModal({ user, payout, power }) {
           btcToUsd: 0,
         });
       } else {
-        await updateDoc(minerRef, {});
+        await updateDoc(minerRef, {
+          hashRate: increment(power),
+          minerId: arrayUnion(minerId),
+          minerImage: arrayUnion(minerImage.url),
+        });
       }
+
+      const imageRef = doc(db, "images", id);
+      await updateDoc(imageRef, {
+        assignedTo: user.userId,
+      });
 
       console.log("Miner details saved to database successfully.");
     } catch (error) {

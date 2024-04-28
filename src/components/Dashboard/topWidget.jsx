@@ -52,12 +52,10 @@ export default function TopWidget({ miner, user }) {
 
   async function fetchNumberOfMiners(userId) {
     try {
-      const q = query(
-        collection(db, "miners"),
-        where("minerId", "==", miner.minerId)
-      );
+      const q = query(collection(db, "miners"), where("userId", "==", userId));
       const querySnapshot = await getDocs(q);
-      setNumberOfMiners(querySnapshot.size);
+      const data = querySnapshot.docs[0].data();
+      setNumberOfMiners(data.minerId.length);
     } catch (error) {
       console.error("Error fetching number of miners:", error);
       setNumberOfMiners(0);
@@ -67,12 +65,7 @@ export default function TopWidget({ miner, user }) {
   async function saveToDatabase(miner, userId) {
     try {
       const minerRef = doc(db, "miners", userId);
-      await setDoc(minerRef, {
-        minerId: miner.minerId,
-        minerImage: miner.minerImage,
-        userId: miner.userId,
-        hashRate: miner.hashRate,
-        cost: miner.cost,
+      await updateDoc(minerRef, {
         totalMinedToday: miner.totalMinedToday,
         miningStarted: miner.miningStarted,
         btcToUsd: miner.btcToUsd,
@@ -82,26 +75,6 @@ export default function TopWidget({ miner, user }) {
       console.error("Error saving miner details:", error);
     }
   }
-
-  // async function updateTotalMined() {
-  //   try {
-  //     const q = query(
-  //       collection(db, "miners"),
-  //       where("userId", "==", user.userId)
-  //     );
-  //     const qs = await getDocs(q);
-  //     qs.forEach((doc) => {
-  //       const id = doc.id;
-  //       const data = doc.data();
-  //       const docRef = doc(db, "miners", id);
-  //       updateDoc(docRef,{
-
-  //       });
-  //     });
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
 
   useEffect(() => {
     console.log("user form detch miner number", user?.userId);
