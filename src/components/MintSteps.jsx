@@ -19,7 +19,7 @@ import { useState } from "react";
 import tonweb from "../../tonweb";
 import TonWeb from "tonweb";
 
-const MintSteps = ({ steps, activeStep, activeStepText, minerId, onClose }) => {
+const MintSteps = ({ steps, activeStep }) => {
   const [collectionAddress, setCollectionAddress] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [message, setMessage] = useState("");

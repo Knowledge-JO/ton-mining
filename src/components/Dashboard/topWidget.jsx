@@ -19,6 +19,7 @@ import {
   query,
   where,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { app } from "../../../Firebase/firebase";
 import { FaBitcoin } from "react-icons/fa6";
@@ -51,34 +52,56 @@ export default function TopWidget({ miner, user }) {
 
   async function fetchNumberOfMiners(userId) {
     try {
-        const q = query(collection(db, "miners"), where("minerId", "==", miner.minerId));
-        const querySnapshot = await getDocs(q);
-        setNumberOfMiners(querySnapshot.size);
+      const q = query(
+        collection(db, "miners"),
+        where("minerId", "==", miner.minerId)
+      );
+      const querySnapshot = await getDocs(q);
+      setNumberOfMiners(querySnapshot.size);
     } catch (error) {
-        console.error("Error fetching number of miners:", error);
-        setNumberOfMiners(0);
+      console.error("Error fetching number of miners:", error);
+      setNumberOfMiners(0);
     }
-}
+  }
 
-async function saveToDatabase(miner, userId) {
+  async function saveToDatabase(miner, userId) {
     try {
-        const minerRef = doc(db, "miners", userId);
-        await setDoc(minerRef, {
-            minerId: miner.minerId,
-            minerImage: miner.minerImage,
-            userId: miner.userId,
-            hashRate: miner.hashRate,
-            cost: miner.cost,
-            totalMinedToday: miner.totalMinedToday,
-            miningStarted: miner.miningStarted,
-            btcToUsd: miner.btcToUsd,
-        });
-        console.log("Miner details saved to database successfully.");
+      const minerRef = doc(db, "miners", userId);
+      await setDoc(minerRef, {
+        minerId: miner.minerId,
+        minerImage: miner.minerImage,
+        userId: miner.userId,
+        hashRate: miner.hashRate,
+        cost: miner.cost,
+        totalMinedToday: miner.totalMinedToday,
+        miningStarted: miner.miningStarted,
+        btcToUsd: miner.btcToUsd,
+      });
+      console.log("Miner details saved to database successfully.");
     } catch (error) {
-        console.error("Error saving miner details:", error);
+      console.error("Error saving miner details:", error);
     }
-}
+  }
 
+  // async function updateTotalMined() {
+  //   try {
+  //     const q = query(
+  //       collection(db, "miners"),
+  //       where("userId", "==", user.userId)
+  //     );
+  //     const qs = await getDocs(q);
+  //     qs.forEach((doc) => {
+  //       const id = doc.id;
+  //       const data = doc.data();
+  //       const docRef = doc(db, "miners", id);
+  //       updateDoc(docRef,{
+
+  //       });
+  //     });
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
 
   useEffect(() => {
     console.log("user form detch miner number", user?.userId);

@@ -16,107 +16,107 @@ import axios from "axios";
 import Miner from "./api/Controllers/miner";
 import DashScreen from "@/components/Dashboard/dashScreen";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, getDoc, doc, query, collection, where, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  getDoc,
+  doc,
+  query,
+  collection,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { app } from "../../Firebase/firebase";
 import { useRouter } from "next/router";
 import { db } from "../../Firebase/firebase";
 
-
-
 export default function dashboard() {
- // Define state to store user data
- const [user, setUser] = useState(null);
- const router = useRouter()
+  // Define state to store user data
+  const [user, setUser] = useState(null);
+  const router = useRouter();
 
- const { userId, amount, paymentSuccess } = router.query;
+  const { userId, amount, paymentSuccess } = router.query;
 
- const existingMiner = async (userId)=>{
-  const minersQuery = query(collection(db, 'miners'), where('userId', '==', userId));
-  const querySnapshot = await getDocs(minersQuery);
-  if (!querySnapshot.empty) {
-    const minerData = querySnapshot.docs[0].data();
-    console.log('Miner data:', minerData);
-    const existingMiner = new Miner(minerData.userId, minerData.hashRate, minerData.cost);
-    // Optionally restore additional state
-    existingMiner.totalMinedToday = minerData.totalMinedToday;
-    existingMiner.miningStarted = minerData.miningStarted;
-    existingMiner.minerImage = minerData.minerImage;
+  const existingMiner = async (userId) => {
+    const minersQuery = query(
+      collection(db, "miners"),
+      where("userId", "==", userId)
+    );
+    const querySnapshot = await getDocs(minersQuery);
+    if (!querySnapshot.empty) {
+      const minerData = querySnapshot.docs[0].data();
+      console.log("Miner data:", minerData);
+      const existingMiner = new Miner(
+        minerData.userId,
+        minerData.hashRate,
+        minerData.cost
+      );
+      // Optionally restore additional state
+      existingMiner.totalMinedToday = minerData.totalMinedToday;
+      existingMiner.miningStarted = minerData.miningStarted;
+      existingMiner.minerImage = minerData.minerImage;
+      existingMiner.startMining();
+      setMiner(existingMiner);
+    }
+  };
 
-    setMiner(existingMiner);
-  }
- }
+  useEffect(() => {
+    const auth = getAuth();
 
- async function fetchUnassignedImage() {
-  const imagesRef = collection(db, "images");
-  const q = query(imagesRef, where("assignedTo", "==", null), limit(1));
-  const snapshot = await getDocs(q);
-  if (snapshot.empty) {
-    console.log("No unassigned images available.");
-    return null;
-  }
-  return snapshot.docs[0];
-}
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user.uid);
+        const userId = user.uid;
+        const db = getFirestore(app);
+        const docRef = doc(db, "users", user.uid);
+        getDoc(docRef)
+          .then((docSnap) => {
+            if (docSnap.exists()) {
+              const userData = docSnap.data();
+              console.log("User data:", userData);
+              setUser({ userId, ...userData });
+              // Assuming each user has only one miner
+              existingMiner(userId);
+            } else {
+              console.log("User document not found.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching user data:", error.message);
+          });
+      } else {
+        setUser(null); // Set userdata to null when the user is not logged in
+        toast.error("please login");
+        router.push("/login");
+      }
+    });
 
+    return () => unsubscribe();
+  }, []);
 
+  const [miner, setMiner] = useState(null);
+  const [balance, setBalance] = useState(0);
 
-useEffect(() => {
- const auth = getAuth();
+  // this happens when a user creates a miner
+  const startMining = (userId, hashRate, cost) => {
+    const newMiner = new Miner(userId, hashRate, cost);
+    newMiner.startMining();
+    setMiner(newMiner);
+  };
 
- const unsubscribe = onAuthStateChanged(auth, (user) => {
-   if (user) {
-     console.log(user.uid);
-     const userId= user.uid
-     const db = getFirestore(app);
-     const docRef = doc(db, 'users', user.uid);
-     getDoc(docRef)
-       .then((docSnap) => {
-         if (docSnap.exists()) {
-           const userData = docSnap.data();
-           console.log('User data:', userData);
-           setUser({userId, ...userData});
-            // Assuming each user has only one miner
-            existingMiner()
-         } else {
-           console.log('User document not found.');
-         }
-       })
-       .catch((error) => {
-         console.error('Error fetching user data:', error.message);
-       });
-   } else {
-     setUser(null); // Set userdata to null when the user is not logged in
-     toast.error('please login');
-     router.push('/login');
-   }
- });
+  useEffect(() => {
+    if (paymentSuccess === "true" && userId && amount) {
+      const hashRate = amount / 24;
+      console.log("user Id from payment success", userId);
+      startMining(userId, hashRate, amount);
+    }
+  }, [userId, amount, paymentSuccess]);
 
- return () => unsubscribe();
-}, []);
-
-const [miner, setMiner] = useState(null);
-const [balance, setBalance] = useState(0);
-
-const startMining = (userId, hashRate, cost) => {
- const newMiner = new Miner(userId, hashRate, cost);
- newMiner.startMining();
- setMiner(newMiner);
-};
-
-useEffect(() => {
- if (paymentSuccess === 'true' && userId && amount) {
-   const hashRate = amount/24
-   console.log("user Id from payment success",userId)
-     startMining(userId, hashRate, amount);
- }
-}, [userId, amount, paymentSuccess]);
-
-const stopMining = () => {
- if (miner) {
-   miner.stopMining();
-   setMiner(null);
- }
-};
-
+  const stopMining = () => {
+    if (miner) {
+      miner.stopMining();
+      setMiner(null);
+    }
+  };
 
   return (
     <>
@@ -130,7 +130,7 @@ const stopMining = () => {
           {/* Sidebar Component */}
           <IndexSidebar />
           {/* Dashscreen Components */}
-          <DashScreen miner={miner} user={user}/>
+          <DashScreen miner={miner} user={user} />
         </Flex>
       </Box>
     </>

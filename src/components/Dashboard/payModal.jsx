@@ -52,14 +52,29 @@ import { loadStripe } from "@stripe/stripe-js";
 import CountrySelector from "./selectCountry";
 import { countryList } from "../countries";
 import { IoDiamond } from "react-icons/io5";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+
+import {
+  getFirestore,
+  getDoc,
+  doc,
+  query,
+  collection,
+  where,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
+import { app } from "../../../Firebase/firebase";
+import { useRouter } from "next/router";
+import { db } from "../../../Firebase/firebase";
+import Miner from "@/pages/api/Controllers/miner";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
 const handleCheckout = async (power, userId) => {
-  console.log(power, userId)
+  console.log(power, userId);
   // const stripe = await stripePromise;
   // const response = await fetch("/api/route", {
   //   method: "POST",
@@ -89,7 +104,6 @@ export default function PaymentModal({ user, payout, power }) {
   const [balance, setBalance] = useState(0);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(0);
 
-
   const handleStartMining = async (e) => {
     e.preventDefault();
 
@@ -105,74 +119,90 @@ export default function PaymentModal({ user, payout, power }) {
   const handleRadioChange = () => {
     setShowForm((prevState) => !prevState);
   };
-  
-  const handleCrypto = async (power, user) => {
-      if (power > 1) {
-          try {
-              // Calculate the amount with a 10% discount if power is greater than 1
-              const amount = power * 24 * 0.90; // 10% discount applied
-              const response = await fetch('/api/makePayment', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                      amount: amount, // Use the discounted amount here
-                      orderId: uuidv4(),
-                      email: user?.Email
-                  })
-              });
-              const data = await response.json();
-              if (response.ok) {
-                  console.log('Invoice creation successful:', data);
-                  toast.success('Invoice generation successful!');
-                  // Redirect to the payment link provided by the API
-                  window.location.href = data.payLink;
-              } else {
-                  // If the response is not OK, throw an error with the message returned by the server (if any)
-                  throw new Error(data.error || 'Failed to make payment');
-              }
-          } catch (error) {
-              // Catch any errors in the fetch operation or JSON parsing and display an error toast
-              console.error('Payment Error:', error);
-              toast.error(`Payment failed: ${error.message || 'Unknown error'}`);
-          }
-      } else {
-          // Calculate the amount without any discount if power is not greater than 1
-          const amount = power * 24;
-          try {
-              const response = await fetch('/api/makePayment', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                      amount: amount, // Use the regular amount here
-                      orderId: uuidv4(),
-                      email: user?.Email
-                  })
-              });
-              const data = await response.json();
-              if (response.ok) {
-                  console.log('Invoice creation successful:', data);
-                  toast.success('Invoice generation successful!');
-                  // Redirect to the payment link provided by the API
-                  window.location.href = data.payLink;
-              } else {
-                  // If the response is not OK, throw an error with the message returned by the server (if any)
-                  throw new Error(data.error || 'Failed to make payment');
-              }
-          } catch (error) {
-              // Catch any errors in the fetch operation or JSON parsing and display an error toast
-              console.error('Payment Error:', error);
-              toast.error(`Payment failed: ${error.message || 'Unknown error'}`);
-          }
-      }
-  };
-  
 
+  const handleCrypto = async (power, user) => {
+    if (power > 1) {
+      const amount = power * 24 * 0.9; // 10% discount applied
+      await pay(amount);
+    } else {
+      // Calculate the amount without any discount if power is not greater than 1
+      const amount = power * 24;
+      await pay(amount);
+    }
+  };
+
+  const pay = async (amount) => {
+    try {
+      const response = await fetch("/api/makePayment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: amount, // Use the regular amount here
+          orderId: uuidv4(),
+          email: user?.Email,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Invoice creation successful:", data);
+        await createMiner(power, 24); // can set cost later from create modal
+        toast.success("Invoice generation successful!");
+        // Redirect to the payment link provided by the API
+        window.location.href = data.payLink;
+      } else {
+        // If the response is not OK, throw an error with the message returned by the server (if any)
+        throw new Error(data.error || "Failed to make payment");
+      }
+    } catch (error) {
+      // Catch any errors in the fetch operation or JSON parsing and display an error toast
+      console.error("Payment Error:", error);
+      toast.error(`Payment failed: ${error.message || "Unknown error"}`);
+    }
+  };
+
+  async function fetchUnassignedImage() {
+    const imagesRef = collection(db, "images");
+    const q = query(imagesRef, where("assignedTo", "==", null), limit(1));
+    const snapshot = await getDocs(q);
+    if (snapshot.empty) {
+      console.log("No unassigned images available.");
+      return null;
+    }
+    return snapshot.docs[0].data();
+  }
+
+  // create miner on payment made
+  const createMiner = async (power, cost) => {
+    const minerImage = await fetchUnassignedImage();
+    const miner = new Miner(user.userid, power, cost, minerImage.url);
+    const minerId = miner.minerId;
+    try {
+      const minerRef = doc(db, "miners", user.userId);
+      const docSnap = await getDoc(minerRef);
+      if (docSnap.exists()) {
+        await setDoc(minerRef, {
+          minerId,
+          minerImage: minerImage.url,
+          userId: user.userId,
+          hashRate: power,
+          cost,
+          totalMinedToday: 0,
+          miningStarted: true,
+          btcToUsd: 0,
+        });
+      }
+
+      console.log("Miner details saved to database successfully.");
+    } catch (error) {
+      console.error("Error saving miner details:", error);
+    }
+  };
 
   const handlePayment = async () => {
     if (selectedPaymentMethod === 0) {
-      await handleCheckout(power, user?.userId);  // Assume this is already implemented
+      await handleCheckout(power, user?.userId); // Assume this is already implemented
     } else if (selectedPaymentMethod === 1) {
-      await handleCrypto(power, user);  // You need to implement this
+      await handleCrypto(power, user); // You need to implement this
     }
   };
 
@@ -203,8 +233,12 @@ export default function PaymentModal({ user, payout, power }) {
                 The miner will belong to you permanently. You'll be able to mint
                 it to your wallet, upgrade it, and resell it anytime.
               </Text>
-              <Tabs isFitted variant="enclosed" textColor="white"
-              onChange={(index) => setSelectedPaymentMethod(index)}>
+              <Tabs
+                isFitted
+                variant="enclosed"
+                textColor="white"
+                onChange={(index) => setSelectedPaymentMethod(index)}
+              >
                 <TabList gap={1} mb={2} border={"none"}>
                   <Tab
                     bg="#3b49df"
