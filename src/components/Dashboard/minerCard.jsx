@@ -60,6 +60,7 @@ import tonweb from "../../../tonweb";
 import { useTonClient } from "@/hooks/useTonClient";
 import { Address, toNano } from '@ton/core';
 import { useMainCOntract } from "@/hooks/useMainContract";
+import useMinerDetails from "@/hooks/useMinerDetails";
 
 
 import { BiSolidPlug } from "react-icons/bi";
@@ -71,6 +72,9 @@ export default function MinerCard() {
   const [activeMinerId, setActiveMinerId] = useState(null);
   const client = useTonClient()
   const {network, connected, wallet} = useTonConnect()
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
  
 
 
@@ -101,12 +105,11 @@ export default function MinerCard() {
     setIsOpen(true);
   };
 
-  async function getMinerDetailsByUserId(userId) {
-    if (!userId) {
-      console.error("No user ID provided");
-      return;
-    }
+  
+ 
 
+  const fetchMinerDetails = async (userId) => {
+    setLoading(true);
     const minersRef = collection(db, "miners");
     const q = query(minersRef, where("userId", "==", userId));
 
@@ -114,18 +117,34 @@ export default function MinerCard() {
       const querySnapshot = await getDocs(q);
       const miners = [];
       querySnapshot.forEach((doc) => {
-        miners.push({ id: doc.id, ...doc.data() });
+        // Assuming minerId and minerImage are arrays and have the same length
+        const data = doc.data();
+        data.minerId.forEach((id, index) => {
+          miners.push({
+            id: id,
+            minerImage: data.minerImage[index],
+            hashRate: data.hashRate,
+            cost: data.cost,
+            totalMinedToday: data.totalMinedToday,
+            miningStarted: data.miningStarted,
+            btcToUsd: data.btcToUsd
+          });
+        });
       });
-      setMinerDeets(miners); // Depending on your application's structure, you may want to return the data or use it otherwise
+      setMinerDeets(miners);
     } catch (error) {
       console.error("Error fetching miner details:", error);
+      setError(error);
+    } finally {
+      setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    console.log("user from useefec", user);
-    getMinerDetailsByUserId(user);
-  }, [user]);
+  };
+  
+useEffect(()=>{
+fetchMinerDetails(user)
+}, [user])
+ 
+ 
 
   useEffect(() => {
     console.log(minerDeets);
@@ -166,7 +185,7 @@ export default function MinerCard() {
             minerDeets.map((miner) => {
               return (
                 <Card
-                  key={miner.minerId}
+                  key={miner?.id}
                   border="2px solid #301287"
                   bg={"transparent"}
                   rounded={"2xl"}
@@ -186,7 +205,7 @@ export default function MinerCard() {
                       justify={"space-between"}
                       alignItems={"center"}
                     >
-                      <Text>#{miner?.minerId}</Text>
+                      <Text>#{miner?.id}</Text>
                       <Menu>
                         <MenuButton
                           as={IconButton}
