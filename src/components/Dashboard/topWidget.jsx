@@ -121,7 +121,11 @@ async function saveToDatabase(miner, userId) {
             borderColor={useColorModeValue("#EDE8FC", "#301287")}
             align={"center"}
             justify={"space-around"}
-            bg={useColorModeValue("ffffff", "#10062D")}
+            bg={
+              index == 0
+                ? useColorModeValue("#ffffff", "#301287")
+                : useColorModeValue("#ffffff", "#10062D")
+            }
             direction={"row"}
             px={6}
             py={4}
