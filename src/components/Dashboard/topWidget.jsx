@@ -32,7 +32,7 @@ export default function TopWidget({ miner, user }) {
   useEffect(() => {
     const interval = setInterval(() => {
       if (miner) {
-        const newBalance = miner.getCurrentBalance();
+        const newBalance = miner?.getCurrentBalance();
         setBalance(newBalance);
       }
     }, 1000);
@@ -40,14 +40,14 @@ export default function TopWidget({ miner, user }) {
     return () => clearInterval(interval);
   }, [miner]);
 
-  // useEffect(() => {
-  //   // Save miner details to database
-  //   const userId = user?.userId;
-  //   console.log(userId);
-  //   if (miner) {
-  //     saveToDatabase(miner, userId);
-  //   }
-  // }, [balance, miner, user]);
+  useEffect(() => {
+    // Save miner details to database
+    const userId = user?.userId;
+    console.log(userId);
+    if (miner) {
+      saveToDatabase(miner, userId);
+    }
+  }, [balance, miner, user]);
 
   async function fetchNumberOfMiners(userId) {
     try {
@@ -83,7 +83,7 @@ async function saveToDatabase(miner, userId) {
   useEffect(() => {
     console.log("user form detch miner number", user?.userId);
     fetchNumberOfMiners(user?.userId);
-  }, [user]);
+  }, [user, miner]);
 
   const cardData = [
     {

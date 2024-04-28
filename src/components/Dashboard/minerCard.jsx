@@ -191,7 +191,7 @@ export default function MinerCard() {
                         <MenuButton
                           as={IconButton}
                           icon={<IoMdMore />}
-                          variant="outline"
+                          variant="outline" 
                           aria-label="Options"
                         />
                         <MenuList>
