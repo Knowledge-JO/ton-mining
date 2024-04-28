@@ -43,7 +43,6 @@ export default function dashboard() {
     );
     const querySnapshot = await getDocs(minersQuery);
     if (!querySnapshot.empty) {
-      console.log(querySnapshot.docs[0].data())
       const minerData = querySnapshot.docs[0].data();
       console.log("Miner data:", minerData);
       const existingMiner = new Miner(
@@ -98,24 +97,10 @@ export default function dashboard() {
   const [balance, setBalance] = useState(0);
 
   // this happens when a user creates a miner
-  const startMining = async (userId, hashRate, cost) => {
-    const minersQuery = query(
-      collection(db, "miners"),
-      where("userId", "==", userId)
-    );
-    const querySnapshot = await getDocs(minersQuery);
-    if (!querySnapshot.empty) {
-      console.log(querySnapshot.docs[0].data())
-      const minerData = querySnapshot.docs[0].data();
-      console.log("Miner data:", minerData);
-      const newHashRate= parseInt(minerData.hashRate + hashRate)
-      const newMiner= new Miner(userId,newHashRate, cost);
-      setMiner(newMiner)
-    }else{
+  const startMining = (userId, hashRate, cost) => {
     const newMiner = new Miner(userId, hashRate, cost);
     newMiner.startMining();
     setMiner(newMiner);
-    }
   };
 
   useEffect(() => {
