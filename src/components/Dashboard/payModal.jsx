@@ -63,6 +63,7 @@ import {
   where,
   getDocs,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { app } from "../../../Firebase/firebase";
 import { useRouter } from "next/router";
@@ -182,7 +183,7 @@ export default function PaymentModal({ user, payout, power }) {
       if (docSnap.exists()) {
         await setDoc(minerRef, {
           minerId,
-          minerImage: minerImage.url,
+          minerImage: [minerImage.url],
           userId: user.userId,
           hashRate: power,
           cost,
@@ -190,6 +191,8 @@ export default function PaymentModal({ user, payout, power }) {
           miningStarted: true,
           btcToUsd: 0,
         });
+      } else {
+        await updateDoc(minerRef, {});
       }
 
       console.log("Miner details saved to database successfully.");

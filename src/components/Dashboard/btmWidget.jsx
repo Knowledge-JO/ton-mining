@@ -71,7 +71,7 @@ export default function BtmWidget() {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    <Tr
+                    {/* <Tr
                       borderBottom={"1px"}
                       borderColor={useColorModeValue("#fff", "#501EE1")}
                     >
@@ -127,7 +127,7 @@ export default function BtmWidget() {
                       <Td isNumeric>0.00000082</Td>
                       <Td isNumeric>18ihh9rs...3hcFPX1EF</Td>
                       <Td color={"#00D87D"}>Approved</Td>
-                    </Tr>
+                    </Tr> */}
                   </Tbody>
                   <Tfoot></Tfoot>
                 </Table>
