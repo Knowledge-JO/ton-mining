@@ -245,7 +245,7 @@ export default function CModal({ user }) {
           </ModalBody>
 
           <ModalFooter>
-            <PaymentModal user={user} payout={payout} power={power} />
+            <PaymentModal user={user} payout={payout} power={Number(power)} />
             {/* <Button
               bg="#3b49df"
               textColor={"white"}

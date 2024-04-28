@@ -34,7 +34,7 @@ export default function dashboard() {
   const [user, setUser] = useState(null);
   const router = useRouter();
 
-  const { userId, amount, paymentSuccess } = router.query;
+  // const { userId, amount, paymentSuccess } = router.query;
 
   const existingMiner = async (userId) => {
     const minersQuery = query(
@@ -96,28 +96,17 @@ export default function dashboard() {
   const [miner, setMiner] = useState(null);
   const [balance, setBalance] = useState(0);
 
-  // this happens when a user creates a miner
-  const startMining = (userId, hashRate, cost) => {
-    const newMiner = new Miner(userId, hashRate, cost);
-    newMiner.startMining();
-    setMiner(newMiner);
-  };
+  // const startMining = (userId, hashRate, cost) => {
+  //   const newMiner = new Miner(userId, hashRate, cost);
+  //   newMiner.startMining();
+  //   setMiner(newMiner);
+  // };
 
   useEffect(() => {
-    if (paymentSuccess === "true" && userId && amount) {
-      const hashRate = amount / 24;
-      console.log("user Id from payment success", userId);
-      existingMiner(userId)
-      startMining(userId, hashRate, amount);
-    }
-  }, [userId, amount, paymentSuccess]);
-
-  const stopMining = () => {
-    if (miner) {
-      miner.stopMining();
-      setMiner(null);
-    }
-  };
+    if (!user) return;
+    const userId = user.userId;
+    existingMiner(userId);
+  }, [user]);
 
   return (
     <>

@@ -67,7 +67,6 @@ export default function TopWidget({ miner, user }) {
       const minerRef = doc(db, "miners", userId);
       await updateDoc(minerRef, {
         totalMinedToday: miner.totalMinedToday,
-        hashRate: miner.hashRate,
         miningStarted: miner.miningStarted,
         btcToUsd: miner.btcToUsd,
       });
@@ -93,7 +92,7 @@ export default function TopWidget({ miner, user }) {
     },
     {
       title: "Power",
-      text: miner?.hashRate ? miner.hashRate : 0  ,
+      text: miner?.hashRate ? miner.hashRate : 0,
     },
     {
       title: "Mean Efficiency",

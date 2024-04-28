@@ -58,10 +58,9 @@ import MintSteps from "../MintSteps";
 import { useTonConnect } from "@/hooks/useTonConnect";
 import tonweb from "../../../tonweb";
 import { useTonClient } from "@/hooks/useTonClient";
-import { Address, toNano } from '@ton/core';
+import { Address, toNano } from "@ton/core";
 import { useMainCOntract } from "@/hooks/useMainContract";
 import useMinerDetails from "@/hooks/useMinerDetails";
-
 
 import { BiSolidPlug } from "react-icons/bi";
 
@@ -70,14 +69,10 @@ export default function MinerCard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [user, setUser] = useState("");
   const [activeMinerId, setActiveMinerId] = useState(null);
-  const client = useTonClient()
-  const {network, connected, wallet} = useTonConnect()
+  const client = useTonClient();
+  const { network, connected, wallet } = useTonConnect();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
- 
-
-
 
   const handleMintClick = (minerId) => {
     setActiveMinerId(minerId);
@@ -105,9 +100,6 @@ export default function MinerCard() {
     setIsOpen(true);
   };
 
-  
- 
-
   const fetchMinerDetails = async (userId) => {
     setLoading(true);
     const minersRef = collection(db, "miners");
@@ -127,7 +119,7 @@ export default function MinerCard() {
             cost: data.cost,
             totalMinedToday: data.totalMinedToday,
             miningStarted: data.miningStarted,
-            btcToUsd: data.btcToUsd
+            btcToUsd: data.btcToUsd,
           });
         });
       });
@@ -139,24 +131,18 @@ export default function MinerCard() {
       setLoading(false);
     }
   };
-  
-useEffect(()=>{
-fetchMinerDetails(user)
-}, [user])
- 
- 
+
+  useEffect(() => {
+    fetchMinerDetails(user);
+  }, [user]);
 
   useEffect(() => {
     console.log(minerDeets);
   }, [minerDeets]);
 
-
-  
-  
-
   return (
     <>
-      <Box p={5} h={"100vh"} bg={useColorModeValue("white", "#10062D")}>
+      <Box p={5} bg={useColorModeValue("white", "#10062D")}>
         <Flex pb={5} justify={"space-between"}>
           <Button
             border="2px solid"
@@ -210,7 +196,7 @@ fetchMinerDetails(user)
                         <MenuButton
                           as={IconButton}
                           icon={<IoMdMore />}
-                          variant="outline" 
+                          variant="outline"
                           aria-label="Options"
                         />
                         <MenuList>

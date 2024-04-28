@@ -55,11 +55,11 @@ export default function MidWidget() {
           </Flex>
           <Flex direction={{ base: "column", md: "row" }} h={400}>
             <Stat color="white">
-              <StatNumber>$15.6K</StatNumber>
+              <StatNumber>$0.0K</StatNumber>
               <StatLabel>Total Spent</StatLabel>
               <StatHelpText color={"#00D87D"}>
                 <StatArrow type="increase" />
-                +2.45%
+                +0.00%
               </StatHelpText>
             </Stat>
             <AreaExample />
