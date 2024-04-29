@@ -166,7 +166,11 @@ export default function MinerCard() {
           </Button>
         </Flex>
 
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 2, lg: 4 }} spacing={4}>
+        <SimpleGrid
+          columns={{ base: 1, sm: 2, md: 2, lg: 4 }}
+          spacing={4}
+          mb={"120px"}
+        >
           {minerDeets &&
             minerDeets.map((miner) => {
               return (

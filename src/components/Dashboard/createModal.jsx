@@ -153,7 +153,7 @@ export default function CModal({ user }) {
                   >
                     Annually
                   </Tab>
-                  <Tab
+                  {/* <Tab
                     bg="#3b49df"
                     rounded={"lg"}
                     border={"none"}
@@ -161,7 +161,7 @@ export default function CModal({ user }) {
                     w={100}
                   >
                     Daily
-                  </Tab>
+                  </Tab> */}
                 </TabList>
                 <TabPanels>
                   <TabPanel

@@ -498,19 +498,21 @@ export default function PaymentModal({ user, payout, power }) {
                     <Stack border={"2px solid #301287"} rounded={"lg"} p={2}>
                       <Flex align={"center"} justify={"space-between"}>
                         <Text>Price per TH</Text>
-                        <Text>$27.99</Text>
+                        <Text>$24</Text>
                       </Flex>
                       <Flex align={"center"} justify={"space-between"}>
                         <Text>Historical ROI</Text>
-                        <Text>58.72</Text>
+                        <Text>{72 * power}</Text>
                       </Flex>
-                      <Flex align={"center"} justify={"space-between"}>
+                      <Flex justify={"space-between"} mt={5}>
                         <Flex>
                           <Text>Total</Text>
                         </Flex>
                         <Stack align={"end"}>
-                          <Text>83.58</Text>
-                          <Text>29.14 USD</Text>
+                          <Text>
+                            {power > 1 ? 24 * 0.9 * power + 1.15 : 24 + 1.15}{" "}
+                            USD
+                          </Text>
                           <Text>Includes fee 1.15 USD</Text>
                         </Stack>
                       </Flex>
