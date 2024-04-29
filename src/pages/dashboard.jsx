@@ -54,7 +54,6 @@ export default function dashboard() {
       existingMiner.totalMinedToday = minerData.totalMinedToday;
       existingMiner.miningStarted = minerData.miningStarted;
       existingMiner.minerImage = "url";
-      existingMiner.lastUpdateTimestamp= minerData.lastUpdatedTime
       existingMiner.startMining();
       setMiner(existingMiner);
     }
