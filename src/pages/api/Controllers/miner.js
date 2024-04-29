@@ -1,11 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
-
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 export default class Miner {
-  constructor(userId, hashRate, cost, Image) {
-    this.minerId = uuidv4();  // Generates a unique UUID for each miner
-    this.minerImage=Image;
+  constructor(userId, hashRate, cost, Image, imageId) {
+    this.minerId = imageId; // Generates a unique UUID for each miner
+    this.minerImage = Image;
     this.userId = userId;
     this.hashRate = hashRate;
     this.cost = cost;
@@ -20,7 +19,7 @@ export default class Miner {
       const response = await axios.get(
         "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
       );
-      this.btcToUsd = response.data.bitcoin.usd;  // Also update the BTC price in the database
+      this.btcToUsd = response.data.bitcoin.usd; // Also update the BTC price in the database
     } catch (error) {
       console.error("Error fetching BTC price:", error.message);
     }
@@ -34,7 +33,7 @@ export default class Miner {
 
   stopMining() {
     this.miningStarted = false;
-     // Ensure the final state is saved when mining stops
+    // Ensure the final state is saved when mining stops
   }
 
   mine() {
@@ -51,10 +50,7 @@ export default class Miner {
     }, 1000);
   }
 
-
-
   getCurrentBalance() {
     return this.totalMinedToday;
   }
 }
-
