@@ -69,6 +69,7 @@ export default function TopWidget({ miner, user }) {
         totalMinedToday: miner.totalMinedToday,
         miningStarted: miner.miningStarted,
         btcToUsd: miner.btcToUsd,
+        lastUpdatedTime: miner.lastUpdateTimestamp
       });
       console.log("Miner details saved to database successfully.");
     } catch (error) {

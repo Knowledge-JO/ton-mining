@@ -70,7 +70,7 @@ export default function UpgradeModal({ user }) {
 
   useEffect(() => {
     console.log(power);
-    const payout = (power * 24 * 300) / 100;
+    const payout = (power * 35 * 300) / 100;
     setPayout(payout);
   }, [power]);
 
@@ -283,7 +283,7 @@ export default function UpgradeModal({ user }) {
                       <Stack border={"2px solid #301287"} rounded={"lg"} p={2}>
                         <Flex align={"center"} justify={"space-between"}>
                           <Text>Price per TH</Text>
-                          <Text>$24</Text>
+                          <Text>$35</Text>
                         </Flex>
                         <Flex align={"center"} justify={"space-between"}>
                           <Text>Historical ROI</Text>
@@ -291,7 +291,7 @@ export default function UpgradeModal({ user }) {
                         </Flex>
                         <Flex align={"center"} justify={"space-between"}>
                           <Text>Total</Text>
-                          <Text>${power * 24}</Text>
+                          <Text>${power * 35}</Text>
                         </Flex>
                       </Stack>
                     </TabPanel>

@@ -110,7 +110,7 @@ export default function PaymentModal({ user, payout, power }) {
   const handleStartMining = async (e) => {
     e.preventDefault();
 
-    const cost = power * 24;
+    const cost = power * 35;
     console.log(
       `the userId is ${user.userId}, with power ${power} which costs ${cost}`
     );
@@ -125,11 +125,11 @@ export default function PaymentModal({ user, payout, power }) {
 
   const handleCrypto = async (power, user) => {
     if (power > 1) {
-      const amount = power * 24 * 0.9; // 10% discount applied
+      const amount = power * 35 * 0.9; // 10% discount applied
       await pay(amount, user);
     } else {
       // Calculate the amount without any discount if power is not greater than 1
-      const amount = power * 24;
+      const amount = power * 35;
       await pay(amount, user);
     }
   };
@@ -166,9 +166,9 @@ export default function PaymentModal({ user, payout, power }) {
   };
 
   const handlePayment = async () => {
-    if (selectedPaymentMethod === 0) {
+    if (selectedPaymentMethod === 1) {
       await handleCheckout(power, user?.userId); // Assume this is already implemented
-    } else if (selectedPaymentMethod === 1) {
+    } else if (selectedPaymentMethod === 0) {
       await handleCrypto(power, user); // You need to implement this
     }
   };
@@ -207,15 +207,7 @@ export default function PaymentModal({ user, payout, power }) {
                 onChange={(index) => setSelectedPaymentMethod(index)}
               >
                 <TabList gap={1} mb={2} border={"none"}>
-                  <Tab
-                    bg="#3b49df"
-                    border={"none"}
-                    rounded={"lg"}
-                    textColor={"white"}
-                  >
-                    By Card
-                  </Tab>
-                  <Tab
+                <Tab
                     bg="#3b49df"
                     border={"none"}
                     rounded={"lg"}
@@ -223,116 +215,19 @@ export default function PaymentModal({ user, payout, power }) {
                   >
                     By Crypto
                   </Tab>
+
+                  <Tab isDisabled={true}
+                    bg="#3b49df"
+                    border={"none"}
+                    rounded={"lg"}
+                    textColor={"white"}
+                  >
+                    By Card
+                  </Tab>
+                 
                 </TabList>
                 <TabPanels bg="#200C5A" rounded={"lg"}>
-                  <TabPanel>
-                    {/* <FormControl p={3}>
-                      <FormLabel>Country/Region</FormLabel>
-                      <Select
-                        placeholder="Select country"
-                        textColor={"black"}
-                        bg={"gray.300"}
-                        className="w-fit"
-                      >
-                        {countryList.map((country) => (
-                          <option className="">{country}</option>
-                        ))}
-                      </Select>
-                    </FormControl> */}
-                    <CountrySelector />
-                    <Flex
-                      p={2}
-                      bg={"gray.400"}
-                      margin={2}
-                      rounded="lg"
-                      align={"center"}
-                    >
-                      <Text fontSize="xs">
-                        For more payment options select another country or
-                        region
-                      </Text>
-                    </Flex>
-
-                    <RadioGroup p={2} bg="gray.400" margin={2} rounded={"lg"}>
-                      <Radio isChecked={showForm} onChange={handleRadioChange}>
-                        <Flex align={"center"} gap={2}>
-                          <Box bg={"orange"} rounded={"full"} p={2}>
-                            {" "}
-                            <Icon
-                              boxSize={6}
-                              as={FaRegCreditCard}
-                              color={"yellow.50"}
-                            />
-                          </Box>
-                          <Stack>
-                            <Text>By Card</Text>
-                            <Flex
-                              align={"center"}
-                              justify="space-around"
-                              gap={1}
-                            >
-                              <Text fontSize={"10px"} as={"sub"}>
-                                USD
-                              </Text>
-                              <Icon
-                                as={FaCcVisa}
-                                fontSize="md"
-                                color={"yellow.50"}
-                                boxSize={5}
-                              />
-                              <Icon
-                                as={FaCcMastercard}
-                                fontSize="md"
-                                color={"yellow.50"}
-                                boxSize={5}
-                              />
-                            </Flex>
-                          </Stack>
-                        </Flex>
-                      </Radio>
-                    </RadioGroup>
-
-                    <Flex
-                      p={2}
-                      bg={"gray.400"}
-                      rounded="lg"
-                      align={"center"}
-                      justify={"center"}
-                      m={2}
-                    >
-                      <Text fontSize="10px">
-                        The payment will be processed by a third party. By
-                        paying, you agree to buy virtual Miners NFT and
-                        automatically add them to your collection.
-                      </Text>
-                    </Flex>
-                    <Stack
-                      margin={2}
-                      border={"2px solid #301287"}
-                      rounded={"lg"}
-                      p={2}
-                    >
-                      <Flex align={"center"} justify={"space-between"}>
-                        <Text>Price per TH</Text>
-                        <Text>$24</Text>
-                      </Flex>
-                      <Flex align={"center"} justify={"space-between"}>
-                        <Text>Historical ROI</Text>
-                        <Text>${payout}</Text>
-                      </Flex>
-                      <Flex justify={"space-between"}>
-                        <Text>Total</Text>
-                        <Stack align={"end"}>
-                          <Text>{power * 24 + 1.15}</Text>
-                          <Text>Includes fee 1.15 USD</Text>
-                        </Stack>
-                      </Flex>
-                      <Divider />
-                      <Flex>
-                        <Text>Promo code</Text>
-                      </Flex>
-                    </Stack>
-                  </TabPanel>
+                 
                   <TabPanel>
                     {/* <RadioGroup defaultValue="1">
                       <Stack>
@@ -443,11 +338,11 @@ export default function PaymentModal({ user, payout, power }) {
                     <Stack border={"2px solid #301287"} rounded={"lg"} p={2}>
                       <Flex align={"center"} justify={"space-between"}>
                         <Text>Price per TH</Text>
-                        <Text>$24</Text>
+                        <Text>$35</Text>
                       </Flex>
                       <Flex align={"center"} justify={"space-between"}>
                         <Text>Historical ROI</Text>
-                        <Text>{72 * power}</Text>
+                        <Text>88%</Text>
                       </Flex>
                       <Flex justify={"space-between"} mt={5}>
                         <Flex>
@@ -455,9 +350,118 @@ export default function PaymentModal({ user, payout, power }) {
                         </Flex>
                         <Stack align={"end"}>
                           <Text>
-                            {power > 1 ? 24 * 0.9 * power + 1.15 : 24 + 1.15}{" "}
+                            {power > 1 ? 35 * 0.9 * power + 1.15 : 35 + 1.15}{" "}
                             USD
                           </Text>
+                          <Text>Includes fee 1.15 USD</Text>
+                        </Stack>
+                      </Flex>
+                      <Divider />
+                      <Flex>
+                        <Text>Promo code</Text>
+                      </Flex>
+                    </Stack>
+                  </TabPanel>
+
+                  <TabPanel>
+                    {/* <FormControl p={3}>
+                      <FormLabel>Country/Region</FormLabel>
+                      <Select
+                        placeholder="Select country"
+                        textColor={"black"}
+                        bg={"gray.300"}
+                        className="w-fit"
+                      >
+                        {countryList.map((country) => (
+                          <option className="">{country}</option>
+                        ))}
+                      </Select>
+                    </FormControl> */}
+                    <CountrySelector />
+                    <Flex
+                      p={2}
+                      bg={"gray.400"}
+                      margin={2}
+                      rounded="lg"
+                      align={"center"}
+                    >
+                      <Text fontSize="xs">
+                        For more payment options select another country or
+                        region
+                      </Text>
+                    </Flex>
+
+                    <RadioGroup p={2} bg="gray.400" margin={2} rounded={"lg"}>
+                      <Radio isChecked={showForm} onChange={handleRadioChange}>
+                        <Flex align={"center"} gap={2}>
+                          <Box bg={"orange"} rounded={"full"} p={2}>
+                            {" "}
+                            <Icon
+                              boxSize={6}
+                              as={FaRegCreditCard}
+                              color={"yellow.50"}
+                            />
+                          </Box>
+                          <Stack>
+                            <Text>By Card</Text>
+                            <Flex
+                              align={"center"}
+                              justify="space-around"
+                              gap={1}
+                            >
+                              <Text fontSize={"10px"} as={"sub"}>
+                                USD
+                              </Text>
+                              <Icon
+                                as={FaCcVisa}
+                                fontSize="md"
+                                color={"yellow.50"}
+                                boxSize={5}
+                              />
+                              <Icon
+                                as={FaCcMastercard}
+                                fontSize="md"
+                                color={"yellow.50"}
+                                boxSize={5}
+                              />
+                            </Flex>
+                          </Stack>
+                        </Flex>
+                      </Radio>
+                    </RadioGroup>
+
+                    <Flex
+                      p={2}
+                      bg={"gray.400"}
+                      rounded="lg"
+                      align={"center"}
+                      justify={"center"}
+                      m={2}
+                    >
+                      <Text fontSize="10px">
+                        The payment will be processed by a third party. By
+                        paying, you agree to buy virtual Miners NFT and
+                        automatically add them to your collection.
+                      </Text>
+                    </Flex>
+                    <Stack
+                      margin={2}
+                      border={"2px solid #301287"}
+                      rounded={"lg"}
+                      p={2}
+                    >
+                      <Flex align={"center"} justify={"space-between"}>
+                        <Text>Price per TH</Text>
+                        <Text>$35</Text>
+                      </Flex>
+                      <Flex align={"center"} justify={"space-between"}>
+                        <Text>Historical ROI</Text>
+                        <Text>${payout}</Text>
+                      </Flex>
+                      <Flex justify={"space-between"}>
+                        <Text>Total</Text>
+                        <Stack align={"end"}>
+                          <Text>{power * 35 + 1.15}</Text>
                           <Text>Includes fee 1.15 USD</Text>
                         </Stack>
                       </Flex>

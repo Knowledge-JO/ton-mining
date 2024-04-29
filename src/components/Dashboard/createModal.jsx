@@ -54,10 +54,11 @@ export default function CModal({ user }) {
   const [power, setpower] = useState("");
   const [payout, setPayout] = useState(0);
   const [rate, setRate] = useState(0.83);
+  const [track, setTrack] = useState("Daily")
 
   useEffect(() => {
     console.log(power);
-    const payout = (power * 24 * rate) / 100;
+    const payout = (power * 35 * rate) / 100;
     setPayout(payout);
   }, [power, rate]);
 
@@ -68,6 +69,7 @@ export default function CModal({ user }) {
 
   const [value, setValue] = React.useState(0);
   const handleChange = (value) => setpower(value);
+
   return (
     <>
       <IconButton
@@ -149,7 +151,10 @@ export default function CModal({ user }) {
                     rounded={"lg"}
                     textColor={useColorModeValue("#200C5A", "#fff")}
                     w={100}
-                    onClick={() => setRate(0.83)}
+                    onClick={() => {
+                      setRate(0.83); 
+                      setTrack("Daily")
+                    }}
                   >
                     Daily
                   </Tab>
@@ -157,17 +162,20 @@ export default function CModal({ user }) {
                     rounded={"lg"}
                     textColor={useColorModeValue("#200C5A", "#fff")}
                     w={100}
-                    onClick={() => setRate(25)}
+                    onClick={() =>{
+                      setRate(25);
+                      setTrack("Monthly")
+                    } }
                   >
                     Monthly
                   </Tab>
                 </TabList>
                 <TabPanels>
                   <TabPanel rounded={"lg"}>
-                    <PayoutSummary power={power} payout={payout} />
+                    <PayoutSummary power={power} payout={payout} track={track} />
                   </TabPanel>
                   <TabPanel>
-                    <PayoutSummary power={power} payout={payout} />
+                    <PayoutSummary power={power} payout={payout} track={track} />
                   </TabPanel>
                 </TabPanels>
               </Tabs>
@@ -175,7 +183,7 @@ export default function CModal({ user }) {
           </ModalBody>
 
           <ModalFooter>
-            <PaymentModal user={user} payout={payout} power={Number(power)} />
+            <PaymentModal user={user} payout={payout} power={Number(power)}  />
             {/* <Button
               bg="#3b49df"
               textColor={"white"}
@@ -191,7 +199,7 @@ export default function CModal({ user }) {
   );
 }
 
-const PayoutSummary = ({ payout, power }) => {
+const PayoutSummary = ({ payout, power, track }) => {
   return (
     <>
       <TableContainer bg={"#200C5A"} p={2} pb={5} mb={3} borderRadius={"lg"}>
@@ -244,15 +252,15 @@ const PayoutSummary = ({ payout, power }) => {
       <Stack bg={"#200C5A"} border={"2px solid #301287"} rounded={"lg"} p={4}>
         <Flex align={"center"} justify={"space-between"}>
           <Text>Price per TH</Text>
-          <Text>$24</Text>
+          <Text>$35</Text>
         </Flex>
         <Flex align={"center"} justify={"space-between"}>
           <Text>Historical ROI</Text>
-          <Text>${payout}</Text>
+          <Text>{track && track =="Daily" ? "0.83% ": "25% "}</Text>
         </Flex>
         <Flex align={"center"} justify={"space-between"}>
           <Text>Total</Text>
-          <Text>${power * 24}</Text>
+          <Text>${power * 35}</Text>
         </Flex>
       </Stack>
     </>

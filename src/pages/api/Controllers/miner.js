@@ -37,17 +37,24 @@ export default class Miner {
   }
 
   mine() {
+    const dailyROI = 0.00241; // 0.241% daily ROI
+    const roiPerSecond = dailyROI / 86400; // divide daily ROI by number of seconds in a day
+
     const miningInterval = setInterval(() => {
       if (!this.miningStarted) {
         clearInterval(miningInterval);
+        return;
       }
 
       const currentTime = Date.now();
       const elapsedTime = (currentTime - this.lastUpdateTimestamp) / 1000; // Convert milliseconds to seconds
-      const minedPerSecond = (this.hashRate * elapsedTime) / 1000000000; // Assuming hashRate is in TH/s
-      this.totalMinedToday += minedPerSecond;
+
+      // Calculate earnings per second based on the elapsed time
+      this.totalMinedToday += this.cost * roiPerSecond * elapsedTime;
+
+      // Update last timestamp to current
       this.lastUpdateTimestamp = currentTime;
-    }, 1000);
+    }, 1000); // update every second
   }
 
   getCurrentBalance() {
