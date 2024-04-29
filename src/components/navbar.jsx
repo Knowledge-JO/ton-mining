@@ -39,6 +39,7 @@ import { signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 import useFirebaseUser from "../utils/useUser";
 
+
 export default function Navbar() {
   // Define state to store user data
   const { colorMode, toggleColorMode } = useColorMode();
@@ -54,6 +55,8 @@ export default function Navbar() {
     router.push("/login");
   };
 
+
+
   return (
     <Box
       py="2"
@@ -67,14 +70,14 @@ export default function Navbar() {
     >
       <Container>
         <HStack width="auto">
-          {/* <Flex w={"10%"}>
+          <Flex w={"20%"}>
             <Image
               alt="dev logo"
-              w={"auto"}
-              h={12}
-              src="https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
+              w={100}
+              // h={12}
+              src={colorMode == "light" ? './4.png': './3.png'}
             />
-          </Flex> */}
+          </Flex>
           <Flex w={"100%"} justify={"space-between"} gap={5}>
             <InputGroup>
               <InputLeftElement>
