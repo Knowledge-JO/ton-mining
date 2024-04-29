@@ -53,7 +53,7 @@ export default function CModal({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [power, setpower] = useState("");
   const [payout, setPayout] = useState(0);
-  const [rate, setRate] = useState(0.83);
+  const [rate, setRate] = useState(0.241);
   const [track, setTrack] = useState("Daily")
 
   useEffect(() => {
@@ -152,7 +152,7 @@ export default function CModal({ user }) {
                     textColor={useColorModeValue("#200C5A", "#fff")}
                     w={100}
                     onClick={() => {
-                      setRate(0.83); 
+                      setRate(0.241); 
                       setTrack("Daily")
                     }}
                   >
@@ -163,7 +163,7 @@ export default function CModal({ user }) {
                     textColor={useColorModeValue("#200C5A", "#fff")}
                     w={100}
                     onClick={() =>{
-                      setRate(25);
+                      setRate(7.333);
                       setTrack("Monthly")
                     } }
                   >
