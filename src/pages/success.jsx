@@ -57,20 +57,29 @@ export default function Success() {
             signal,
           });
           const sessionDetails = await res.json();
+          if (user && session_id) {
+            // For card payments
+            const res = await fetch("/api/retrieve", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ sessionId: session_id }),
+            });
+            const sessionDetails = await res.json();
 
-          if (res.ok) {
-            router.push(
-              `/dashboard?userId=${sessionDetails.userId}&amount=${sessionDetails.amount}&paymentSuccess=true`
-            );
-          } else {
-            toast(sessionDetails.message || "Error verifying payment.");
+            if (res.ok) {
+              router.push(
+                `/dashboard?userId=${sessionDetails.userId}&amount=${sessionDetails.amount}&paymentSuccess=true`
+              );
+            } else {
+              toast(sessionDetails.message || "Error verifying payment.");
+            }
           }
         } catch (e) {
           if (e.name == "AbortError") {
             console.log("successfully aborted");
           }
         }
-      } else if (trackId) {
+      } else if (user && trackId) {
         // For crypto payments
         try {
           const res = await fetch("/api/checkPay", {

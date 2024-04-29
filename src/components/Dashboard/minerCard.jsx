@@ -63,6 +63,7 @@ import { useMainCOntract } from "@/hooks/useMainContract";
 import useMinerDetails from "@/hooks/useMinerDetails";
 
 import { BiSolidPlug } from "react-icons/bi";
+import UpgradeModal from "./upgradeModal";
 
 export default function MinerCard() {
   const [minerDeets, setMinerDeets] = useState(null);
@@ -157,13 +158,14 @@ export default function MinerCard() {
             Filter
           </Button>
 
-          <Button
+          <UpgradeModal />
+          {/* <Button
             bg={useColorModeValue("#EDE8FC", "#301287")}
             color={useColorModeValue("#10062D", "#fff")}
             _hover={{ bg: "#301287" }}
           >
             Upgrade
-          </Button>
+          </Button> */}
         </Flex>
 
         <SimpleGrid
