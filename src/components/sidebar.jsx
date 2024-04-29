@@ -40,7 +40,7 @@ export default function IndexSidebar() {
           minH={"100vh"}
           align="start"
           justify={"center"}
-          bg={useColorModeValue("#ffffff", "#130736")}
+          bg={useColorModeValue("#F9F8FE", "#130736")}
           color={useColorModeValue("#10062D", "#fff")}
           p={5}
           zIndex={1}
