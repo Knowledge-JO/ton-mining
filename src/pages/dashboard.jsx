@@ -48,7 +48,7 @@ export default function dashboard() {
       const existingMiner = new Miner(
         minerData.userId,
         minerData.hashRate,
-        minerData.cost
+        minerData.cost,
       );
       // Optionally restore additional state
       existingMiner.totalMinedToday = minerData.totalMinedToday;

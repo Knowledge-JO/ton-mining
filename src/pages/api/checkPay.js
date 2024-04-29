@@ -66,20 +66,22 @@ async function fetchUnassignedImage() {
     console.log("No unassigned images available.");
     return null;
   }
-  return { minerImage: snapshot.docs[0].data(), id: snapshot.docs[0].id };
+  console.log(snapshot.docs[0].data() )
+  return { minerImage: snapshot.docs[0].data().url, id: snapshot.docs[0].id };
 }
 
 const createMiner = async (power, cost, userId) => {
   const { minerImage, id } = await fetchUnassignedImage();
-  const miner = new Miner(userId, power, cost, minerImage.url);
-  const minerId = miner.minerId;
+const minerId = parseInt(id.slice(0, id.indexOf('.')), 10);
+  const miner = new Miner(userId, power, cost, minerImage.url, minerId);
+ 
   try {
     const minerRef = doc(db, "miners", userId);
     const docSnap = await getDoc(minerRef);
     if (!docSnap.exists()) {
       await setDoc(minerRef, {
         minerId: [minerId],
-        minerImage: [minerImage.url],
+        minerImage: [minerImage],
         userId,
         hashRate: power,
         cost,
@@ -87,12 +89,12 @@ const createMiner = async (power, cost, userId) => {
         miningStarted: true,
         btcToUsd: 0,
       });
-      console.log("user info created");
+      console.log("user info created", );
     } else {
       await updateDoc(minerRef, {
         hashRate: increment(power),
         minerId: arrayUnion(minerId),
-        minerImage: arrayUnion(minerImage.url),
+        minerImage: arrayUnion(minerImage),
       });
       console.log("user info updated");
     }
