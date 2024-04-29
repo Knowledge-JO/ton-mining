@@ -113,13 +113,15 @@ export default function IndexSidebar() {
 
           <Menu isLazy>
             <MenuButton
-              bg={"#130736"}
+              bg={useColorModeValue("#fff", "#130736")}
               as={IconButton}
-              _hover={{ bg: "#130736" }}
+              _hover={{ bg: useColorModeValue("#fff", "#130736") }}
               icon={<HiDotsHorizontal />}
             />
             <MenuList>
-              <MenuItem>Referrals</MenuItem>
+              <MenuItem as={NextLink} href={"/referrals"}>
+                Referrals
+              </MenuItem>
             </MenuList>
           </Menu>
         </Flex>
