@@ -164,12 +164,7 @@ export default function CModal({ user }) {
                   </Tab> */}
                 </TabList>
                 <TabPanels>
-                  <TabPanel
-                    backgroundImage={`url(${Rec9.src})`}
-                    backgroundSize="cover"
-                    backgroundPosition="center"
-                    rounded={"lg"}
-                  >
+                  <TabPanel bg={"#200C5A"} rounded={"lg"}>
                     <TableContainer p={2} borderRadius={"lg"}>
                       <Table variant="simple">
                         <Tbody>

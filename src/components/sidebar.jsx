@@ -9,6 +9,11 @@ import {
   Icon,
   useColorModeValue,
   Tooltip,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { IoHome, IoPerson } from "react-icons/io5";
@@ -17,7 +22,8 @@ import { CiMoneyBill } from "react-icons/ci";
 import { MdGroups, MdSpaceDashboard, MdCollections } from "react-icons/md";
 import { GiMiner } from "react-icons/gi";
 import { useMediaQuery } from "@chakra-ui/react";
-import { IoMdWallet } from "react-icons/io";
+import { IoMdWallet, IoMdMore } from "react-icons/io";
+import { HiDotsHorizontal } from "react-icons/hi";
 
 export default function IndexSidebar() {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
@@ -86,7 +92,7 @@ export default function IndexSidebar() {
           justifyContent="space-around"
           zIndex={1}
         >
-          {navData.map((item, index) => (
+          {navData.slice(0, 4).map((item, index) => (
             <Tooltip
               label={`${index == 1 ? "Coming soon" : ""}`}
               hasArrow={index == 1 ? true : false}
@@ -104,6 +110,18 @@ export default function IndexSidebar() {
               </Flex>
             </Tooltip>
           ))}
+
+          <Menu isLazy>
+            <MenuButton
+              bg={"#130736"}
+              as={IconButton}
+              _hover={{ bg: "#130736" }}
+              icon={<HiDotsHorizontal />}
+            />
+            <MenuList>
+              <MenuItem>Referrals</MenuItem>
+            </MenuList>
+          </Menu>
         </Flex>
       )}
     </>

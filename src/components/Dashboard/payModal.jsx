@@ -224,13 +224,7 @@ export default function PaymentModal({ user, payout, power }) {
                     By Crypto
                   </Tab>
                 </TabList>
-                <TabPanels
-                  bg="#3b49df"
-                  backgroundImage={`url(${Rec9.src})`}
-                  backgroundSize="cover"
-                  backgroundPosition="center"
-                  rounded={"lg"}
-                >
+                <TabPanels bg="#200C5A" rounded={"lg"}>
                   <TabPanel>
                     {/* <FormControl p={3}>
                       <FormLabel>Country/Region</FormLabel>

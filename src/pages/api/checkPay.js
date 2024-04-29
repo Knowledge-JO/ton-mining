@@ -93,6 +93,7 @@ const createMiner = async (power, cost, userId) => {
         hashRate: increment(power),
         minerId: arrayUnion(minerId),
         minerImage: arrayUnion(minerImage.url),
+        cost: increment(Number(cost)),
       });
       console.log("user info updated");
     }
