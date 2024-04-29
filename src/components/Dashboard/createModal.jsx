@@ -208,7 +208,7 @@ const PayoutSummary = ({ payout, power, track }) => {
             <Tr>
               <Td fontSize="xs">POOL PAYOUT</Td>
               <Td isNumeric align="center">
-                {payout}
+                {payout.toFixed(4)}
                 <Icon boxSize={3} as={SiBitcoincash} color={"yellow.50"} />
               </Td>
             </Tr>
@@ -218,7 +218,7 @@ const PayoutSummary = ({ payout, power, track }) => {
                   <Text>NET REWARD</Text> <InfoOutlineIcon />
                 </Flex>
               </Td>
-              <Td isNumeric>${payout}</Td>
+              <Td isNumeric>${payout.toFixed(4)}</Td>
             </Tr>
           </Tbody>
         </Table>
