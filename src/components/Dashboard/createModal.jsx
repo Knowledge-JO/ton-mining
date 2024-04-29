@@ -256,7 +256,7 @@ const PayoutSummary = ({ payout, power, track }) => {
         </Flex>
         <Flex align={"center"} justify={"space-between"}>
           <Text>Historical ROI</Text>
-          <Text>{track && track =="Daily" ? "0.83% ": "25% "}</Text>
+          <Text>{track && track =="Daily" ? "0.241% ": "7.333% "}</Text>
         </Flex>
         <Flex align={"center"} justify={"space-between"}>
           <Text>Total</Text>
