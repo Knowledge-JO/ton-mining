@@ -45,7 +45,7 @@ export default function Success() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (session_id) {
+      if (user && session_id) {
         // For card payments
         const res = await fetch("/api/retrieve", {
           method: "POST",
@@ -61,7 +61,7 @@ export default function Success() {
         } else {
           toast(sessionDetails.message || "Error verifying payment.");
         }
-      } else if (trackId) {
+      } else if (user && trackId) {
         // For crypto payments
 
         const res = await fetch("/api/checkPay", {
@@ -92,7 +92,12 @@ export default function Success() {
     if (session_id || trackId) {
       fetchData();
     }
-  }, [session_id, trackId, router, toast, user]);
+  }, [session_id, trackId, user]);
+
+  useEffect(() => {
+    console.log('Component mounted');
+    return () => console.log('Component unmounted');
+  }, []);
 
   return (
     <Box textAlign="center" py={10} px={6}>
