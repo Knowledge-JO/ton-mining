@@ -48,13 +48,23 @@ export default function UpgradeModal({ user }) {
   const [showCard, setShowCard] = useState(false); // Add state for controlling card visibility
 
   const handleLinkClick = () => {
-    setShowCard(true); // Show the card when the link is clicked
+    setShowCard(!showCard); // Show the card when the link is clicked
   };
 
   const handleAddMinerClick = () => {
     setShowList(!showList); // Toggle the showList state
     setShowCard(false); // Reset the showCard state
   };
+  const resetState = () => {
+    setShowList(false);
+    setShowCard(false);
+  };
+
+  const handleModalClose = () => {
+    resetState();
+    onClose();
+  };
+
   const [power, setpower] = useState("");
   const [payout, setPayout] = useState(0);
 
@@ -82,7 +92,7 @@ export default function UpgradeModal({ user }) {
       >
         Upgrade
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={handleModalClose}>
         <ModalOverlay />
         <ModalContent
           textAlign={"center"}
@@ -167,8 +177,10 @@ export default function UpgradeModal({ user }) {
                 color={useColorModeValue("#10062D", "#fff")}
                 border="2px solid"
                 borderColor={useColorModeValue("#EDE8FC", "#301287")}
+                rounded="2xl"
+                mt={5}
               >
-                <Heading size={"sm"}>Computing power</Heading>
+                {/* <Heading size={"sm"}>Computing power</Heading> */}
                 <ButtonGroup gap="4" variant={"outline"} mb={4}>
                   <Button
                     value={1}
@@ -253,7 +265,8 @@ export default function UpgradeModal({ user }) {
                               <Td fontSize="xs">
                                 <Flex
                                   align={"center"}
-                                  justify={"space-between"}
+                                  justify={"start"}
+                                  gap={1}
                                 >
                                   <Text>NET REWARD</Text> <InfoOutlineIcon />
                                 </Flex>
@@ -266,29 +279,7 @@ export default function UpgradeModal({ user }) {
 
                       <Stack p={2} fontSize="xs">
                         <Text>Reward history</Text>
-                        {/* <Flex
-                        p={3}
-                        bg={"gray.400"}
-                        rounded="2xl"
-                        align={"center"}
-                        justify={"space-between"}
-                        gap={3}
-                      >
-                        <InfoOutlineIcon boxSize={4} />
-                        <Text fontSize={"9px"} color={"white"}>
-                          Bitcoin halving is expected around 21 April. Make sure
-                          you adjust your investment strategy.
-                        </Text>
-                      </Flex> */}
                       </Stack>
-
-                      <Flex p={2} align={"center"} justify="space-between">
-                        <Link>
-                          {" "}
-                          <Text>Miner traits</Text>
-                          <ArrowForwardIcon />
-                        </Link>
-                      </Flex>
                       <Stack border={"2px solid #301287"} rounded={"lg"} p={2}>
                         <Flex align={"center"} justify={"space-between"}>
                           <Text>Price per TH</Text>
@@ -315,7 +306,13 @@ export default function UpgradeModal({ user }) {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button
+              bg={useColorModeValue("#8F6AFB", "#3b49df")}
+              color="white"
+              _hover="inherit"
+              mr={3}
+              onClick={handleModalClose}
+            >
               Close
             </Button>
           </ModalFooter>
