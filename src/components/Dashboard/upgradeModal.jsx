@@ -20,10 +20,22 @@ import { BiSolidPlug } from "react-icons/bi";
 import { IoIosFlash } from "react-icons/io";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { Link } from "@chakra-ui/next-js";
+import CModal from "./createModal";
 
 export default function UpgradeModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showList, setShowList] = useState(false); // Initialize showForm state
+  const [showCard, setShowCard] = useState(false); // Add state for controlling card visibility
+
+  const handleLinkClick = () => {
+    setShowCard(true); // Show the card when the link is clicked
+  };
+
+  const handleAddMinerClick = () => {
+    setShowList(!showList); // Toggle the showList state
+    setShowCard(false); // Reset the showCard state
+  };
+
   return (
     <>
       <Button
@@ -36,7 +48,13 @@ export default function UpgradeModal() {
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent textAlign={"center"}>
+        <ModalContent
+          textAlign={"center"}
+          bg={useColorModeValue("#fff", "#10062D")}
+          color={useColorModeValue("#10062D", "#fff")}
+          border="2px solid"
+          borderColor={useColorModeValue("#EDE8FC", "#301287")}
+        >
           <ModalHeader>Upgrade your miner</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -45,7 +63,7 @@ export default function UpgradeModal() {
             </Text>
             <Button
               leftIcon={<IoIosAddCircleOutline />}
-              onClick={() => setShowList(!showList)}
+              onClick={handleAddMinerClick}
             >
               Add Miner
             </Button>
@@ -73,7 +91,9 @@ export default function UpgradeModal() {
                         color={"white.500"}
                         fontSize={["13px", "sm", "initial"]}
                       >
-                        <Link href="/">The miner Box #14401</Link>
+                        <Link href="#" onClick={handleLinkClick}>
+                          The miner Box #14401
+                        </Link>
                       </Text>
                       <HStack fontSize={["13px", "sm"]}>
                         <HStack gap={"5px"}>
@@ -104,6 +124,8 @@ export default function UpgradeModal() {
                 </Flex>
               </Box>
             )}
+            {showCard && <CModal />}{" "}
+            {/* Render the card component when showCard is true */}
           </ModalBody>
 
           <ModalFooter>
