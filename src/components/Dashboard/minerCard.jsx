@@ -141,6 +141,16 @@ export default function MinerCard() {
     console.log(minerDeets);
   }, [minerDeets]);
 
+  const {
+    isOpen: isUpgradeModalOpen,
+    onOpen: onOpenUpgradeModal,
+    onClose: onCloseUpgradeModal,
+  } = useDisclosure();
+
+  const handleUpgradeClick = () => {
+    onOpenUpgradeModal();
+  };
+
   return (
     <>
       <Box p={5} bg={useColorModeValue("white", "#10062D")}>
@@ -158,14 +168,11 @@ export default function MinerCard() {
             Filter
           </Button>
 
-          <UpgradeModal />
-          {/* <Button
-            bg={useColorModeValue("#EDE8FC", "#301287")}
-            color={useColorModeValue("#10062D", "#fff")}
-            _hover={{ bg: "#301287" }}
-          >
-            Upgrade
-          </Button> */}
+          <UpgradeModal
+            isOpen={isUpgradeModalOpen}
+            onClose={onCloseUpgradeModal}
+            user={user}
+          />
         </Flex>
 
         <SimpleGrid
@@ -206,7 +213,10 @@ export default function MinerCard() {
                           aria-label="Options"
                         />
                         <MenuList>
-                          <MenuItem icon={<TbTriangleSquareCircle />}>
+                          <MenuItem
+                            icon={<TbTriangleSquareCircle />}
+                            onClick={handleUpgradeClick}
+                          >
                             Upgrade
                           </MenuItem>
                           <MenuItem
