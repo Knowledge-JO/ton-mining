@@ -88,7 +88,6 @@ const createMiner = async (power, cost, userId) => {
         totalMinedToday: 0,
         miningStarted: true,
         btcToUsd: 0,
-        lastUpdatedTime: miner.lastUpdateTimestamp
       });
       console.log("user info created", );
     } else {
