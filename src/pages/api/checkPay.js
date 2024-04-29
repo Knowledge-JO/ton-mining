@@ -74,27 +74,35 @@ const createMiner = async (power, cost, userId) => {
   const { minerImage, id } = await fetchUnassignedImage();
   const imageId = parseInt(id.slice(0, id.indexOf(".")), 10);
   const miner = new Miner(userId, power, cost, minerImage.url, imageId);
-  const minerId = miner.minerId;
+  const minerId = parseInt(miner.minerId, 10);
   try {
+    
     const minerRef = doc(db, "miners", userId);
     const docSnap = await getDoc(minerRef);
     if (!docSnap.exists()) {
+      console.log("minerId:", minerId);
+console.log("minerImage URL:", minerImage);
+
       await setDoc(minerRef, {
         minerId: [minerId],
         minerImage: [minerImage],
         userId,
-        hashRate: power,
-        cost,
+        hashRate: Number(power), // Ensure this is a number.
+        cost: Number(cost),
         totalMinedToday: 0,
         miningStarted: true,
         btcToUsd: 0,
       });
       console.log("user info created", );
     } else {
+      console.log("minerId:", minerId);
+
+console.log("minerImage URL:", minerImage);
+console.log("Updating with:", minerId, minerImage, power, cost);
       await updateDoc(minerRef, {
-        hashRate: increment(power),
+        hashRate: increment(Number(power)),
         minerId: arrayUnion(minerId),
-        minerImage: arrayUnion(minerImage.url),
+        minerImage: arrayUnion(minerImage),
         cost: increment(Number(cost)),
       });
       console.log("user info updated");
