@@ -5,22 +5,23 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { TonConnectUIProvider } from '@tonconnect/ui-react';
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 
-const manifestUrl = 'https://raw.githubusercontent.com/Knowledge-JO/ton-mining/main/public/manifest.json';
+const manifestUrl =
+  "https://raw.githubusercontent.com/Knowledge-JO/ton-mining/main/public/manifest.json";
 
 export default function App({ Component, pageProps }) {
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
-    <ChakraProvider theme={theme}>
-      <ColorModeProvider>
-        <Component {...pageProps} />
-        <ToastContainer />
-      </ColorModeProvider>
-    </ChakraProvider>
+      <ChakraProvider theme={theme}>
+        <ColorModeProvider>
+          <Component {...pageProps} />
+          <ToastContainer />
+        </ColorModeProvider>
+      </ChakraProvider>
     </TonConnectUIProvider>
   );
 }

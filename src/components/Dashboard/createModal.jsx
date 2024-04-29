@@ -53,12 +53,13 @@ export default function CModal({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [power, setpower] = useState("");
   const [payout, setPayout] = useState(0);
+  const [rate, setRate] = useState(300);
 
   useEffect(() => {
     console.log(power);
-    const payout = (power * 24 * 300) / 100;
+    const payout = (power * 24 * rate) / 100;
     setPayout(payout);
-  }, [power]);
+  }, [power, rate]);
 
   console.log(user);
 
@@ -142,97 +143,33 @@ export default function CModal({ user }) {
                 </Slider>
               </Stack> */}
               <Heading size={"sm"}>Rewards Calculation</Heading>
-              <Tabs variant="enclosed" textColor="white">
+              <Tabs variant="line" textColor="white">
                 <TabList gap={1} mb={2} border={"none"}>
                   <Tab
-                    bg="#3b49df"
                     rounded={"lg"}
                     border={"none"}
                     textColor="white"
                     w={100}
+                    onClick={() => setRate(300)}
                   >
                     Annually
                   </Tab>
-                  {/* <Tab
-                    bg="#3b49df"
+                  <Tab
                     rounded={"lg"}
                     border={"none"}
                     textColor="white"
                     w={100}
+                    onClick={() => setRate(25)}
                   >
                     Daily
-                  </Tab> */}
+                  </Tab>
                 </TabList>
                 <TabPanels>
                   <TabPanel bg={"#200C5A"} rounded={"lg"}>
-                    <TableContainer p={2} borderRadius={"lg"}>
-                      <Table variant="simple">
-                        <Tbody>
-                          <Tr>
-                            <Td fontSize="xs">POOL PAYOUT</Td>
-                            <Td isNumeric align="center">
-                              {payout}
-                              <Icon
-                                boxSize={3}
-                                as={SiBitcoincash}
-                                color={"yellow.50"}
-                              />
-                            </Td>
-                          </Tr>
-                          <Tr>
-                            <Td fontSize="xs">
-                              <Flex align={"center"} justify={"space-between"}>
-                                <Text>NET REWARD</Text> <InfoOutlineIcon />
-                              </Flex>
-                            </Td>
-                            <Td isNumeric>${payout}</Td>
-                          </Tr>
-                        </Tbody>
-                      </Table>
-                    </TableContainer>
-
-                    <Stack p={2} fontSize="xs">
-                      <Text>Reward history</Text>
-                      {/* <Flex
-                        p={3}
-                        bg={"gray.400"}
-                        rounded="2xl"
-                        align={"center"}
-                        justify={"space-between"}
-                        gap={3}
-                      >
-                        <InfoOutlineIcon boxSize={4} />
-                        <Text fontSize={"9px"} color={"white"}>
-                          Bitcoin halving is expected around 21 April. Make sure
-                          you adjust your investment strategy.
-                        </Text>
-                      </Flex> */}
-                    </Stack>
-
-                    <Flex p={2} align={"center"} justify="space-between">
-                      <Link>
-                        {" "}
-                        <Text>Miner traits</Text>
-                        <ArrowForwardIcon />
-                      </Link>
-                    </Flex>
-                    <Stack border={"2px solid #301287"} rounded={"lg"} p={2}>
-                      <Flex align={"center"} justify={"space-between"}>
-                        <Text>Price per TH</Text>
-                        <Text>$24</Text>
-                      </Flex>
-                      <Flex align={"center"} justify={"space-between"}>
-                        <Text>Historical ROI</Text>
-                        <Text>${payout}</Text>
-                      </Flex>
-                      <Flex align={"center"} justify={"space-between"}>
-                        <Text>Total</Text>
-                        <Text>${power * 24}</Text>
-                      </Flex>
-                    </Stack>
+                    <PayoutSummary power={power} payout={payout} />
                   </TabPanel>
                   <TabPanel>
-                    <p>two!</p>
+                    <PayoutSummary power={power} payout={payout} />
                   </TabPanel>
                 </TabPanels>
               </Tabs>
@@ -255,3 +192,71 @@ export default function CModal({ user }) {
     </>
   );
 }
+
+const PayoutSummary = ({ payout, power }) => {
+  return (
+    <>
+      <TableContainer p={2} borderRadius={"lg"}>
+        <Table variant="simple">
+          <Tbody>
+            <Tr>
+              <Td fontSize="xs">POOL PAYOUT</Td>
+              <Td isNumeric align="center">
+                {payout}
+                <Icon boxSize={3} as={SiBitcoincash} color={"yellow.50"} />
+              </Td>
+            </Tr>
+            <Tr>
+              <Td fontSize="xs">
+                <Flex align={"center"} gap={1}>
+                  <Text>NET REWARD</Text> <InfoOutlineIcon />
+                </Flex>
+              </Td>
+              <Td isNumeric>${payout}</Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      </TableContainer>
+
+      <Stack p={2} fontSize="xs">
+        <Text>Reward history</Text>
+        {/* <Flex
+                        p={3}
+                        bg={"gray.400"}
+                        rounded="2xl"
+                        align={"center"}
+                        justify={"space-between"}
+                        gap={3}
+                      >
+                        <InfoOutlineIcon boxSize={4} />
+                        <Text fontSize={"9px"} color={"white"}>
+                          Bitcoin halving is expected around 21 April. Make sure
+                          you adjust your investment strategy.
+                        </Text>
+                      </Flex> */}
+      </Stack>
+
+      <Flex p={2} align={"center"} justify="space-between">
+        <Link>
+          {" "}
+          <Text>Miner traits</Text>
+          <ArrowForwardIcon />
+        </Link>
+      </Flex>
+      <Stack border={"2px solid #301287"} rounded={"lg"} p={2}>
+        <Flex align={"center"} justify={"space-between"}>
+          <Text>Price per TH</Text>
+          <Text>$24</Text>
+        </Flex>
+        <Flex align={"center"} justify={"space-between"}>
+          <Text>Historical ROI</Text>
+          <Text>${payout}</Text>
+        </Flex>
+        <Flex align={"center"} justify={"space-between"}>
+          <Text>Total</Text>
+          <Text>${power * 24}</Text>
+        </Flex>
+      </Stack>
+    </>
+  );
+};
