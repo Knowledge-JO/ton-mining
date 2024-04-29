@@ -44,47 +44,62 @@ export default function Success() {
   }, []);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     const fetchData = async () => {
       if (session_id) {
-        // For card payments
-        const res = await fetch("/api/retrieve", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId: session_id }),
-        });
-        const sessionDetails = await res.json();
+        try {
+          // For card payments
+          const res = await fetch("/api/retrieve", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sessionId: session_id }),
+            signal,
+          });
+          const sessionDetails = await res.json();
 
-        if (res.ok) {
-          router.push(
-            `/dashboard?userId=${sessionDetails.userId}&amount=${sessionDetails.amount}&paymentSuccess=true`
-          );
-        } else {
-          toast(sessionDetails.message || "Error verifying payment.");
+          if (res.ok) {
+            router.push(
+              `/dashboard?userId=${sessionDetails.userId}&amount=${sessionDetails.amount}&paymentSuccess=true`
+            );
+          } else {
+            toast(sessionDetails.message || "Error verifying payment.");
+          }
+        } catch (e) {
+          if (e.name == "AbortError") {
+            console.log("successfully aborted");
+          }
         }
       } else if (trackId) {
         // For crypto payments
+        try {
+          const res = await fetch("/api/checkPay", {
+            // Assuming you have a separate API for crypto
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              trackId: trackId,
+              power,
+              userId,
+              amount,
+            }),
+            signal,
+          });
+          const cryptoDetails = await res.json();
+          console.log(cryptoDetails);
 
-        const res = await fetch("/api/checkPay", {
-          // Assuming you have a separate API for crypto
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            trackId: trackId,
-            power,
-            userId,
-            amount,
-          }),
-        });
-        const cryptoDetails = await res.json();
-        console.log(cryptoDetails);
-
-        if (cryptoDetails.status == "Paid") {
-          // Handle success, potentially redirecting or updating UI
-          router.push(
-            `/dashboard?&amount=${cryptoDetails.amount}&email=${cryptoDetails.email}&paymentSuccess=true&userId=${user?.userId}`
-          );
-        } else {
-          toast(cryptoDetails.message || "Error verifying crypto payment.");
+          if (cryptoDetails.status == "Paid") {
+            // Handle success, potentially redirecting or updating UI
+            router.push(
+              `/dashboard?&amount=${cryptoDetails.amount}&email=${cryptoDetails.email}&paymentSuccess=true&userId=${user?.userId}`
+            );
+          } else {
+            toast(cryptoDetails.message || "Error verifying crypto payment.");
+          }
+        } catch (e) {
+          if (e.name == "AbortError") {
+            console.log("successfully aborted");
+          }
         }
       }
     };
@@ -92,6 +107,10 @@ export default function Success() {
     if (session_id || trackId) {
       fetchData();
     }
+
+    return () => {
+      controller.abort();
+    };
   }, [session_id, trackId, router, toast, user]);
 
   return (
