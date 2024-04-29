@@ -45,13 +45,6 @@ export default function BtmWidget() {
                   {card.text}
                 </Text>
               </Flex>
-              <Box bg={"#fff"} rounded="full" p={1}>
-                <Icon
-                  boxSize={8}
-                  color={useColorModeValue("#8F6AFB", "#501EE1")}
-                  as={FaChartPie}
-                />
-              </Box>
             </Flex>
 
             <Stack color={"white"}>

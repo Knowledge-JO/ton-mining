@@ -165,55 +165,6 @@ export default function PaymentModal({ user, payout, power }) {
     }
   };
 
-  // async function fetchUnassignedImage() {
-  //   const imagesRef = collection(db, "images");
-  //   const q = query(imagesRef, where("assignedTo", "==", null));
-  //   const snapshot = await getDocs(q);
-  //   if (snapshot.empty) {
-  //     console.log("No unassigned images available.");
-  //     return null;
-  //   }
-  //   return { minerImage: snapshot.docs[0].data(), id: snapshot.docs[0].id };
-  // }
-
-  // create miner on payment made
-  // const createMiner = async (power, cost) => {
-  //   const { minerImage, id } = await fetchUnassignedImage();
-  //   const miner = new Miner(user.userId, power, cost, minerImage.url);
-  //   const minerId = miner.minerId;
-  //   try {
-  //     const minerRef = doc(db, "miners", user.userId);
-  //     const docSnap = await getDoc(minerRef);
-  //     if (!docSnap.exists()) {
-  //       await setDoc(minerRef, {
-  //         minerId: [minerId],
-  //         minerImage: [minerImage.url],
-  //         userId: user.userId,
-  //         hashRate: power,
-  //         cost,
-  //         totalMinedToday: 0,
-  //         miningStarted: true,
-  //         btcToUsd: 0,
-  //       });
-  //     } else {
-  //       await updateDoc(minerRef, {
-  //         hashRate: increment(power),
-  //         minerId: arrayUnion(minerId),
-  //         minerImage: arrayUnion(minerImage.url),
-  //       });
-  //     }
-
-  //     const imageRef = doc(db, "images", id);
-  //     await updateDoc(imageRef, {
-  //       assignedTo: user.userId,
-  //     });
-
-  //     console.log("Miner details saved to database successfully.");
-  //   } catch (error) {
-  //     console.error("Error saving miner details:", error);
-  //   }
-  // };
-
   const handlePayment = async () => {
     if (selectedPaymentMethod === 0) {
       await handleCheckout(power, user?.userId); // Assume this is already implemented
@@ -273,13 +224,7 @@ export default function PaymentModal({ user, payout, power }) {
                     By Crypto
                   </Tab>
                 </TabList>
-                <TabPanels
-                  bg="#3b49df"
-                  backgroundImage={`url(${Rec9.src})`}
-                  backgroundSize="cover"
-                  backgroundPosition="center"
-                  rounded={"lg"}
-                >
+                <TabPanels bg="#200C5A" rounded={"lg"}>
                   <TabPanel>
                     {/* <FormControl p={3}>
                       <FormLabel>Country/Region</FormLabel>

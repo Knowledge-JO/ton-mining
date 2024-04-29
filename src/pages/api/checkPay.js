@@ -42,7 +42,7 @@ export default async function handler(req, res) {
       // Send the response back to the client
       console.log("check", response.config.data);
       if (response.data.status == "Paid") {
-        await createMiner(power, amount, userId);
+        await createMiner(Number(power), amount, userId);
       }
       res.status(200).json(response.data);
     } catch (error) {
@@ -72,9 +72,9 @@ async function fetchUnassignedImage() {
 
 const createMiner = async (power, cost, userId) => {
   const { minerImage, id } = await fetchUnassignedImage();
-const minerId = parseInt(id.slice(0, id.indexOf('.')), 10);
-  const miner = new Miner(userId, power, cost, minerImage.url, minerId);
- 
+  const imageId = parseInt(id.slice(0, id.indexOf(".")), 10);
+  const miner = new Miner(userId, power, cost, minerImage.url, imageId);
+  const minerId = miner.minerId;
   try {
     const minerRef = doc(db, "miners", userId);
     const docSnap = await getDoc(minerRef);
@@ -94,7 +94,8 @@ const minerId = parseInt(id.slice(0, id.indexOf('.')), 10);
       await updateDoc(minerRef, {
         hashRate: increment(power),
         minerId: arrayUnion(minerId),
-        minerImage: arrayUnion(minerImage),
+        minerImage: arrayUnion(minerImage.url),
+        cost: increment(Number(cost)),
       });
       console.log("user info updated");
     }

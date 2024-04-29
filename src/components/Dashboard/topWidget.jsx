@@ -8,7 +8,7 @@ import {
   Flex,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { FaChartPie } from "react-icons/fa";
+import { FaChartPie, FaDollarSign } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Miner from "@/pages/api/Controllers/miner";
 import {
@@ -144,7 +144,7 @@ export default function TopWidget({ miner, user }) {
                   align={"center"}
                   justify={"center"}
                 >
-                  <Icon boxSize={5} color={"#fff"} as={LuBitcoin} />
+                  <Icon boxSize={5} color={"#fff"} as={FaDollarSign} />
                 </Flex>
               </Flex>
             ) : (

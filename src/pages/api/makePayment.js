@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     lifeTime: 30,
     feePaidByPayer: 1,
     underPaidCover: 0,
-    callbackUrl: `${req.headers.origin}/success?userId=${userId}&amount=${amount}&power=${power}`,
+    callbackUrl: `${req.headers.origin}/success`,
     returnUrl: `${req.headers.origin}/success?userId=${userId}&amount=${amount}&power=${power}`,
     description: "Miner payment",
     orderId,
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
     });
     if (apiResponse.data && apiResponse.data.payLink) {
       // If there's a payLink, send it back to the client to redirect
-
+      console.log("from make payment", apiResponse.data);
       res.status(200).json({ payLink: apiResponse.data.payLink });
     } else {
       // If no payLink in response, handle accordingly
