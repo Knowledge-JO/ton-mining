@@ -76,7 +76,7 @@ export default function Navbar() {
             />
           </Flex>
           <Flex w={"100%"} justify={"space-between"} gap={5}>
-            <InputGroup display={{ base: "none" }}>
+            <InputGroup>
               <InputLeftElement>
                 <FaSearch />
               </InputLeftElement>
