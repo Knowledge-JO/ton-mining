@@ -143,12 +143,11 @@ export default function CModal({ user }) {
                 </Slider>
               </Stack> */}
               <Heading size={"sm"}>Rewards Calculation</Heading>
-              <Tabs variant="line" textColor="white">
-                <TabList gap={1} mb={2} border={"none"}>
+              <Tabs variant="line" textColor="#fff">
+                <TabList gap={1} border={"none"}>
                   <Tab
                     rounded={"lg"}
-                    border={"none"}
-                    textColor="white"
+                    textColor={useColorModeValue("#200C5A", "#fff")}
                     w={100}
                     onClick={() => setRate(0.83)}
                   >
@@ -156,8 +155,7 @@ export default function CModal({ user }) {
                   </Tab>
                   <Tab
                     rounded={"lg"}
-                    border={"none"}
-                    textColor="white"
+                    textColor={useColorModeValue("#200C5A", "#fff")}
                     w={100}
                     onClick={() => setRate(25)}
                   >
@@ -165,7 +163,7 @@ export default function CModal({ user }) {
                   </Tab>
                 </TabList>
                 <TabPanels>
-                  <TabPanel bg={"#200C5A"} rounded={"lg"}>
+                  <TabPanel rounded={"lg"}>
                     <PayoutSummary power={power} payout={payout} />
                   </TabPanel>
                   <TabPanel>
@@ -196,7 +194,7 @@ export default function CModal({ user }) {
 const PayoutSummary = ({ payout, power }) => {
   return (
     <>
-      <TableContainer p={2} borderRadius={"lg"}>
+      <TableContainer bg={"#200C5A"} p={2} pb={5} mb={3} borderRadius={"lg"}>
         <Table variant="simple">
           <Tbody>
             <Tr>
@@ -218,9 +216,9 @@ const PayoutSummary = ({ payout, power }) => {
         </Table>
       </TableContainer>
 
-      <Stack p={2} fontSize="xs">
+      {/* <Stack p={2} fontSize="xs">
         <Text>Reward history</Text>
-        {/* <Flex
+        <Flex
                         p={3}
                         bg={"gray.400"}
                         rounded="2xl"
@@ -233,17 +231,17 @@ const PayoutSummary = ({ payout, power }) => {
                           Bitcoin halving is expected around 21 April. Make sure
                           you adjust your investment strategy.
                         </Text>
-                      </Flex> */}
-      </Stack>
+                      </Flex>
+      </Stack> */}
 
-      <Flex p={2} align={"center"} justify="space-between">
+      {/* <Flex p={2} align={"center"} justify="space-between">
         <Link>
           {" "}
           <Text>Miner traits</Text>
           <ArrowForwardIcon />
         </Link>
-      </Flex>
-      <Stack border={"2px solid #301287"} rounded={"lg"} p={2}>
+      </Flex> */}
+      <Stack bg={"#200C5A"} border={"2px solid #301287"} rounded={"lg"} p={4}>
         <Flex align={"center"} justify={"space-between"}>
           <Text>Price per TH</Text>
           <Text>$24</Text>
