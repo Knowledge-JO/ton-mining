@@ -219,9 +219,7 @@ export default function MinerCard() {
                           >
                             Upgrade
                           </MenuItem>
-                          <MenuItem
-                            onClick={() => handleMintClick(miner.minerId)}
-                          >
+                          <MenuItem onClick={() => handleMintClick(miner.id)}>
                             Mint
                           </MenuItem>
                           <MenuItem>View details</MenuItem>
@@ -240,6 +238,7 @@ export default function MinerCard() {
         isOpen={isOpen}
         onClose={onClose}
         activeMinerId={activeMinerId}
+        key={activeMinerId}
       />
     </>
   );
@@ -375,12 +374,12 @@ const networks = [
   { name: "Ton", symbol: "TON" },
 ];
 
-const Steps = ({ activeStep }) => {
+const Steps = ({ activeStep, activeMinerId }) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
     <Box>
-      {activeStep + 1 == 1 && <Step1 />}
+      {activeStep + 1 == 1 && <Step1 key={activeMinerId} />}
       {activeStep + 1 == 2 &&
         networks.map((network, index) => (
           <Step2

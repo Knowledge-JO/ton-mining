@@ -53,7 +53,7 @@ export default function CModal({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [power, setpower] = useState("");
   const [payout, setPayout] = useState(0);
-  const [rate, setRate] = useState(300);
+  const [rate, setRate] = useState(0.83);
 
   useEffect(() => {
     console.log(power);
@@ -150,9 +150,9 @@ export default function CModal({ user }) {
                     border={"none"}
                     textColor="white"
                     w={100}
-                    onClick={() => setRate(300)}
+                    onClick={() => setRate(0.83)}
                   >
-                    Annually
+                    Daily
                   </Tab>
                   <Tab
                     rounded={"lg"}
@@ -161,7 +161,7 @@ export default function CModal({ user }) {
                     w={100}
                     onClick={() => setRate(25)}
                   >
-                    Daily
+                    Monthly
                   </Tab>
                 </TabList>
                 <TabPanels>
