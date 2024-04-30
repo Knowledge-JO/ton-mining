@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
   const url = "https://api.oxapay.com/merchants/request";
   const data = JSON.stringify({
-    merchant: "5STW6B-36DZ6P-R0FGXV-AHWLED", // Consider using an environment variable here
+    merchant:process.env.OXAPAY_API_KEY, // Consider using an environment variable here
     amount,
     lifeTime: 30,
     feePaidByPayer: 1,
