@@ -27,9 +27,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
+  const merchantApiKey = process.env.OXAPAY_API_KEY; //process.env.OXAPAY_API_KEY | "sandbox" for developement;
+
   const url = "https://api.oxapay.com/merchants/request";
   const data = JSON.stringify({
-    merchant: "sandbox", //process.env.OXAPAY_API_KEY Consider using an environment variable here
+    merchant: merchantApiKey, //Consider using an environment variable here
     amount,
     lifeTime: 30,
     feePaidByPayer: 1,
@@ -59,7 +61,7 @@ export default async function handler(req, res) {
         const url = "https://api.oxapay.com/merchants/inquiry";
 
         const data = JSON.stringify({
-          merchant: "sandbox",
+          merchant: merchantApiKey,
           trackId: apiResponse.data.trackId,
           power,
           amount,

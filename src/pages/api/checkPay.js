@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     const { trackId, power, amount, userId } = req.body; // Extract data from the request body
 
     // You should have the merchant API key in environment variables for security
-    const merchantApiKey = "sandbox"; //process.env.OXAPAY_API_KEY;
+    const merchantApiKey = process.env.OXAPAY_API_KEY; //process.env.OXAPAY_API_KEY;
     const url = "https://api.oxapay.com/merchants/inquiry";
 
     const data = JSON.stringify({
