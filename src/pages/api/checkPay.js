@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       // Send the response back to the client
       console.log("check", response.config.data);
       if (response.data.status == "Paid") {
-        await createMiner(Number(power), amount, userId);
+        console.log("Paid, Hurray!!");
       }
       res.status(200).json(response.data);
     } catch (error) {
