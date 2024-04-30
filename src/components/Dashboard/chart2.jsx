@@ -75,7 +75,7 @@ export default class Example extends PureComponent {
             bottom: 5,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="1 1" />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
@@ -157,11 +157,11 @@ export class AreaExample extends PureComponent {
             bottom: 5,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="1" />
           <XAxis dataKey="name" />
           <YAxis />
-          <Tooltip />
-          <Area
+          {/* <Tooltip /> */}
+          {/* <Area
             type="monotone"
             dataKey="uv"
             stackId="1"
@@ -181,7 +181,7 @@ export class AreaExample extends PureComponent {
             stackId="1"
             stroke="#ffc658"
             fill="#ffc658"
-          />
+          /> */}
         </AreaChart>
       </ResponsiveContainer>
     );

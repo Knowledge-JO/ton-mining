@@ -66,17 +66,21 @@ export default function Navbar() {
       width="100%"
     >
       <Container>
-        <HStack width="auto">
-          {/* <Flex w={"10%"}>
+        <Flex width="auto" h={50} justify={"space-between"} align={"center"}>
+          <Box w={"40%"}>
             <Image
               alt="dev logo"
-              w={"auto"}
-              h={12}
-              src="https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
+              w={100}
+              // h={12}
+              src={colorMode == "light" ? "./4.png" : "./3.png"}
             />
-          </Flex> */}
-          <Flex w={"100%"} justify={"space-between"} gap={5}>
-            <InputGroup>
+          </Box>
+          <Flex
+            w={["50%", "100%"]}
+            justify={["right", "space-between"]}
+            gap={5}
+          >
+            <InputGroup display={["none", "block"]}>
               <InputLeftElement>
                 <FaSearch />
               </InputLeftElement>
@@ -168,7 +172,7 @@ export default function Navbar() {
               </Menu>
             </HStack>
           </Flex>
-        </HStack>
+        </Flex>
       </Container>
     </Box>
   );
