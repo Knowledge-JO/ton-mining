@@ -39,25 +39,32 @@ import { IoIosFlash } from "react-icons/io";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { SiBitcoincash } from "react-icons/si";
 import { ArrowForwardIcon, InfoOutlineIcon } from "@chakra-ui/icons";
-// import { Link } from "@chakra-ui/next-js";
 import CModal from "./createModal";
 
 export default function UpgradeModal({ user, minerDeets }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [showList, setShowList] = useState(false); // Initialize showForm state
+  const [showList, setShowList] = useState(false);
   const [showCard, setShowCard] = useState(false); // Add state for controlling card visibility
-
-  const handleLinkClick = () => {
-    setShowCard(!showCard); // Show the card when the link is clicked
-  };
+  const [selectedMiner, setSelectedMiner] = useState(null);
 
   const handleAddMinerClick = () => {
-    setShowList(!showList); // Toggle the showList state
-    setShowCard(false); // Reset the showCard state
+    setShowList((prevShowList) => !prevShowList);
   };
+
+  const handleMinerClick = (miner) => {
+    setSelectedMiner(miner);
+    setShowCard(true);
+    setShowList(false); // Hide the miner list after selection
+    // Reset the previously selected miner
+    // if (selectedMiner && selectedMiner.id !== miner.id) {
+    //   setSelectedMiner(null);
+    // }
+  };
+
   const resetState = () => {
     setShowList(false);
     setShowCard(false);
+    setSelectedMiner(null);
   };
 
   const handleModalClose = () => {
@@ -74,7 +81,7 @@ export default function UpgradeModal({ user, minerDeets }) {
     setPayout(payout);
   }, [power]);
 
-  console.log("miner deets from ugrademodal", minerDeets)
+  console.log("miner deets from ugrademodal", minerDeets);
 
   console.log(user);
 
@@ -114,127 +121,201 @@ export default function UpgradeModal({ user, minerDeets }) {
               onClick={handleAddMinerClick}
               mb={5}
             >
-              Add Miner
+              {showList ? "Hide Miners" : "Add Miner"}
             </Button>
-            {showList && minerDeets && minerDeets.map((miner)=>{
-              return (
+            {showList && (
               <Box
-                bg={useColorModeValue("gray.100", "rgba(0,0,0,0.2)")}
-                px={[3, 5]}
-                py={3}
-                rounded={"20px"}
+                maxHeight="200px"
+                overflowY="scroll"
+                css={{
+                  "&::-webkit-scrollbar": {
+                    width: "8px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    backgroundColor: "transparent",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: "rgba(0, 0, 0, 0.2)",
+                    borderRadius: "4px",
+                  },
+                }}
               >
-                <Flex justify={"space-between"} align={"center"}>
-                  <HStack>
-                    <Image
-                      src={
-                        miner.minerImage
+                {minerDeets &&
+                  minerDeets.map((miner) => (
+                    <Box
+                      key={miner.id}
+                      bg={useColorModeValue("gray.100", "rgba(0,0,0,0.2)")}
+                      px={[3, 5]}
+                      py={3}
+                      rounded={"20px"}
+                      mb={3}
+                      cursor="pointer"
+                      onClick={() => handleMinerClick(miner)}
+                      display={
+                        selectedMiner && selectedMiner.id === miner.id
+                          ? "none"
+                          : "block"
                       }
-                      width={[45, 35, 50]}
-                      height={[45, 35, 50]}
-                      rounded={"lg"}
-                    />
-
-                    <Box>
-                      {" "}
-                      <Text
-                        color={"white.500"}
-                        fontSize={["13px", "sm", "initial"]}
-                      >
-                        <Link href="#" onClick={handleLinkClick}>
-                          The miner Box #{miner.id}
-                        </Link>
-                      </Text>
-                      <HStack fontSize={["13px", "sm"]}>
-                        <HStack gap={"5px"}>
-                          <Box
-                            p={"1px"}
-                            bg={"green.400"}
-                            rounded={"full"}
-                            color={"#fff"}
-                          >
-                            <IoIosFlash />
-                          </Box>
-                          <Text>{miner.hashRate} TH</Text>
-                        </HStack>
-                        <HStack ml={"5px"} gap={"5px"}>
-                          <Box
-                            p={"1px"}
-                            bg={"yellow.400"}
-                            rounded={"full"}
-                            color={"#fff"}
-                          >
-                            <BiSolidPlug />
-                          </Box>
-                          <Text>35 W/TH</Text>
-                        </HStack>
-                      </HStack>
-                    </Box>
-                  </HStack>
-                </Flex>
-              </Box>
-            )
-          })}
-            {showCard && (
-              <Stack
-                bg={useColorModeValue("#fff", "#10062D")}
-                color={useColorModeValue("#10062D", "#fff")}
-                border="2px solid"
-                borderColor={useColorModeValue("#EDE8FC", "#301287")}
-                rounded="2xl"
-                mt={5}
-              >
-                {/* <Heading size={"sm"}>Computing power</Heading> */}
-                <ButtonGroup gap="4" variant={"outline"} mb={4}>
-                  <Button
-                    value={1}
-                    onClick={(e) => setpower(e.target.value)}
-                    color={"#00D87D"}
-                    border="1px solid #301287"
-                    fontSize={["12px", "initial"]}
-                  >
-                    1 TH
-                  </Button>
-                  <Button
-                    value={10}
-                    onClick={(e) => setpower(e.target.value)}
-                    color={"#00D87D"}
-                    border="1px solid #301287"
-                    fontSize={["12px", "initial"]}
-                  >
-                    10 TH
-                  </Button>
-                  <Button
-                    value={100}
-                    onClick={(e) => setpower(e.target.value)}
-                    color={"#00D87D"}
-                    border="1px solid #301287"
-                    fontSize={["12px", "initial"]}
-                  >
-                    100 TH
-                  </Button>
-                  <NumberInput
-                    min={1}
-                    value={power}
-                    onChange={handleChange}
-                    max={1000} // Set the maximum value for the NumberInput
-                  >
-                    <NumberInputField placeholder={"Value"} p={"5px"} />
-                  </NumberInput>
-                </ButtonGroup>
-                <Heading size={"sm"}>Rewards Calculation</Heading>
-                <Tabs variant="enclosed" textColor="white">
-                  <TabList gap={1} mb={2} border={"none"}>
-                    <Tab
-                      bg="#3b49df"
-                      rounded={"lg"}
-                      border={"none"}
-                      textColor="white"
-                      w={100}
                     >
-                      Annually
-                    </Tab>
-                    {/* <Tab
+                      <Flex justify={"space-between"} align={"center"}>
+                        <HStack>
+                          <Image
+                            src={miner.minerImage}
+                            width={[45, 35, 50]}
+                            height={[45, 35, 50]}
+                            rounded={"lg"}
+                          />
+
+                          <Box>
+                            <Text
+                              color={"white.500"}
+                              fontSize={["13px", "sm", "initial"]}
+                            >
+                              The miner Box #{miner.id}
+                            </Text>
+                            <HStack fontSize={["13px", "sm"]}>
+                              <HStack gap={"5px"}>
+                                <Box
+                                  p={"1px"}
+                                  bg={"green.400"}
+                                  rounded={"full"}
+                                  color={"#fff"}
+                                >
+                                  <IoIosFlash />
+                                </Box>
+                                <Text>{miner.hashRate} TH</Text>
+                              </HStack>
+                              <HStack ml={"5px"} gap={"5px"}>
+                                <Box
+                                  p={"1px"}
+                                  bg={"yellow.400"}
+                                  rounded={"full"}
+                                  color={"#fff"}
+                                >
+                                  <BiSolidPlug />
+                                </Box>
+                                <Text>35 W/TH</Text>
+                              </HStack>
+                            </HStack>
+                          </Box>
+                        </HStack>
+                      </Flex>
+                    </Box>
+                  ))}
+              </Box>
+            )}
+            {selectedMiner ? (
+              <>
+                <Box
+                  bg={useColorModeValue("gray.100", "rgba(0,0,0,0.2)")}
+                  px={[3, 5]}
+                  py={3}
+                  rounded={"20px"}
+                  mb={3}
+                >
+                  <Flex justify={"space-between"} align={"center"}>
+                    <HStack>
+                      <Image
+                        src={selectedMiner.minerImage}
+                        width={[45, 35, 50]}
+                        height={[45, 35, 50]}
+                        rounded={"lg"}
+                      />
+
+                      <Box>
+                        <Text
+                          color={"white.500"}
+                          fontSize={["13px", "sm", "initial"]}
+                        >
+                          The miner Box #{selectedMiner.id}
+                        </Text>
+                        <HStack fontSize={["13px", "sm"]}>
+                          <HStack gap={"5px"}>
+                            <Box
+                              p={"1px"}
+                              bg={"green.400"}
+                              rounded={"full"}
+                              color={"#fff"}
+                            >
+                              <IoIosFlash />
+                            </Box>
+                            <Text>{selectedMiner.hashRate} TH</Text>
+                          </HStack>
+                          <HStack ml={"5px"} gap={"5px"}>
+                            <Box
+                              p={"1px"}
+                              bg={"yellow.400"}
+                              rounded={"full"}
+                              color={"#fff"}
+                            >
+                              <BiSolidPlug />
+                            </Box>
+                            <Text>35 W/TH</Text>
+                          </HStack>
+                        </HStack>
+                      </Box>
+                    </HStack>
+                  </Flex>
+                </Box>
+                <Stack
+                  bg={useColorModeValue("#fff", "#10062D")}
+                  color={useColorModeValue("#10062D", "#fff")}
+                  border="2px solid"
+                  borderColor={useColorModeValue("#EDE8FC", "#301287")}
+                  rounded="2xl"
+                  mt={5}
+                >
+                  {/* <Heading size={"sm"}>Computing power</Heading> */}
+                  <ButtonGroup gap="4" variant={"outline"} mb={4}>
+                    <Button
+                      value={1}
+                      onClick={(e) => setpower(e.target.value)}
+                      color={"#00D87D"}
+                      border="1px solid #301287"
+                      fontSize={["12px", "initial"]}
+                    >
+                      1 TH
+                    </Button>
+                    <Button
+                      value={10}
+                      onClick={(e) => setpower(e.target.value)}
+                      color={"#00D87D"}
+                      border="1px solid #301287"
+                      fontSize={["12px", "initial"]}
+                    >
+                      10 TH
+                    </Button>
+                    <Button
+                      value={100}
+                      onClick={(e) => setpower(e.target.value)}
+                      color={"#00D87D"}
+                      border="1px solid #301287"
+                      fontSize={["12px", "initial"]}
+                    >
+                      100 TH
+                    </Button>
+                    <NumberInput
+                      min={1}
+                      value={power}
+                      onChange={handleChange}
+                      max={1000} // Set the maximum value for the NumberInput
+                    >
+                      <NumberInputField placeholder={"Value"} p={"5px"} />
+                    </NumberInput>
+                  </ButtonGroup>
+                  <Heading size={"sm"}>Rewards Calculation</Heading>
+                  <Tabs variant="enclosed" textColor="white">
+                    <TabList gap={1} mb={2} border={"none"}>
+                      <Tab
+                        bg="#3b49df"
+                        rounded={"lg"}
+                        border={"none"}
+                        textColor="white"
+                        w={100}
+                      >
+                        Annually
+                      </Tab>
+                      {/* <Tab
                     bg="#3b49df"
                     rounded={"lg"}
                     border={"none"}
@@ -243,69 +324,74 @@ export default function UpgradeModal({ user, minerDeets }) {
                   >
                     Daily
                   </Tab> */}
-                  </TabList>
-                  <TabPanels>
-                    <TabPanel
-                      backgroundImage={`url(${Rec9.src})`}
-                      backgroundSize="cover"
-                      backgroundPosition="center"
-                      rounded={"lg"}
-                    >
-                      <TableContainer p={2} borderRadius={"lg"}>
-                        <Table variant="simple">
-                          <Tbody>
-                            <Tr>
-                              <Td fontSize="xs">POOL PAYOUT</Td>
-                              <Td isNumeric align="center">
-                                {payout}
-                                <Icon
-                                  boxSize={3}
-                                  as={SiBitcoincash}
-                                  color={"yellow.50"}
-                                />
-                              </Td>
-                            </Tr>
-                            <Tr>
-                              <Td fontSize="xs">
-                                <Flex
-                                  align={"center"}
-                                  justify={"start"}
-                                  gap={1}
-                                >
-                                  <Text>NET REWARD</Text> <InfoOutlineIcon />
-                                </Flex>
-                              </Td>
-                              <Td isNumeric>${payout}</Td>
-                            </Tr>
-                          </Tbody>
-                        </Table>
-                      </TableContainer>
+                    </TabList>
+                    <TabPanels>
+                      <TabPanel
+                        backgroundImage={`url(${Rec9.src})`}
+                        backgroundSize="cover"
+                        backgroundPosition="center"
+                        rounded={"lg"}
+                      >
+                        <TableContainer p={2} borderRadius={"lg"}>
+                          <Table variant="simple">
+                            <Tbody>
+                              <Tr>
+                                <Td fontSize="xs">POOL PAYOUT</Td>
+                                <Td isNumeric align="center">
+                                  {payout}
+                                  <Icon
+                                    boxSize={3}
+                                    as={SiBitcoincash}
+                                    color={"yellow.50"}
+                                  />
+                                </Td>
+                              </Tr>
+                              <Tr>
+                                <Td fontSize="xs">
+                                  <Flex
+                                    align={"center"}
+                                    justify={"start"}
+                                    gap={1}
+                                  >
+                                    <Text>NET REWARD</Text> <InfoOutlineIcon />
+                                  </Flex>
+                                </Td>
+                                <Td isNumeric>${payout}</Td>
+                              </Tr>
+                            </Tbody>
+                          </Table>
+                        </TableContainer>
 
-                      <Stack p={2} fontSize="xs">
-                        <Text>Reward history</Text>
-                      </Stack>
-                      <Stack border={"2px solid #301287"} rounded={"lg"} p={2}>
-                        <Flex align={"center"} justify={"space-between"}>
-                          <Text>Price per TH</Text>
-                          <Text>$35</Text>
-                        </Flex>
-                        <Flex align={"center"} justify={"space-between"}>
-                          <Text>Historical ROI</Text>
-                          <Text>${payout}</Text>
-                        </Flex>
-                        <Flex align={"center"} justify={"space-between"}>
-                          <Text>Total</Text>
-                          <Text>${power * 35}</Text>
-                        </Flex>
-                      </Stack>
-                    </TabPanel>
-                    <TabPanel>
-                      <p>two!</p>
-                    </TabPanel>
-                  </TabPanels>
-                </Tabs>
-              </Stack>
-            )}
+                        <Stack p={2} fontSize="xs">
+                          <Text>Reward history</Text>
+                        </Stack>
+                        <Stack
+                          border={"2px solid #301287"}
+                          rounded={"lg"}
+                          p={2}
+                        >
+                          <Flex align={"center"} justify={"space-between"}>
+                            <Text>Price per TH</Text>
+                            <Text>$35</Text>
+                          </Flex>
+                          <Flex align={"center"} justify={"space-between"}>
+                            <Text>Historical ROI</Text>
+                            <Text>${payout}</Text>
+                          </Flex>
+                          <Flex align={"center"} justify={"space-between"}>
+                            <Text>Total</Text>
+                            <Text>${power * 35}</Text>
+                          </Flex>
+                        </Stack>
+                      </TabPanel>
+                      <TabPanel>
+                        <p>two!</p>
+                      </TabPanel>
+                    </TabPanels>
+                  </Tabs>
+                </Stack>
+              </>
+            ) : null}
             {/* Render the card component when showCard is true */}
           </ModalBody>
 

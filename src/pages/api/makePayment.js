@@ -115,7 +115,7 @@ async function fetchUnassignedImage() {
 const createMiner = async (power, cost, userId) => {
   const { minerImage, id } = await fetchUnassignedImage();
   const imageId = parseInt(id.slice(0, id.indexOf(".")), 10);
-  const miner = new Miner(userId, power, cost, minerImage.url, imageId);
+  const miner = new Miner(userId, power, cost, imageId);
   const minerId = parseInt(miner.minerId, 10);
   try {
     const minerRef = doc(db, "miners", userId);
@@ -131,6 +131,7 @@ const createMiner = async (power, cost, userId) => {
         hashRate: Number(power), // Ensure this is a number.
         cost: Number(cost),
         totalMinedToday: 0,
+        lastUpdatedTime: Date.now(),
         miningStarted: true,
         btcToUsd: 0,
       });

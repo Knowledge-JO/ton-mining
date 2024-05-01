@@ -33,7 +33,7 @@ export default function TopWidget({ miner, user }) {
   useEffect(() => {
     const interval = setInterval(() => {
       if (miner) {
-        const newBalance = miner?.getCurrentBalance();
+        const newBalance = miner.getCurrentBalance();
         setBalance(newBalance);
       }
     }, 1000);
@@ -43,7 +43,8 @@ export default function TopWidget({ miner, user }) {
 
   useEffect(() => {
     // Save miner details to database
-    const userId = user?.userId;
+    if (!user) return;
+    const userId = user.userId;
     console.log(userId);
     if (miner) {
       saveToDatabase(miner, userId);
@@ -68,9 +69,15 @@ export default function TopWidget({ miner, user }) {
       await updateDoc(minerRef, {
         totalMinedToday: miner.totalMinedToday,
         miningStarted: miner.miningStarted,
-        btcToUsd: miner.btcToUsd,
+        // btcToUsd: miner.btcToUsd,
         lastUpdatedTime: miner.lastUpdateTimestamp,
       });
+      console.log(
+        "from topwidget savetodatabase",
+        miner.lastUpdateTimestamp,
+        miner.totalMinedToday,
+        miner
+      );
       console.log("Miner details saved to database successfully.");
     } catch (error) {
       console.error("Error saving miner details:", error);

@@ -2,16 +2,15 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 export default class Miner {
-  constructor(userId, hashRate, cost, Image, imageId) {
+  constructor(userId, hashRate, cost, imageId = "") {
     this.minerId = imageId; // Generates a unique UUID for each miner
-    this.minerImage = Image;
     this.userId = userId;
     this.hashRate = hashRate;
     this.cost = cost;
     this.totalMinedToday = 0;
     this.miningStarted = false;
     this.btcToUsd = 0;
-    this.lastUpdateTimestamp = Date.now();
+    this.lastUpdateTimestamp = 0;
   }
 
   async fetchBTCPrice() {
@@ -27,7 +26,7 @@ export default class Miner {
 
   startMining() {
     this.miningStarted = true;
-    this.fetchBTCPrice();
+    // this.fetchBTCPrice();
     this.mine();
   }
 
@@ -47,10 +46,13 @@ export default class Miner {
       }
 
       const currentTime = Date.now();
-      const elapsedTime = (currentTime - this.lastUpdateTimestamp) / 1000; // Convert milliseconds to seconds
-
+      if (this.lastUpdateTimestamp == 0) {
+        this.lastUpdateTimestamp = Date.now();
+      }
+      let elapsedTime = (currentTime - this.lastUpdateTimestamp) / 1000; // Convert milliseconds to second
+      const perSec = this.cost * roiPerSecond;
       // Calculate earnings per second based on the elapsed time
-      this.totalMinedToday += this.cost * roiPerSecond * elapsedTime;
+      this.totalMinedToday = this.totalMinedToday + perSec * elapsedTime;
 
       // Update last timestamp to current
       this.lastUpdateTimestamp = currentTime;
