@@ -69,7 +69,7 @@ export default function TopWidget({ miner, user }) {
         totalMinedToday: miner.totalMinedToday,
         miningStarted: miner.miningStarted,
         btcToUsd: miner.btcToUsd,
-        lastUpdatedTime: miner.lastUpdateTimestamp
+        lastUpdatedTime: miner.lastUpdateTimestamp,
       });
       console.log("Miner details saved to database successfully.");
     } catch (error) {
@@ -149,7 +149,11 @@ export default function TopWidget({ miner, user }) {
                 </Flex>
               </Flex>
             ) : (
-              <Box bg={"white"} rounded="full" p={1}>
+              <Box
+                bg={useColorModeValue("#EDE8FC", "#ffff")}
+                rounded="full"
+                p={1}
+              >
                 <Icon
                   boxSize={8}
                   color={useColorModeValue("#8F6AFB", "#501EE1")}

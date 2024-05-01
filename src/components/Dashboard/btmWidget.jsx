@@ -36,25 +36,28 @@ export default function BtmWidget() {
             key={card.src}
             border="2px solid"
             borderColor={useColorModeValue("#fff", "#130736")}
-            bg={useColorModeValue("#8F6AFB", "#130736")}
+            bg={useColorModeValue("#F9F8FE", "#130736")}
             py={4}
           >
             <Flex justify="space-between" px={6}>
               <Flex>
-                <Text color={"white"} fontWeight={"500"}>
+                <Text
+                  color={useColorModeValue("black", "white")}
+                  fontWeight={"500"}
+                >
                   {card.text}
                 </Text>
               </Flex>
             </Flex>
 
-            <Stack color={"white"}>
+            <Stack color={useColorModeValue("black", "white")}>
               <TableContainer>
                 <Table variant={"unstyled"}>
                   <Thead>
                     <Tr
-                      color={useColorModeValue("#D2C3FD", "#A88BFC")}
+                      color={useColorModeValue("black", "#A88BFC")}
                       borderBottom={"1px"}
-                      borderColor={useColorModeValue("#fff", "#501EE1")}
+                      borderColor={useColorModeValue("black", "#501EE1")}
                     >
                       <Th isNumeric>Date</Th>
                       <Th isNumeric>Computing Power</Th>
