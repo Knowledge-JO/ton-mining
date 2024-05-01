@@ -59,7 +59,7 @@ export default function BtmWidget() {
                   <Thead>
                     <Tr
                       borderBottom={"1px"}
-                      borderColor={useColorModeValue("black", "#501EE1")}
+                      borderColor={useColorModeValue("#D4D4D4", "#501EE1")}
                     >
                       <Th isNumeric>Date</Th>
                       <Th isNumeric>Computing Power</Th>

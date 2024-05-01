@@ -40,7 +40,7 @@ export default function MidWidget() {
           h={{ base: "500px", md: "400px" }}
           boxShadow="5px 5px 15px 5px rgba(80, 30, 225, 0.2)"
         >
-          <Flex justify="space-between">
+          <Flex justify="space-between" align={"center"} p={3}>
             <Flex>
               <Text color={useColorModeValue("#000", "#fff")} fontWeight="500">
                 Monthly Analysis
@@ -81,7 +81,7 @@ export default function MidWidget() {
           h={{ base: "500px", md: "400px" }}
           boxShadow="5px 5px 15px 5px rgba(80, 30, 225, 0.2)"
         >
-          <Flex justify="space-between">
+          <Flex justify="space-between" align={"center"} p={3}>
             <Flex>
               <Text color={useColorModeValue("#000", "#fff")} fontWeight="500">
                 Computing Power
