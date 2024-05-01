@@ -8,7 +8,7 @@ import {
   Link,
   Text,
   Icon,
-  Spinner
+  Spinner,
 } from "@chakra-ui/react";
 import Navbar from "@/components/navbar";
 import NextLink from "next/link";
@@ -36,7 +36,7 @@ export default function dashboard() {
   const router = useRouter();
 
   // const { userId, amount, paymentSuccess } = router.query;
-
+  const [miner, setMiner] = useState(null);
   const existingMiner = async (userId) => {
     const minersQuery = query(
       collection(db, "miners"),
@@ -50,13 +50,15 @@ export default function dashboard() {
         minerData.userId,
         minerData.hashRate,
         minerData.cost,
+        "imageid"
       );
       // Optionally restore additional state
       existingMiner.totalMinedToday = minerData.totalMinedToday;
       existingMiner.miningStarted = minerData.miningStarted;
-      existingMiner.minerImage = "url";
-      existingMiner.startMining();
+      existingMiner.lastUpdateTimestamp = minerData.lastUpdatedTime;
+
       setMiner(existingMiner);
+      existingMiner.startMining();
     }
   };
 
@@ -94,7 +96,6 @@ export default function dashboard() {
     return () => unsubscribe();
   }, []);
 
-  const [miner, setMiner] = useState(null);
   const [balance, setBalance] = useState(0);
 
   // const startMining = (userId, hashRate, cost) => {
@@ -109,13 +110,16 @@ export default function dashboard() {
     existingMiner(userId);
   }, [user]);
 
-
   if (user === null) {
     return (
       <Flex align="center" justify="center" height="100vh">
-        <Spinner size="xl" color="blue.500" thickness='4px'
-  speed='0.65s'
-  emptyColor='gray.200' />
+        <Spinner
+          size="xl"
+          color="blue.500"
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+        />
       </Flex>
     );
   }
