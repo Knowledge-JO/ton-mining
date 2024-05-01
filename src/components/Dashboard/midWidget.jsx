@@ -34,27 +34,32 @@ export default function MidWidget() {
           rounded={"2xl"}
           border="2px solid"
           borderColor={useColorModeValue("#EDE8FC", "#301287")}
-          bg={useColorModeValue("#8F6AFB", "#301287")}
+          bg={useColorModeValue("#F9F8FE", "#301287")}
           px={6}
           py={4}
           h={{ base: "500px", md: "400px" }}
+          boxShadow="5px 5px 15px 5px rgba(80, 30, 225, 0.2)"
         >
-          <Flex justify="space-between">
+          <Flex justify="space-between" align={"center"} p={3}>
             <Flex>
-              <Text color={"white"} fontWeight="500">
+              <Text color={useColorModeValue("#000", "#fff")} fontWeight="500">
                 Monthly Analysis
               </Text>
             </Flex>
-            <Box bg={"#ffffff"} rounded="full" p={1}>
+            <Box
+              bg={useColorModeValue("#8F6AFB", "#ffff")}
+              rounded="full"
+              p={1.5}
+            >
               <Icon
-                boxSize={8}
-                color={useColorModeValue("#8F6AFB", "#501EE1")}
+                boxSize={7}
+                color={useColorModeValue("#F9F8FE", "#501EE1")}
                 as={FaChartPie}
               />
             </Box>
           </Flex>
           <Flex direction={{ base: "column", md: "row" }} h={400}>
-            <Stat color="white">
+            <Stat color={useColorModeValue("#000", "#fff")}>
               <StatNumber>$0.0K</StatNumber>
               <StatLabel>Total Spent</StatLabel>
               <StatHelpText color={"#00D87D"}>
@@ -70,21 +75,26 @@ export default function MidWidget() {
           rounded={"2xl"}
           border="2px solid"
           borderColor={useColorModeValue("#EDE8FC", "#301287")}
-          bg={useColorModeValue("#8F6AFB", "#301287")}
+          bg={useColorModeValue("#F9F8FE", "#301287")}
           px={6}
           py={4}
           h={{ base: "500px", md: "400px" }}
+          boxShadow="5px 5px 15px 5px rgba(80, 30, 225, 0.2)"
         >
-          <Flex justify="space-between">
+          <Flex justify="space-between" align={"center"} p={3}>
             <Flex>
-              <Text color={"white"} fontWeight="500">
+              <Text color={useColorModeValue("#000", "#fff")} fontWeight="500">
                 Computing Power
               </Text>
             </Flex>
-            <Box bg={"#ffff"} rounded="full" p={1}>
+            <Box
+              bg={useColorModeValue("#8F6AFB", "#ffff")}
+              rounded="full"
+              p={1.5}
+            >
               <Icon
-                boxSize={8}
-                color={useColorModeValue("#8F6AFB", "#501EE1")}
+                boxSize={7}
+                color={useColorModeValue("#F9F8FE", "#501EE1")}
                 as={FaChartPie}
               />
             </Box>

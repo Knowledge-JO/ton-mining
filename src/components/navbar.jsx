@@ -140,7 +140,7 @@ export default function Navbar() {
                   boxShadow="4px 4px 0"
                 >
                   <Link
-                    href="https://dev.to/m_ahmad"
+                    
                     _hover={{ textDecoration: "none" }}
                     isExternal
                   >
@@ -162,7 +162,7 @@ export default function Navbar() {
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem>
-                    <Text fontWeight="500" onClick={handlesignOut}>
+                    <Text fontWeight="500" onClick={(e)=>handlesignOut(e)}>
                       Sign Out
                     </Text>
                   </MenuItem>

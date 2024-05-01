@@ -42,7 +42,7 @@ import { ArrowForwardIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 // import { Link } from "@chakra-ui/next-js";
 import CModal from "./createModal";
 
-export default function UpgradeModal({ user }) {
+export default function UpgradeModal({ user, minerDeets }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showList, setShowList] = useState(false); // Initialize showForm state
   const [showCard, setShowCard] = useState(false); // Add state for controlling card visibility
@@ -73,6 +73,8 @@ export default function UpgradeModal({ user }) {
     const payout = (power * 35 * 300) / 100;
     setPayout(payout);
   }, [power]);
+
+  console.log("miner deets from ugrademodal", minerDeets)
 
   console.log(user);
 
@@ -114,7 +116,8 @@ export default function UpgradeModal({ user }) {
             >
               Add Miner
             </Button>
-            {showList && (
+            {showList && minerDeets && minerDeets.map((miner)=>{
+              return (
               <Box
                 bg={useColorModeValue("gray.100", "rgba(0,0,0,0.2)")}
                 px={[3, 5]}
@@ -125,7 +128,7 @@ export default function UpgradeModal({ user }) {
                   <HStack>
                     <Image
                       src={
-                        "https://gateway.pinata.cloud/ipfs/QmRqSZ2bFS46QYZ1HgwGurogGsrZrwMDaRgckM32yZKrQb/1.png"
+                        miner.minerImage
                       }
                       width={[45, 35, 50]}
                       height={[45, 35, 50]}
@@ -139,7 +142,7 @@ export default function UpgradeModal({ user }) {
                         fontSize={["13px", "sm", "initial"]}
                       >
                         <Link href="#" onClick={handleLinkClick}>
-                          The miner Box #14401
+                          The miner Box #{miner.id}
                         </Link>
                       </Text>
                       <HStack fontSize={["13px", "sm"]}>
@@ -152,7 +155,7 @@ export default function UpgradeModal({ user }) {
                           >
                             <IoIosFlash />
                           </Box>
-                          <Text>1 TH</Text>
+                          <Text>{miner.hashRate} TH</Text>
                         </HStack>
                         <HStack ml={"5px"} gap={"5px"}>
                           <Box
@@ -170,7 +173,8 @@ export default function UpgradeModal({ user }) {
                   </HStack>
                 </Flex>
               </Box>
-            )}
+            )
+          })}
             {showCard && (
               <Stack
                 bg={useColorModeValue("#fff", "#10062D")}

@@ -69,7 +69,7 @@ export default function TopWidget({ miner, user }) {
         totalMinedToday: miner.totalMinedToday,
         miningStarted: miner.miningStarted,
         btcToUsd: miner.btcToUsd,
-        lastUpdatedTime: miner.lastUpdateTimestamp
+        lastUpdatedTime: miner.lastUpdateTimestamp,
       });
       console.log("Miner details saved to database successfully.");
     } catch (error) {
@@ -120,7 +120,7 @@ export default function TopWidget({ miner, user }) {
             justify={"space-around"}
             bg={
               index == 0
-                ? useColorModeValue("#ffffff", "#301287")
+                ? useColorModeValue("#8F6AFB", "#301287")
                 : useColorModeValue("#ffffff", "#10062D")
             }
             direction={"row"}
@@ -149,7 +149,11 @@ export default function TopWidget({ miner, user }) {
                 </Flex>
               </Flex>
             ) : (
-              <Box bg={"white"} rounded="full" p={1}>
+              <Box
+                bg={useColorModeValue("#EDE8FC", "#ffff")}
+                rounded="full"
+                p={1}
+              >
                 <Icon
                   boxSize={8}
                   color={useColorModeValue("#8F6AFB", "#501EE1")}
@@ -158,7 +162,10 @@ export default function TopWidget({ miner, user }) {
               </Box>
             )}
 
-            <Stack color={useColorModeValue("#10062D", "#fff")} p={2}>
+            <Stack
+              color={index == 0 ? "#fff" : useColorModeValue("#10062D", "#fff")}
+              p={2}
+            >
               <Text fontSize={"xs"} fontWeight="500">
                 {card.title}
               </Text>
