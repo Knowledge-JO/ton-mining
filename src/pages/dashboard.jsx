@@ -8,6 +8,7 @@ import {
   Link,
   Text,
   Icon,
+  Spinner
 } from "@chakra-ui/react";
 import Navbar from "@/components/navbar";
 import NextLink from "next/link";
@@ -108,6 +109,16 @@ export default function dashboard() {
     existingMiner(userId);
   }, [user]);
 
+
+  if (user === null) {
+    return (
+      <Flex align="center" justify="center" height="100vh">
+        <Spinner size="xl" color="blue.500" thickness='4px'
+  speed='0.65s'
+  emptyColor='gray.200' />
+      </Flex>
+    );
+  }
   return (
     <>
       <Box>
