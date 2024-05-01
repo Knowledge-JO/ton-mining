@@ -172,6 +172,7 @@ export default function MinerCard() {
             isOpen={isUpgradeModalOpen}
             onClose={onCloseUpgradeModal}
             user={user}
+            minerDeets={minerDeets}
           />
         </Flex>
 

@@ -149,7 +149,11 @@ export default function TopWidget({ miner, user }) {
                 </Flex>
               </Flex>
             ) : (
-              <Box bg={"white"} rounded="full" p={1}>
+              <Box
+                bg={useColorModeValue("#EDE8FC", "#ffff")}
+                rounded="full"
+                p={1}
+              >
                 <Icon
                   boxSize={8}
                   color={useColorModeValue("#8F6AFB", "#501EE1")}

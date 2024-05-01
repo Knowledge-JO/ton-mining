@@ -38,6 +38,7 @@ export default function MidWidget() {
           px={6}
           py={4}
           h={{ base: "500px", md: "400px" }}
+          boxShadow="5px 5px 15px 5px rgba(80, 30, 225, 0.2)"
         >
           <Flex justify="space-between">
             <Flex>
@@ -45,10 +46,14 @@ export default function MidWidget() {
                 Monthly Analysis
               </Text>
             </Flex>
-            <Box bg={"#ffffff"} rounded="full" p={1}>
+            <Box
+              bg={useColorModeValue("#8F6AFB", "#ffff")}
+              rounded="full"
+              p={1.5}
+            >
               <Icon
-                boxSize={8}
-                color={useColorModeValue("#8F6AFB", "#501EE1")}
+                boxSize={7}
+                color={useColorModeValue("#F9F8FE", "#501EE1")}
                 as={FaChartPie}
               />
             </Box>
@@ -74,6 +79,7 @@ export default function MidWidget() {
           px={6}
           py={4}
           h={{ base: "500px", md: "400px" }}
+          boxShadow="5px 5px 15px 5px rgba(80, 30, 225, 0.2)"
         >
           <Flex justify="space-between">
             <Flex>
@@ -81,10 +87,14 @@ export default function MidWidget() {
                 Computing Power
               </Text>
             </Flex>
-            <Box bg={"#ffff"} rounded="full" p={1}>
+            <Box
+              bg={useColorModeValue("#8F6AFB", "#ffff")}
+              rounded="full"
+              p={1.5}
+            >
               <Icon
-                boxSize={8}
-                color={useColorModeValue("#8F6AFB", "#501EE1")}
+                boxSize={7}
+                color={useColorModeValue("#F9F8FE", "#501EE1")}
                 as={FaChartPie}
               />
             </Box>

@@ -50,7 +50,7 @@ export default function BtmWidget() {
               </Flex>
             </Flex>
 
-            <Stack color={"white"}>
+            <Stack color={useColorModeValue("black", "white")}>
               <TableContainer>
                 <Table
                   variant={"unstyled"}
@@ -59,7 +59,7 @@ export default function BtmWidget() {
                   <Thead>
                     <Tr
                       borderBottom={"1px"}
-                      borderColor={useColorModeValue("#fff", "#501EE1")}
+                      borderColor={useColorModeValue("black", "#501EE1")}
                     >
                       <Th isNumeric>Date</Th>
                       <Th isNumeric>Computing Power</Th>
