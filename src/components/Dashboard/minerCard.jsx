@@ -239,6 +239,7 @@ export default function MinerCard() {
         onClose={onClose}
         activeMinerId={activeMinerId}
         key={activeMinerId}
+        minerDeets={minerDeets}
       />
     </>
   );
@@ -261,7 +262,7 @@ const steps = [
   { title: "Mint", description: "Mint you NFT" },
 ];
 
-function MinerModal({ isOpen, onClose, activeMinerId }) {
+function MinerModal({ isOpen, onClose, activeMinerId, minerDeets }) {
   const { activeStep, setActiveStep } = useSteps({
     initialStep: 0,
   });
@@ -314,7 +315,7 @@ function MinerModal({ isOpen, onClose, activeMinerId }) {
               py={8}
             >
               {/* steps */}
-              {activeMinerId && (
+              {activeMinerId !== null && (
                 <MintSteps
                   activeStep={activeStep}
                   minerId={activeMinerId}
@@ -331,7 +332,11 @@ function MinerModal({ isOpen, onClose, activeMinerId }) {
                 </Text>
               </Box>
 
-              <Steps activeStep={activeStep} />
+              <Steps
+                activeMinerId={activeMinerId}
+                activeStep={activeStep}
+                minerDeets={minerDeets}
+              />
 
               {/* buttons */}
               <Flex w={"100%"} justify={"space-between"} mt={"32px"}>
@@ -374,12 +379,14 @@ const networks = [
   { name: "Ton", symbol: "TON" },
 ];
 
-const Steps = ({ activeStep, activeMinerId }) => {
+const Steps = ({ activeStep, activeMinerId, minerDeets }) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
     <Box>
-      {activeStep + 1 == 1 && <Step1 key={activeMinerId} />}
+      {activeStep + 1 == 1 && (
+        <Step1 activeMinerId={activeMinerId} minerDeets={minerDeets} />
+      )}
       {activeStep + 1 == 2 &&
         networks.map((network, index) => (
           <Step2
@@ -395,7 +402,9 @@ const Steps = ({ activeStep, activeMinerId }) => {
   );
 };
 
-const Step1 = () => {
+const Step1 = ({ activeMinerId, minerDeets }) => {
+  const miner = minerDeets.find((minerDet) => minerDet.id == activeMinerId);
+  console.log(miner);
   return (
     <Box
       bg={useColorModeValue("gray.100", "rgba(0,0,0,0.2)")}
@@ -406,17 +415,15 @@ const Step1 = () => {
       <Flex justify={"space-between"} align={"center"}>
         <HStack>
           <Image
-            src={
-              "https://gateway.pinata.cloud/ipfs/QmRqSZ2bFS46QYZ1HgwGurogGsrZrwMDaRgckM32yZKrQb/1.png"
-            }
-            width={[45, 35, 50]}
-            height={[45, 35, 50]}
+            src={miner.minerImage}
+            width={[45, 50]}
+            height={[45, 50]}
             rounded={"lg"}
           />
 
           <Box>
-            <Text color={"purple.500"} fontSize={["13px", "sm", "initial"]}>
-              The miner Box #14401
+            <Text color={"purple.500"} fontSize={["13px", "initial"]}>
+              The miner Box #{activeMinerId}
             </Text>
             <HStack fontSize={["13px", "sm"]}>
               <HStack gap={"5px"}>

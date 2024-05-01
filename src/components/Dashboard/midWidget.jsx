@@ -34,14 +34,14 @@ export default function MidWidget() {
           rounded={"2xl"}
           border="2px solid"
           borderColor={useColorModeValue("#EDE8FC", "#301287")}
-          bg={useColorModeValue("#8F6AFB", "#301287")}
+          bg={useColorModeValue("#F9F8FE", "#301287")}
           px={6}
           py={4}
           h={{ base: "500px", md: "400px" }}
         >
           <Flex justify="space-between">
             <Flex>
-              <Text color={"white"} fontWeight="500">
+              <Text color={useColorModeValue("#000", "#fff")} fontWeight="500">
                 Monthly Analysis
               </Text>
             </Flex>
@@ -54,7 +54,7 @@ export default function MidWidget() {
             </Box>
           </Flex>
           <Flex direction={{ base: "column", md: "row" }} h={400}>
-            <Stat color="white">
+            <Stat color={useColorModeValue("#000", "#fff")}>
               <StatNumber>$0.0K</StatNumber>
               <StatLabel>Total Spent</StatLabel>
               <StatHelpText color={"#00D87D"}>
@@ -70,14 +70,14 @@ export default function MidWidget() {
           rounded={"2xl"}
           border="2px solid"
           borderColor={useColorModeValue("#EDE8FC", "#301287")}
-          bg={useColorModeValue("#8F6AFB", "#301287")}
+          bg={useColorModeValue("#F9F8FE", "#301287")}
           px={6}
           py={4}
           h={{ base: "500px", md: "400px" }}
         >
           <Flex justify="space-between">
             <Flex>
-              <Text color={"white"} fontWeight="500">
+              <Text color={useColorModeValue("#000", "#fff")} fontWeight="500">
                 Computing Power
               </Text>
             </Flex>
