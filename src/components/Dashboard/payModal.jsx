@@ -44,7 +44,7 @@ import { SiTether } from "react-icons/si";
 import { SiBinance } from "react-icons/si";
 import { SiBitcoincash } from "react-icons/si";
 import Rec9 from "../../images/Rectangle9.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
@@ -71,6 +71,8 @@ import { app } from "../../../Firebase/firebase";
 import { useRouter } from "next/router";
 import { db } from "../../../Firebase/firebase";
 import Miner from "@/pages/api/Controllers/miner";
+import { useTonConnect } from "@/hooks/useTonConnect";
+import { TonConnectButton } from "@tonconnect/ui-react";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -102,6 +104,14 @@ const handleCheckout = async (power, userId) => {
 
 export default function PaymentModal({ user, payout, power }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const {wallet, sender, connected} = useTonConnect()
+
+  useEffect(()=>{
+    console.log('wallet from paymodal', wallet)
+    console.log('sender from paymodal', sender)
+  },[wallet, sender])
+
 
   const [miner, setMiner] = useState(null);
   const [balance, setBalance] = useState(0);
@@ -216,7 +226,8 @@ export default function PaymentModal({ user, payout, power }) {
                     By Crypto
                   </Tab>
 
-                  <Tab isDisabled={true}
+                  <Tab 
+                  // isDisabled={true}
                     bg="#3b49df"
                     border={"none"}
                     rounded={"lg"}
@@ -377,7 +388,7 @@ export default function PaymentModal({ user, payout, power }) {
                         ))}
                       </Select>
                     </FormControl> */}
-                    <CountrySelector />
+                    {/* <CountrySelector /> */}
                     <Flex
                       p={2}
                       bg={"gray.400"}
@@ -391,7 +402,7 @@ export default function PaymentModal({ user, payout, power }) {
                       </Text>
                     </Flex>
 
-                    <RadioGroup p={2} bg="gray.400" margin={2} rounded={"lg"}>
+                    {/* <RadioGroup p={2} bg="gray.400" margin={2} rounded={"lg"}>
                       <Radio isChecked={showForm} onChange={handleRadioChange}>
                         <Flex align={"center"} gap={2}>
                           <Box bg={"orange"} rounded={"full"} p={2}>
@@ -428,7 +439,7 @@ export default function PaymentModal({ user, payout, power }) {
                           </Stack>
                         </Flex>
                       </Radio>
-                    </RadioGroup>
+                    </RadioGroup> */}
 
                     <Flex
                       p={2}
@@ -438,11 +449,12 @@ export default function PaymentModal({ user, payout, power }) {
                       justify={"center"}
                       m={2}
                     >
-                      <Text fontSize="10px">
+                      {/* <Text fontSize="10px">
                         The payment will be processed by a third party. By
                         paying, you agree to buy virtual Miners NFT and
                         automatically add them to your collection.
-                      </Text>
+                      </Text> */}
+                      <TonConnectButton />
                     </Flex>
                     <Stack
                       margin={2}

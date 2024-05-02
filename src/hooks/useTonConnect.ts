@@ -5,7 +5,7 @@ import { CHAIN, useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
 export function useTonConnect():{
     sender: Sender;
     connected:boolean;
-    wallet: string | null;
+    wallet: any;
     network: CHAIN | null;
 }{
     const [tonConnectUI] = useTonConnectUI();
@@ -27,7 +27,7 @@ export function useTonConnect():{
             address: wallet?.account.address ? Address.parse(wallet?.account.address as string) : undefined
         },
         connected: !!wallet?.account.address ,
-        wallet: wallet?.account.address ?? null,
+        wallet: wallet?.account ?? null,
         network:wallet?.account.chain ?? null
       
     }

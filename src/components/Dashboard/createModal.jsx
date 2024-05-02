@@ -82,7 +82,7 @@ export default function CModal({ user }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          bg={useColorModeValue("#fff", "#10062D")}
+          bg={useColorModeValue("#F9F8FE", "#10062D")}
           color={useColorModeValue("#10062D", "#fff")}
           border="2px solid"
           borderColor={useColorModeValue("#EDE8FC", "#301287")}

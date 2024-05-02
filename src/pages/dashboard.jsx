@@ -34,6 +34,7 @@ export default function dashboard() {
   // Define state to store user data
   const [user, setUser] = useState(null);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false)
 
   // const { userId, amount, paymentSuccess } = router.query;
   const [miner, setMiner] = useState(null);
@@ -64,7 +65,7 @@ export default function dashboard() {
 
   useEffect(() => {
     const auth = getAuth();
-
+    setIsLoading(true)
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log(user.uid);
@@ -79,15 +80,19 @@ export default function dashboard() {
               setUser({ userId, ...userData });
               // Assuming each user has only one miner
               existingMiner(userId);
+              
             } else {
               console.log("User document not found.");
             }
+            
           })
           .catch((error) => {
             console.error("Error fetching user data:", error.message);
           });
+          setIsLoading(false)
       } else {
         setUser(null); // Set userdata to null when the user is not logged in
+        setIsLoading(false)
         toast.error("please login");
         router.push("/login");
       }
@@ -110,7 +115,7 @@ export default function dashboard() {
     existingMiner(userId);
   }, [user]);
 
-  if (user === null) {
+  if (isLoading) {
     return (
       <Flex align="center" justify="center" height="100vh">
         <Spinner
