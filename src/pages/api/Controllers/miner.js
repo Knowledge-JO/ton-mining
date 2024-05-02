@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 export default class Miner {
-  constructor(userId, hashRate, cost, imageId = "") {
+  constructor(userId, hashRate, cost, imageId) {
     this.minerId = imageId; // Generates a unique UUID for each miner
     this.userId = userId;
     this.hashRate = hashRate;
