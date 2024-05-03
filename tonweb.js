@@ -1,8 +1,8 @@
 import TonWeb from "tonweb";
 
 const tonweb = new TonWeb(
-  new TonWeb.HttpProvider("https://testnet.toncenter.com/api/v2/jsonRPC", {
-    apiKey: "4e0fe263f34eea5a0c755a031c4eaf39261887d78b889f68f27b2833d811bd43",
+  new TonWeb.HttpProvider("https://toncenter.com/api/v2/jsonRPC", {
+    apiKey: "66a6c214df376094daa13097571acc4229bbebbc97e4c1f780114cd76594e9d7",
   })
 );
 

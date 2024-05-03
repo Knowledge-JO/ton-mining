@@ -30,6 +30,7 @@ import { app } from "../../Firebase/firebase";
 import { useRouter } from "next/router";
 import { db } from "../../Firebase/firebase";
 
+
 export default function dashboard() {
   // Define state to store user data
   const [user, setUser] = useState(null);
