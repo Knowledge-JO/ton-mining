@@ -117,6 +117,7 @@ export default function PaymentModal({ user, payout, power }) {
   const { value, contract } = useJettonContract();
   const {transfer} = useJettonWalletContract();
   const handleCheckout = async (to, amount)=>{
+    event.preventDefault()
     try {
       console.log(`Transfering ${amount} jettons to ${to}`);
       const trans  = await transfer(Address.parse(to), BigInt(amount) * BigInt('1000000000'));
