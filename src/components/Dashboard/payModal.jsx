@@ -44,7 +44,7 @@ import { SiTether } from "react-icons/si";
 import { SiBinance } from "react-icons/si";
 import { SiBitcoincash } from "react-icons/si";
 import Rec9 from "../../images/Rectangle9.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
@@ -71,37 +71,77 @@ import { app } from "../../../Firebase/firebase";
 import { useRouter } from "next/router";
 import { db } from "../../../Firebase/firebase";
 import Miner from "@/pages/api/Controllers/miner";
+import { TonConnectButton, toUserFriendlyAddress } from "@tonconnect/ui-react";
+import { useTonConnect } from "@/hooks/useTonConnect";
+import tonweb from "../../../tonweb";
+import TonWeb from "tonweb";
+import { useJettonContract } from "@/hooks/useJettonContract";
+import { useJettonWalletContract } from "@/hooks/useJettonWallet";
+import { Address } from '@ton/core';
+
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
-const handleCheckout = async (power, userId) => {
-  console.log(power, userId);
-  // const stripe = await stripePromise;
-  // const response = await fetch("/api/route", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     amount: power * 24,
-  //     userId: userId,
-  //   }),
-  // });
-  // const session = await response.json();
 
-  // const result = await stripe.redirectToCheckout({
-  //   sessionId: session.sessionId,
-  // });
 
-  // if (result.error) {
-  //   alert(result.error.message);
-  // }
-};
+// const handleCheckout = async (power, userId) => {
+//   console.log(power, userId);
+//   // const stripe = await stripePromise;
+//   // const response = await fetch("/api/route", {
+//   //   method: "POST",
+//   //   headers: {
+//   //     "Content-Type": "application/json",
+//   //   },
+//   //   body: JSON.stringify({
+//   //     amount: power * 24,
+//   //     userId: userId,
+//   //   }),
+//   // });
+//   // const session = await response.json();
+
+//   // const result = await stripe.redirectToCheckout({
+//   //   sessionId: session.sessionId,
+//   // });
+
+//   // if (result.error) {
+//   //   alert(result.error.message);
+//   // }
+// };
 
 export default function PaymentModal({ user, payout, power }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { sender, tonConnectUI } = useTonConnect()
+
+  const { value, contract } = useJettonContract();
+  const {transfer} = useJettonWalletContract();
+  const handleCheckout = async (to, amount)=>{
+    try {
+      console.log(`Transfering ${amount} jettons to ${to}`);
+      const trans  = await transfer(Address.parse(to), BigInt(amount) * BigInt('1000000000'));
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  console.log(value)
+// const fetchJettonWallet = async()=>{
+//   try {
+//     const userWallet = "EQDBwyHGhAFmRLi4zhI-m7D8lZMj4zdbCEXBtY9Q-ghUImvU"
+//     const jettonWallet = new TonWeb.token.jetton.JettonWallet(tonweb.provider,{address: userWallet});
+// const data = await jettonWallet.getData();
+// console.log('Jetton balance:', data.balance.toString());
+// console.log('Jetton owner address:', data.ownerAddress.toString(true, true, true));
+
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
+// useEffect(()=>{
+// fetchJettonWallet()
+// },[])
 
   const [miner, setMiner] = useState(null);
   const [balance, setBalance] = useState(0);
@@ -167,7 +207,7 @@ export default function PaymentModal({ user, payout, power }) {
 
   const handlePayment = async () => {
     if (selectedPaymentMethod === 1) {
-      await handleCheckout(power, user?.userId); // Assume this is already implemented
+      await handleCheckout("UQAAlLzdeb9Xu3CUc0t4Y8AWwdMRMYKFsk-lrTPirmpPhLQY", 5); // Assume this is already implemented
     } else if (selectedPaymentMethod === 0) {
       await handleCrypto(power, user); // You need to implement this
     }
@@ -216,7 +256,8 @@ export default function PaymentModal({ user, payout, power }) {
                     By Crypto
                   </Tab>
 
-                  <Tab isDisabled={true}
+                  <Tab 
+                  // isDisabled={true}
                     bg="#3b49df"
                     border={"none"}
                     rounded={"lg"}
@@ -377,8 +418,8 @@ export default function PaymentModal({ user, payout, power }) {
                         ))}
                       </Select>
                     </FormControl> */}
-                    <CountrySelector />
-                    <Flex
+                    {/* <CountrySelector /> */}
+                    {/* <Flex
                       p={2}
                       bg={"gray.400"}
                       margin={2}
@@ -389,9 +430,9 @@ export default function PaymentModal({ user, payout, power }) {
                         For more payment options select another country or
                         region
                       </Text>
-                    </Flex>
+                    </Flex> */}
 
-                    <RadioGroup p={2} bg="gray.400" margin={2} rounded={"lg"}>
+                    {/* <RadioGroup p={2} bg="gray.400" margin={2} rounded={"lg"}>
                       <Radio isChecked={showForm} onChange={handleRadioChange}>
                         <Flex align={"center"} gap={2}>
                           <Box bg={"orange"} rounded={"full"} p={2}>
@@ -428,9 +469,9 @@ export default function PaymentModal({ user, payout, power }) {
                           </Stack>
                         </Flex>
                       </Radio>
-                    </RadioGroup>
+                    </RadioGroup> */}
 
-                    <Flex
+                    {/* <Flex
                       p={2}
                       bg={"gray.400"}
                       rounded="lg"
@@ -443,7 +484,8 @@ export default function PaymentModal({ user, payout, power }) {
                         paying, you agree to buy virtual Miners NFT and
                         automatically add them to your collection.
                       </Text>
-                    </Flex>
+                    </Flex> */}
+                    <TonConnectButton />
                     <Stack
                       margin={2}
                       border={"2px solid #301287"}

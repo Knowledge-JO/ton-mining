@@ -61,7 +61,6 @@ import { useTonConnect } from "@/hooks/useTonConnect";
 import tonweb from "../../../tonweb";
 import { useTonClient } from "@/hooks/useTonClient";
 import { Address, toNano } from "@ton/core";
-import { useMainCOntract } from "@/hooks/useMainContract";
 import useMinerDetails from "@/hooks/useMinerDetails";
 
 import { BiSolidPlug } from "react-icons/bi";

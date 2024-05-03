@@ -19,6 +19,7 @@
     "@stripe/stripe-js": "^3.3.0",
     "@ton/core": "^0.56.3",
     "@ton/crypto": "^3.2.0",
+    "@ton/ton": "^13.11.1",
     "@tonconnect/ui-react": "^2.0.2",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",

@@ -39,6 +39,7 @@ import { signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 import useFirebaseUser from "../utils/useUser";
 
+
 export default function Navbar() {
   // Define state to store user data
   const { colorMode, toggleColorMode } = useColorMode();
@@ -98,7 +99,7 @@ export default function Navbar() {
                 <CModal user={user} />
               </>
               {/* <>
-                <TonConnectButton />
+                
               </> */}
               {/* <Button
                 as={NextLink}
@@ -111,6 +112,7 @@ export default function Navbar() {
               >
                 Login
               </Button> */}
+              <TonConnectButton />
               <Button
                 bg={useColorModeValue("#8F6AFB", "#3b49df")}
                 onClick={toggleColorMode}
