@@ -30,7 +30,7 @@ useEffect(()=>{
 
       messages: [
         {
-          address: walletAddress.toRawString(),
+          address: walletAddress?.toRawString(),
           amount: toNano(0.05).toString(),
           payload: body.toBoc().toString('base64'),
         },
