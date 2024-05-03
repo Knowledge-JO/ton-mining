@@ -13,7 +13,7 @@ export function useJettonWalletContract() {
   const { contract } = useJettonContract();
 
   const walletAddress = useAsyncInitialize(
-    async () => await contract?.getWalletAddress(Address.parse(clientAddress)));
+    async () => contract && await contract?.getWalletAddress(Address.parse(clientAddress)));
 
 useEffect(()=>{
     console.log('Wallet address:', walletAddress?.toRawString());
@@ -21,7 +21,7 @@ useEffect(()=>{
 }, [walletAddress])
 
   const _transfer = async (to: Address, amount: bigint) => {
-    if (!walletAddress) {
+    if (!contract) {
         console.log("jetton wallet not found")
         return;
     };
