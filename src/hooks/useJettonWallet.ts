@@ -21,7 +21,7 @@ useEffect(()=>{
 }, [walletAddress])
 
   const _transfer = async (to: Address, amount: bigint) => {
-    if (!contract) {
+    if (!contract && !walletAddress) {
         console.log("jetton wallet not found")
         return;
     };
