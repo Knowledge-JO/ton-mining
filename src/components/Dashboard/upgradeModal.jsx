@@ -39,13 +39,17 @@ import { IoIosFlash } from "react-icons/io";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { SiBitcoincash } from "react-icons/si";
 import { ArrowForwardIcon, InfoOutlineIcon } from "@chakra-ui/icons";
-import CModal from "./createModal";
+import PaymentModal from "./payModal";
 
 export default function UpgradeModal({ user, minerDeets }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showList, setShowList] = useState(false);
   const [showCard, setShowCard] = useState(false); // Add state for controlling card visibility
   const [selectedMiner, setSelectedMiner] = useState(null);
+  const [power, setpower] = useState("");
+  const [payout, setPayout] = useState(0);
+  const [rate, setRate] = useState(0.241);
+  const [track, setTrack] = useState("Daily");
 
   const handleAddMinerClick = () => {
     setShowList((prevShowList) => !prevShowList);
@@ -72,14 +76,11 @@ export default function UpgradeModal({ user, minerDeets }) {
     onClose();
   };
 
-  const [power, setpower] = useState("");
-  const [payout, setPayout] = useState(0);
-
   useEffect(() => {
     console.log(power);
-    const payout = (power * 35 * 300) / 100;
+    const payout = (power * 35 * rate) / 100;
     setPayout(payout);
-  }, [power]);
+  }, [power, rate]);
 
   console.log("miner deets from ugrademodal", minerDeets);
 
@@ -257,14 +258,7 @@ export default function UpgradeModal({ user, minerDeets }) {
                     </HStack>
                   </Flex>
                 </Box>
-                <Stack
-                  bg={useColorModeValue("#fff", "#10062D")}
-                  color={useColorModeValue("#10062D", "#fff")}
-                  border="2px solid"
-                  borderColor={useColorModeValue("#EDE8FC", "#301287")}
-                  rounded="2xl"
-                  mt={5}
-                >
+                <Stack>
                   {/* <Heading size={"sm"}>Computing power</Heading> */}
                   <ButtonGroup gap="4" variant={"outline"} mb={4}>
                     <Button
@@ -304,88 +298,45 @@ export default function UpgradeModal({ user, minerDeets }) {
                     </NumberInput>
                   </ButtonGroup>
                   <Heading size={"sm"}>Rewards Calculation</Heading>
-                  <Tabs variant="enclosed" textColor="white">
+                  <Tabs variant="line" textColor="#fff">
                     <TabList gap={1} mb={2} border={"none"}>
                       <Tab
-                        bg="#3b49df"
                         rounded={"lg"}
-                        border={"none"}
-                        textColor="white"
+                        textColor={useColorModeValue("#200C5A", "#fff")}
                         w={100}
+                        onClick={() => {
+                          setRate(0.241);
+                          setTrack("Daily");
+                        }}
                       >
-                        Annually
+                        Daily
                       </Tab>
-                      {/* <Tab
-                    bg="#3b49df"
-                    rounded={"lg"}
-                    border={"none"}
-                    textColor="white"
-                    w={100}
-                  >
-                    Daily
-                  </Tab> */}
+                      <Tab
+                        rounded={"lg"}
+                        textColor={useColorModeValue("#200C5A", "#fff")}
+                        w={100}
+                        onClick={() => {
+                          setRate(7.333);
+                          setTrack("Monthly");
+                        }}
+                      >
+                        Monthly
+                      </Tab>
                     </TabList>
                     <TabPanels>
-                      <TabPanel
-                        backgroundImage={`url(${Rec9.src})`}
-                        backgroundSize="cover"
-                        backgroundPosition="center"
-                        rounded={"lg"}
-                      >
-                        <TableContainer p={2} borderRadius={"lg"}>
-                          <Table variant="simple">
-                            <Tbody>
-                              <Tr>
-                                <Td fontSize="xs">POOL PAYOUT</Td>
-                                <Td isNumeric align="center">
-                                  {payout}
-                                  <Icon
-                                    boxSize={3}
-                                    as={SiBitcoincash}
-                                    color={"yellow.50"}
-                                  />
-                                </Td>
-                              </Tr>
-                              <Tr>
-                                <Td fontSize="xs">
-                                  <Flex
-                                    align={"center"}
-                                    justify={"start"}
-                                    gap={1}
-                                  >
-                                    <Text>NET REWARD</Text> <InfoOutlineIcon />
-                                  </Flex>
-                                </Td>
-                                <Td isNumeric>${payout}</Td>
-                              </Tr>
-                            </Tbody>
-                          </Table>
-                        </TableContainer>
-
-                        <Stack p={2} fontSize="xs">
-                          <Text>Reward history</Text>
-                        </Stack>
-                        <Stack
-                          border={"2px solid #301287"}
-                          rounded={"lg"}
-                          p={2}
-                        >
-                          <Flex align={"center"} justify={"space-between"}>
-                            <Text>Price per TH</Text>
-                            <Text>$35</Text>
-                          </Flex>
-                          <Flex align={"center"} justify={"space-between"}>
-                            <Text>Historical ROI</Text>
-                            <Text>${payout}</Text>
-                          </Flex>
-                          <Flex align={"center"} justify={"space-between"}>
-                            <Text>Total</Text>
-                            <Text>${power * 35}</Text>
-                          </Flex>
-                        </Stack>
+                      <TabPanel rounded={"lg"}>
+                        <PayoutSummary
+                          power={power}
+                          payout={payout}
+                          track={track}
+                        />
                       </TabPanel>
                       <TabPanel>
-                        <p>two!</p>
+                        <PayoutSummary
+                          power={power}
+                          payout={payout}
+                          track={track}
+                        />
                       </TabPanel>
                     </TabPanels>
                   </Tabs>
@@ -394,9 +345,10 @@ export default function UpgradeModal({ user, minerDeets }) {
             ) : null}
             {/* Render the card component when showCard is true */}
           </ModalBody>
-
           <ModalFooter>
-            <Button
+            <PaymentModal user={user} payout={payout} power={Number(power)} />
+
+            {/* <Button
               bg={useColorModeValue("#8F6AFB", "#3b49df")}
               color="white"
               _hover="inherit"
@@ -404,10 +356,53 @@ export default function UpgradeModal({ user, minerDeets }) {
               onClick={handleModalClose}
             >
               Close
-            </Button>
+            </Button> */}
           </ModalFooter>
         </ModalContent>
       </Modal>
     </>
   );
 }
+
+const PayoutSummary = ({ payout, power, track }) => {
+  return (
+    <>
+      <TableContainer bg={"#200C5A"} p={2} pb={5} mb={3} borderRadius={"lg"}>
+        <Table variant="simple">
+          <Tbody>
+            <Tr>
+              <Td fontSize="xs">POOL PAYOUT</Td>
+              <Td isNumeric align="center">
+                {payout.toFixed(4)}
+                <Icon boxSize={3} as={SiBitcoincash} color={"yellow.50"} />
+              </Td>
+            </Tr>
+            <Tr>
+              <Td fontSize="xs">
+                <Flex align={"center"} gap={1}>
+                  <Text>NET REWARD</Text> <InfoOutlineIcon />
+                </Flex>
+              </Td>
+              <Td isNumeric>${payout.toFixed(4)}</Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      </TableContainer>
+
+      <Stack bg={"#200C5A"} border={"2px solid #301287"} rounded={"lg"} p={4}>
+        <Flex align={"center"} justify={"space-between"}>
+          <Text>Price per TH</Text>
+          <Text>$35</Text>
+        </Flex>
+        <Flex align={"center"} justify={"space-between"}>
+          <Text>Historical ROI</Text>
+          <Text>{track && track == "Daily" ? "0.241% " : "7.333% "}</Text>
+        </Flex>
+        <Flex align={"center"} justify={"space-between"}>
+          <Text>Total</Text>
+          <Text>${power * 35}</Text>
+        </Flex>
+      </Stack>
+    </>
+  );
+};

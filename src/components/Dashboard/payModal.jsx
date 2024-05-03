@@ -247,7 +247,7 @@ export default function PaymentModal({ user, payout, power }) {
                 onChange={(index) => setSelectedPaymentMethod(index)}
               >
                 <TabList gap={1} mb={2} border={"none"}>
-                <Tab
+                  <Tab
                     bg="#3b49df"
                     border={"none"}
                     rounded={"lg"}
@@ -265,10 +265,17 @@ export default function PaymentModal({ user, payout, power }) {
                   >
                     By Card
                   </Tab>
-                 
                 </TabList>
-                <TabPanels bg="#200C5A" rounded={"lg"}>
-                 
+                <TabPanels
+                  bg={useColorModeValue("#F9F8FE", "#200C5A")}
+                  color={useColorModeValue("#000", "#fff")}
+                  boxShadow={`5px 10px 20px 10px ${useColorModeValue(
+                    "#501EE133",
+                    "none"
+                  )}`}
+                  rounded={"lg"}
+                  mt={3}
+                >
                   <TabPanel>
                     {/* <RadioGroup defaultValue="1">
                       <Stack>
@@ -376,7 +383,7 @@ export default function PaymentModal({ user, payout, power }) {
                       </Stack>
                     </RadioGroup> */}
 
-                    <Stack border={"2px solid #301287"} rounded={"lg"} p={2}>
+                    <Stack p={2}>
                       <Flex align={"center"} justify={"space-between"}>
                         <Text>Price per TH</Text>
                         <Text>$35</Text>

@@ -40,8 +40,6 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { IoMdAdd } from "react-icons/io";
-import Rec9 from "../../images/Rectangle9.png";
-import NextImage from "next/image";
 import React, { useState, useEffect } from "react";
 import Miner from "../../pages/api/Controllers/miner";
 import { toast } from "react-toastify";
@@ -54,7 +52,7 @@ export default function CModal({ user }) {
   const [power, setpower] = useState("");
   const [payout, setPayout] = useState(0);
   const [rate, setRate] = useState(0.241);
-  const [track, setTrack] = useState("Daily")
+  const [track, setTrack] = useState("Daily");
 
   useEffect(() => {
     console.log(power);
@@ -152,8 +150,8 @@ export default function CModal({ user }) {
                     textColor={useColorModeValue("#200C5A", "#fff")}
                     w={100}
                     onClick={() => {
-                      setRate(0.241); 
-                      setTrack("Daily")
+                      setRate(0.241);
+                      setTrack("Daily");
                     }}
                   >
                     Daily
@@ -162,20 +160,28 @@ export default function CModal({ user }) {
                     rounded={"lg"}
                     textColor={useColorModeValue("#200C5A", "#fff")}
                     w={100}
-                    onClick={() =>{
+                    onClick={() => {
                       setRate(7.333);
-                      setTrack("Monthly")
-                    } }
+                      setTrack("Monthly");
+                    }}
                   >
                     Monthly
                   </Tab>
                 </TabList>
                 <TabPanels>
                   <TabPanel rounded={"lg"}>
-                    <PayoutSummary power={power} payout={payout} track={track} />
+                    <PayoutSummary
+                      power={power}
+                      payout={payout}
+                      track={track}
+                    />
                   </TabPanel>
                   <TabPanel>
-                    <PayoutSummary power={power} payout={payout} track={track} />
+                    <PayoutSummary
+                      power={power}
+                      payout={payout}
+                      track={track}
+                    />
                   </TabPanel>
                 </TabPanels>
               </Tabs>
@@ -183,7 +189,7 @@ export default function CModal({ user }) {
           </ModalBody>
 
           <ModalFooter>
-            <PaymentModal user={user} payout={payout} power={Number(power)}  />
+            <PaymentModal user={user} payout={payout} power={Number(power)} />
             {/* <Button
               bg="#3b49df"
               textColor={"white"}
@@ -202,7 +208,18 @@ export default function CModal({ user }) {
 const PayoutSummary = ({ payout, power, track }) => {
   return (
     <>
-      <TableContainer bg={"#200C5A"} p={2} pb={5} mb={3} borderRadius={"lg"}>
+      <TableContainer
+        bg={useColorModeValue("#F9F8FE", "#200C5A")}
+        color={useColorModeValue("#000", "#fff")}
+        boxShadow={`5px 10px 20px 10px ${useColorModeValue(
+          "#501EE133",
+          "none"
+        )}`}
+        p={2}
+        pb={5}
+        mb={3}
+        borderRadius={"lg"}
+      >
         <Table variant="simple">
           <Tbody>
             <Tr>
@@ -224,39 +241,24 @@ const PayoutSummary = ({ payout, power, track }) => {
         </Table>
       </TableContainer>
 
-      {/* <Stack p={2} fontSize="xs">
-        <Text>Reward history</Text>
-        <Flex
-                        p={3}
-                        bg={"gray.400"}
-                        rounded="2xl"
-                        align={"center"}
-                        justify={"space-between"}
-                        gap={3}
-                      >
-                        <InfoOutlineIcon boxSize={4} />
-                        <Text fontSize={"9px"} color={"white"}>
-                          Bitcoin halving is expected around 21 April. Make sure
-                          you adjust your investment strategy.
-                        </Text>
-                      </Flex>
-      </Stack> */}
-
-      {/* <Flex p={2} align={"center"} justify="space-between">
-        <Link>
-          {" "}
-          <Text>Miner traits</Text>
-          <ArrowForwardIcon />
-        </Link>
-      </Flex> */}
-      <Stack bg={"#200C5A"} border={"2px solid #301287"} rounded={"lg"} p={4}>
+      <Stack
+        bg={useColorModeValue("#F9F8FE", "#200C5A")}
+        color={useColorModeValue("#000", "#fff")}
+        boxShadow={`5px 10px 20px 10px ${useColorModeValue(
+          "#501EE133",
+          "none"
+        )}`}
+        box
+        rounded={"lg"}
+        p={4}
+      >
         <Flex align={"center"} justify={"space-between"}>
           <Text>Price per TH</Text>
           <Text>$35</Text>
         </Flex>
         <Flex align={"center"} justify={"space-between"}>
           <Text>Historical ROI</Text>
-          <Text>{track && track =="Daily" ? "0.241% ": "7.333% "}</Text>
+          <Text>{track && track == "Daily" ? "0.241% " : "7.333% "}</Text>
         </Flex>
         <Flex align={"center"} justify={"space-between"}>
           <Text>Total</Text>
