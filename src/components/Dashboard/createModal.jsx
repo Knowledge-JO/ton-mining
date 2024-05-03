@@ -208,7 +208,18 @@ export default function CModal({ user }) {
 const PayoutSummary = ({ payout, power, track }) => {
   return (
     <>
-      <TableContainer bg={"#200C5A"} p={2} pb={5} mb={3} borderRadius={"lg"}>
+      <TableContainer
+        bg={useColorModeValue("#F9F8FE", "#200C5A")}
+        color={useColorModeValue("#000", "#fff")}
+        boxShadow={`5px 10px 20px 10px ${useColorModeValue(
+          "#501EE133",
+          "none"
+        )}`}
+        p={2}
+        pb={5}
+        mb={3}
+        borderRadius={"lg"}
+      >
         <Table variant="simple">
           <Tbody>
             <Tr>
@@ -230,7 +241,17 @@ const PayoutSummary = ({ payout, power, track }) => {
         </Table>
       </TableContainer>
 
-      <Stack bg={"#200C5A"} border={"2px solid #301287"} rounded={"lg"} p={4}>
+      <Stack
+        bg={useColorModeValue("#F9F8FE", "#200C5A")}
+        color={useColorModeValue("#000", "#fff")}
+        boxShadow={`5px 10px 20px 10px ${useColorModeValue(
+          "#501EE133",
+          "none"
+        )}`}
+        box
+        rounded={"lg"}
+        p={4}
+      >
         <Flex align={"center"} justify={"space-between"}>
           <Text>Price per TH</Text>
           <Text>$35</Text>
