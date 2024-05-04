@@ -21,12 +21,45 @@ import {
 import { FaChartPie } from "react-icons/fa";
 import Rec9 from "../../images/Rectangle9.png";
 import NextImage from "next/image";
+import {
+  getDoc,
+  doc,
+  query,
+  collection,
+  where,
+  getDocs,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  increment,
+} from "firebase/firestore";
+import { db } from "../../../Firebase/firebase";
+import { useEffect, useState } from "react";
 
-export default function BtmWidget() {
+export default function BtmWidget({ user }) {
+  const [userDets, setUserdets] = useState({});
   const cardData = [
     { title: "Monthly Analysis", text: "Total Rewards" },
     // Add more card data objects as needed
   ];
+
+  useEffect(() => {
+    if (!user) return;
+    getRewards();
+  }, [user]);
+
+  async function getRewards() {
+    const userId = user.userId;
+    try {
+      const q = query(collection(db, "miners"), where("userId", "==", userId));
+      const querySnapshot = await getDocs(q);
+      const data = querySnapshot.docs[0].data();
+      setUserdets({ rewards: data.totalMinedToday, hashRate: data.hashRate });
+    } catch (error) {
+      console.error("Error fetching number of miners:", error);
+    }
+  }
+
   return (
     <>
       <SimpleGrid gap={5} columns={{ base: 1, sm: 1, md: 1, lg: 1 }}>
@@ -68,65 +101,20 @@ export default function BtmWidget() {
                       <Th>Status</Th>
                     </Tr>
                   </Thead>
-                  <Tbody>
-                    {/* <Tr
-                      borderBottom={"1px"}
-                      borderColor={useColorModeValue("#fff", "#501EE1")}
-                    >
-                      <Td isNumeric>4/8/2024</Td>
-                      <Td isNumeric>1</Td>
-                      <Td isNumeric>0.00000082</Td>
-                      <Td isNumeric>18ihh9rs...3hcFPX1EF</Td>
-                      <Td color={"#00D87D"}>Approved</Td>
-                    </Tr>
-                    <Tr
-                      borderBottom={"1px"}
-                      borderColor={useColorModeValue("#fff", "#501EE1")}
-                    >
-                      <Td isNumeric>4/8/2024</Td>
-                      <Td isNumeric>1</Td>
-                      <Td isNumeric>0.00000082</Td>
-                      <Td isNumeric>18ihh9rs...3hcFPX1EF</Td>
-                      <Td color={"#00D87D"}>Approved</Td>
-                    </Tr>
-                    <Tr
-                      borderBottom={"1px"}
-                      borderColor={useColorModeValue("#fff", "#501EE1")}
-                    >
-                      <Td isNumeric>4/8/2024</Td>
-                      <Td isNumeric>1</Td>
-                      <Td isNumeric>0.00000082</Td>
-                      <Td isNumeric>18ihh9rs...3hcFPX1EF</Td>
-                      <Td color="#FF4949">Declined</Td>
-                    </Tr>
-                    <Tr
-                      borderBottom={"1px"}
-                      borderColor={useColorModeValue("#fff", "#501EE1")}
-                    >
-                      <Td isNumeric>4/8/2024</Td>
-                      <Td isNumeric>1</Td>
-                      <Td isNumeric>0.00000082</Td>
-                      <Td isNumeric>18ihh9rs...3hcFPX1EF</Td>
-                      <Td color={"#00D87D"}>Approved</Td>
-                    </Tr>
-                    <Tr
-                      borderBottom={"1px"}
-                      borderColor={useColorModeValue("#fff", "#501EE1")}
-                    >
-                      <Td isNumeric>4/8/2024</Td>
-                      <Td isNumeric>1</Td>
-                      <Td isNumeric>0.00000082</Td>
-                      <Td isNumeric>18ihh9rs...3hcFPX1EF</Td>
-                      <Td color={"#00D87D"}>Approved</Td>
-                    </Tr>
-                    <Tr>
-                      <Td isNumeric>4/8/2024</Td>
-                      <Td isNumeric>1</Td>
-                      <Td isNumeric>0.00000082</Td>
-                      <Td isNumeric>18ihh9rs...3hcFPX1EF</Td>
-                      <Td color={"#00D87D"}>Approved</Td>
-                    </Tr> */}
-                  </Tbody>
+                  {userDets.hashRate && (
+                    <Tbody>
+                      <Tr
+                        borderBottom={"1px"}
+                        borderColor={useColorModeValue("#fff", "#501EE1")}
+                      >
+                        <Td isNumeric>{"5/15/2024"}</Td>
+                        <Td isNumeric>{userDets.hashRate}</Td>
+                        <Td isNumeric>{userDets.rewards.toFixed(2)}</Td>
+                        <Td isNumeric></Td>
+                        <Td color={`${"yellow.500"}`}>pending</Td>
+                      </Tr>
+                    </Tbody>
+                  )}
                   <Tfoot></Tfoot>
                 </Table>
               </TableContainer>
