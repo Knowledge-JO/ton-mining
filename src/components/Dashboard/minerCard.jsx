@@ -28,7 +28,7 @@ import {
   Heading,
   useSteps,
   HStack,
-  Spinner
+  Spinner,
 } from "@chakra-ui/react";
 
 import nft1 from "../../images/Nft1.png";
@@ -53,7 +53,6 @@ import {
   IoIosClose,
   IoMdList,
   IoIosFlash,
-  
 } from "react-icons/io";
 import { TbTriangleSquareCircle } from "react-icons/tb";
 import MintSteps from "../MintSteps";
@@ -61,7 +60,6 @@ import { useTonConnect } from "@/hooks/useTonConnect";
 import tonweb from "../../../tonweb";
 import { useTonClient } from "@/hooks/useTonClient";
 import { Address, toNano } from "@ton/core";
-import { useMainCOntract } from "@/hooks/useMainContract";
 import useMinerDetails from "@/hooks/useMinerDetails";
 
 import { BiSolidPlug } from "react-icons/bi";
@@ -156,9 +154,13 @@ export default function MinerCard() {
   if (minerDeets === null) {
     return (
       <Flex align="center" justify="center" height="100vh">
-        <Spinner size="xl" color="blue.500" thickness='4px'
-  speed='0.65s'
-  emptyColor='gray.200' />
+        <Spinner
+          size="xl"
+          color="blue.500"
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+        />
       </Flex>
     );
   }
