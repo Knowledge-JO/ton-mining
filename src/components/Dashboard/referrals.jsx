@@ -37,16 +37,21 @@ export default function Referrals() {
   ];
 
   return (
-    <Stack p={5} spacing={10}>
+    <Stack p={5} spacing={10} w={"100%"}>
       {/* 1st Section */}
-      <SimpleGrid
-        gap={{ base: 5, md: 10 }}
-        columns={{ base: 1, sm: 2, md: 2, lg: 4 }}
+      <Grid
+        justifyContent={"space-between"}
+        templateColumns={[
+          "repeat(1, 100%)",
+          "repeat(2,  48%)",
+          "repeat(2, 48%)",
+          "repeat(3, 31%)",
+        ]}
+        gap={3}
       >
         {cardData.map((card, index) => (
           <Flex
             rounded={"2xl"}
-            size="sm"
             key={card.src}
             border="2px solid"
             borderColor={useColorModeValue("#EDE8FC", "#301287")}
@@ -57,8 +62,7 @@ export default function Referrals() {
                 ? useColorModeValue("#8F6AFB", "#301287")
                 : useColorModeValue("#ffffff", "#10062D")
             }
-            direction={"row"}
-            px={6}
+            px={4}
             py={4}
             gap={3}
           >
@@ -82,18 +86,17 @@ export default function Referrals() {
 
             <Stack
               color={index == 0 ? "#fff" : useColorModeValue("#10062D", "#fff")}
-              p={2}
             >
-              <Text fontSize={"xs"} fontWeight="500">
+              <Text fontSize={"xs"} fontWeight="600">
                 {card.title}
               </Text>
-              <Text fontSize={"lg"} fontWeight="800">
+              <Text fontSize={"sm"} fontWeight="800" mt={"-10px"}>
                 {card.text}
               </Text>
             </Stack>
           </Flex>
         ))}
-      </SimpleGrid>
+      </Grid>
 
       {/* 2nd Section */}
       <Box
@@ -103,111 +106,95 @@ export default function Referrals() {
         rounded={"2xl"}
         align={"center"}
         justify={"space-between"}
-        p={20}
+        px={[5, 20]}
+        py={[10, 20]}
       >
         <Heading fontSize={"md"}>Refer Friends & Get Rewarded!</Heading>
-        <Text whiteSpace={"pre-wrap"} mt={2} fontSize={"sm"}>
+        <Text whiteSpace={"pre-wrap"} mt={2} fontSize={["13px", "sm"]}>
           Get rewarded for sharing xxxxx with your friends. Invite them by using
-          your unique code <b>{user ? user.userId : ""}</b>link below.
+          your unique code <b>{user ? user.userId : ""}</b> link below.
         </Text>
       </Box>
 
       {/* 3rd Section */}
-      <Box mb={10}>
-        <Flex
-          align={"center"}
-          justify={"space-between"}
-          bg={useColorModeValue("#EDE8FC", "#301287")}
-          borderRadius={"lg"}
-          border="2px solid"
-          borderColor={useColorModeValue("#EDE8FC", "#301287")}
-          height={"70px"}
-          px={[5, 5, 6]}
-        >
-          <Text
-            fontSize={["13px", "13px", "md"]}
-            w={["145px", "230px", "auto"]}
+      <Box
+        mb={10}
+        px={[5, 5, 6]}
+        py={3}
+        bg={useColorModeValue("#F9F8FE", "#301287")}
+        borderRadius={"lg"}
+        display={"flex"}
+        alignContent={"center"}
+      >
+        <Flex w={"100%"} align={"center"} justify={"space-between"}>
+          <Box
+            borderLeftRadius={"lg"}
+            border={["0", "1px solid"]}
+            borderColor={[
+              useColorModeValue("#EDE8FC", "#501EE1"),
+              useColorModeValue("#EDE8FC", "#501EE1"),
+            ]}
+            w={"100%"}
+            display={"flex"}
+            justifyContent={["left", "left", "left", "center"]}
+            alignItems={"center"}
+            h={10}
+            pl={[0, 5]}
+            py={[8, 6, 6, 6]}
           >
-            https://app.xxxxx.com/s/{user ? user.userId : ""}
-          </Text>
-          <Button size={["sm", "lg"]} bg="#501EE1" color={"#FFFFFF"}>
+            <Text
+              fontSize={["xs", "sm", "sm", "md"]}
+              w={["145px", "230px", "230px", "auto"]}
+            >
+              https://app.xxxxx.com/s/{user ? user.userId : ""}
+            </Text>
+          </Box>
+
+          <Button
+            bg={useColorModeValue("#8F6AFB", "#501EE1")}
+            borderRightRadius={"10px"}
+            borderLeftRadius={["10px", "0"]}
+            color={"#FFFFFF"}
+            h={[10, "50px", "50px", "50px"]}
+            w={"100px"}
+          >
             Copy
           </Button>
         </Flex>
       </Box>
-
-      <SimpleGrid
-        border="2px solid"
-        borderColor={useColorModeValue("#EDE8FC", "#301287")}
-        color={useColorModeValue("#10062D", "#fff")}
-        rounded={"2xl"}
-        py={2}
-        px={10}
-        gap={{ base: 5, md: 20 }}
-        columns={{ base: 4, sm: 4, md: 4, lg: 4 }}
-        mb={10}
+      <Grid
+        templateColumns={"repeat(4, auto)"}
+        gap={3}
+        justifyContent={"center"}
+        mt={"-50px"}
+        mb={"80px"}
       >
-        <Box
-          border="2px solid"
-          borderColor={useColorModeValue("#EDE8FC", "#301287")}
-          bg={useColorModeValue("#8F6AFB", "#ffff")}
-          rounded="full"
-          align="center"
-          justify={"center"}
-          p={1}
-        >
-          <Icon
-            boxSize={7}
-            color={useColorModeValue("#F9F8FE", "#501EE1")}
-            as={FaChartPie}
-          />
-        </Box>
-        <Flex
-          border="2px solid"
-          borderColor={useColorModeValue("#EDE8FC", "#301287")}
-          bg={useColorModeValue("#8F6AFB", "#ffff")}
-          rounded="full"
-          align="center"
-          justify={"center"}
-          p={1}
-        >
-          <Icon
-            boxSize={7}
-            color={useColorModeValue("#F9F8FE", "#501EE1")}
-            as={FaChartPie}
-          />
-        </Flex>
-        <Flex
-          border="2px solid"
-          borderColor={useColorModeValue("#EDE8FC", "#301287")}
-          bg={useColorModeValue("#8F6AFB", "#ffff")}
-          rounded="full"
-          align="center"
-          justify={"center"}
-          p={1}
-        >
-          <Icon
-            boxSize={7}
-            color={useColorModeValue("#F9F8FE", "#501EE1")}
-            as={FaChartPie}
-          />
-        </Flex>
-        <Flex
-          border="2px solid"
-          borderColor={useColorModeValue("#EDE8FC", "#301287")}
-          bg={useColorModeValue("#8F6AFB", "#ffff")}
-          rounded="full"
-          align="center"
-          justify={"center"}
-          p={1}
-        >
-          <Icon
-            boxSize={7}
-            color={useColorModeValue("#F9F8FE", "#501EE1")}
-            as={FaChartPie}
-          />
-        </Flex>
-      </SimpleGrid>
+        <Socials />
+        <Socials />
+        <Socials />
+        <Socials />
+      </Grid>
     </Stack>
+  );
+}
+
+function Socials() {
+  return (
+    <Box
+      w={14}
+      h={10}
+      display={"flex"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      rounded={"10px"}
+      borderWidth={"1px"}
+      borderColor={useColorModeValue("#8F6AFB", "#501EE1")}
+    >
+      <Icon
+        as={FaChartPie}
+        boxSize={6}
+        color={useColorModeValue("#8F6AFB", "#501EE1")}
+      ></Icon>
+    </Box>
   );
 }
