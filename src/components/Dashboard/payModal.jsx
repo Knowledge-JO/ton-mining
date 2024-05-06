@@ -114,35 +114,46 @@ export default function PaymentModal({ user, payout, power }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { sender, tonConnectUI } = useTonConnect()
 
-  const { value, contract } = useJettonContract();
-  const {transfer} = useJettonWalletContract();
+  const { value } = useJettonContract();
+  const {transfer, loading} = useJettonWalletContract();
   const handleCheckout = async (to, amount)=>{
     event.preventDefault()
-    try {
-      console.log(`Transfering ${amount} jettons to ${to}`);
+    tonConnectUI.
+      console.log(`Transfering ${amount} jettons to ${to}`);  
+      onClose();
       const trans  = await transfer(Address.parse(to), BigInt(amount) * BigInt('1000000000'));
-    } catch (error) {
-      console.log(error)
-    }
+      console.log(trans)
+   
   }
 
-  console.log(value)
-// const fetchJettonWallet = async()=>{
-//   try {
-//     const userWallet = "EQDBwyHGhAFmRLi4zhI-m7D8lZMj4zdbCEXBtY9Q-ghUImvU"
-//     const jettonWallet = new TonWeb.token.jetton.JettonWallet(tonweb.provider,{address: userWallet});
-// const data = await jettonWallet.getData();
-// console.log('Jetton balance:', data.balance.toString());
-// console.log('Jetton owner address:', data.ownerAddress.toString(true, true, true));
 
-//   } catch (error) {
-//     console.log(error)
+//   const handleCheckout = async () =>{
+//     try{
+//       const jettonMinter = new TonWeb.token.jetton.JettonMinter(tonweb.provider, {address: "EQDBwyHGhAFmRLi4zhI-m7D8lZMj4zdbCEXBtY9Q-ghUImvU"});
+// const data = await jettonMinter.getJettonData();
+// console.log('Total supply:', data.totalSupply.toString());
+// const address = await jettonMinter.getJettonWalletAddress(new TonWeb.utils.Address("UQANU5UpmIdgIRZPdLA1y5FUSkMBa8gzXP89lxRC2li76AwB"));
+// // It is important to always check that wallet indeed is attributed to desired Jetton Master:
+// const jettonWallet = new TonWeb.token.jetton.JettonWallet(tonweb.provider, {
+//   address: address
+// });
+// const jettonData = await jettonWallet.getData();
+
+
+// console.log('Jetton wallet address:', address.toString(true, true, true));
+
+// console.log("Jetton wallet",address)
+// console.log("jetton wallet 2",jettonWallet)
+// console.log("jetton data", jettonData)
+
+
+//     }catch(error){
+//       console.log(error)
+//     }
 //   }
-// }
 
-// useEffect(()=>{
-// fetchJettonWallet()
-// },[])
+
+
 
   const [miner, setMiner] = useState(null);
   const [balance, setBalance] = useState(0);
@@ -534,6 +545,7 @@ export default function PaymentModal({ user, payout, power }) {
               textColor={"white"}
               mr={3}
               onClick={handlePayment}
+              isDisabled={selectedPaymentMethod === 1 && loading}
             >
               Pay
             </Button>

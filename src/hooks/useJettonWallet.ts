@@ -3,42 +3,74 @@ import { Address, toNano } from '@ton/core';
 import { useTonConnect } from './useTonConnect';
 import { useJettonContract } from './useJettonContract';
 import { transfer } from '../contract/JettonWalletContract';
-import { useTonAddress } from '@tonconnect/ui-react';
-import { useEffect } from 'react';
+import { CHAIN, useTonAddress } from '@tonconnect/ui-react';
+import { useEffect, useState } from 'react';
 
 export function useJettonWalletContract() {
   const { tonConnectUI } = useTonConnect();
   const clientAddress = useTonAddress();
   console.log('Client address:', clientAddress);
   const { contract } = useJettonContract();
+  const [loading, setLoading] = useState(true);
+  const [walletAddress, setWalletAddress] = useState<Address | undefined>(undefined);
 
-  const walletAddress = useAsyncInitialize(
-    async () => await contract?.getWalletAddress(Address.parse(clientAddress)));
+  useEffect(() => {
+    async function fetchWalletAddress() {
+      if (contract && clientAddress) {
+        try {
+          const address = await contract?.getWalletAddress(Address.parse(clientAddress));
+          setWalletAddress(address);
+          setLoading(false);
+        } catch (error) {
+          console.error("Failed to fetch wallet address:", error);
+          setLoading(false);
+        }
+      }
+    }
 
-useEffect(()=>{
-    console.log('Wallet address:', walletAddress?.toRawString());
-}, [walletAddress])
+    fetchWalletAddress();
+  }, [contract, clientAddress]); 
 
-  const _transfer = async (to: Address, amount: bigint) => {
-    if (!contract && !walletAddress) {
-        console.log("jetton wallet not found")
+useEffect(() => {
+  if (walletAddress) {
+    console.log('Wallet address:', walletAddress.toRawString());
+  } else {
+    console.log('Waiting for wallet address...');
+  }
+}, [walletAddress]);
+
+
+const _transfer = async (to: Address, amount: bigint) => {
+    if (!contract || !walletAddress) {
+        console.log("Jetton wallet not found");
         return;
-    };
+    }
+   
+
+
     const body = transfer(to, Address.parse(clientAddress), amount);
+    console.log(body.toBoc().toString('base64'));
     await tonConnectUI.sendTransaction({
       validUntil: Math.floor(Date.now() / 1000) + 360,
-
       messages: [
         {
           address: walletAddress?.toRawString(),
           amount: toNano(0.05).toString(),
-          payload: body.toBoc().toString('base64'),
+          payload: body.toString(),
         },
       ],
+      network: CHAIN.MAINNET,
+      
+      
+    }, {
+      notifications: "all",
+      modals: "all",
+      returnStrategy: "back",
     });
-  };
+};
 
-  return {
+return {
+    loading,
     transfer: _transfer,
-  };
+};
 }
