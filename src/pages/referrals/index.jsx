@@ -32,8 +32,8 @@ export default function referrals() {
             w={["100%", "100%", "85%", "85%"]}
             bg={useColorModeValue("ffffff", "#10062D")}
             color={useColorModeValue("#10062D", "#fff")}
-            justify={"center"}
             p={5}
+            pr={[5, 5, "18%"]}
           >
             {/* Referrals Section */}
             <Referrals />

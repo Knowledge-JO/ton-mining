@@ -19,7 +19,7 @@ export default function DashScreen({ miner, user }) {
         {/* Mid Section */}
         <MidWidget />
         {/* Bottom Section */}
-        <BtmWidget />
+        <BtmWidget user={user} />
         <Flex w={"20%"} p={5}></Flex>
       </Stack>
     </>

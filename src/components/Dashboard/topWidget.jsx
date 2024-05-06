@@ -45,7 +45,7 @@ export default function TopWidget({ miner, user }) {
     // Save miner details to database
     if (!user) return;
     const userId = user.userId;
-    console.log(userId);
+    //console.log(userId);
     if (miner) {
       saveToDatabase(miner, userId);
     }
@@ -72,13 +72,13 @@ export default function TopWidget({ miner, user }) {
         // btcToUsd: miner.btcToUsd,
         lastUpdatedTime: miner.lastUpdateTimestamp,
       });
-      console.log(
-        "from topwidget savetodatabase",
-        miner.lastUpdateTimestamp,
-        miner.totalMinedToday,
-        miner
-      );
-      console.log("Miner details saved to database successfully.");
+      //  console.log(
+      //     "from topwidget savetodatabase",
+      //     miner.lastUpdateTimestamp,
+      //     miner.totalMinedToday,
+      //     miner
+      //   );
+      // console.log("Miner details saved to database successfully.");
     } catch (error) {
       console.error("Error saving miner details:", error);
     }
@@ -92,7 +92,7 @@ export default function TopWidget({ miner, user }) {
   const cardData = [
     {
       title: "Total Rewards",
-      text: balance ? parseFloat(balance).toFixed(10) : 0,
+      text: balance ? parseFloat(balance).toFixed(6) : 0,
     },
     {
       title: "Miners",
@@ -135,51 +135,35 @@ export default function TopWidget({ miner, user }) {
             py={4}
             gap={3}
           >
-            {index == 0 ? (
-              <Flex
-                bg={"white"}
-                rounded="full"
-                align={"center"}
-                justify={"center"}
-                h={10}
-                w={10}
-              >
-                <Flex
-                  bg={"#ED8936"}
-                  rounded="full"
-                  w={7}
-                  h={7}
-                  align={"center"}
-                  justify={"center"}
-                >
-                  <Icon boxSize={5} color={"#fff"} as={FaDollarSign} />
-                </Flex>
-              </Flex>
-            ) : (
-              <Box
-                bg={useColorModeValue("#EDE8FC", "#ffff")}
-                rounded="full"
-                p={1}
-              >
-                <Icon
-                  boxSize={8}
-                  color={useColorModeValue("#8F6AFB", "#501EE1")}
-                  as={FaChartPie}
-                />
-              </Box>
-            )}
-
-            <Stack
-              color={index == 0 ? "#fff" : useColorModeValue("#10062D", "#fff")}
-              p={2}
+            <Box
+              bg={useColorModeValue("#F9F8FE", "#ffff")}
+              rounded="full"
+              p={1}
             >
-              <Text fontSize={"xs"} fontWeight="500">
+              <Icon
+                boxSize={index == 0 ? 6 : 8}
+                color={
+                  index == 0
+                    ? "green.500"
+                    : useColorModeValue("#8F6AFB", "#501EE1")
+                }
+                as={index == 0 ? FaDollarSign : FaChartPie}
+              />
+            </Box>
+
+            <Flex
+              color={index == 0 ? "#fff" : useColorModeValue("#10062D", "#fff")}
+              w={"100px"}
+              direction={"column"}
+              align={"left"}
+            >
+              <Text fontSize={"xs"} fontWeight="600">
                 {card.title}
               </Text>
-              <Text fontSize={"lg"} fontWeight="800">
+              <Text fontSize={"sm"} fontWeight="800">
                 {card.text}
               </Text>
-            </Stack>
+            </Flex>
           </Flex>
         ))}
       </SimpleGrid>
