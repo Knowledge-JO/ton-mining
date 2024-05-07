@@ -15,6 +15,7 @@ import {
 import { db } from "../../../Firebase/firebase";
 import Miner from "./Controllers/miner";
 
+export const maxDuration = 30;
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
