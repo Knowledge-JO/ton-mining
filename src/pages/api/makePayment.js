@@ -79,9 +79,11 @@ export default async function handler(req, res) {
             clearInterval(intervalId);
             console.log("check from make payment", inqResponse.data);
             await createMiner(Number(power), Number(amount), userId);
+            res.status(200).json({ payLink: apiResponse.data.payLink });
           } else if (inqResponse.data.status == "Expired") {
             clearInterval(intervalId);
             console.log("Payment Expired");
+            res.status(200).json({ payLink: apiResponse.data.payLink });
           }
         } catch (e) {
           console.log(e);
