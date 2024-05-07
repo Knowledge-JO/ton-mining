@@ -25,20 +25,62 @@ import {
   collection,
   where,
   getDocs,
+  setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { app } from "../../Firebase/firebase";
 import { useRouter } from "next/router";
 import { db } from "../../Firebase/firebase";
 
-
 export default function dashboard() {
   // Define state to store user data
   const [user, setUser] = useState(null);
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
-  // const { userId, amount, paymentSuccess } = router.query;
+  const { trackId: newtrackId } = router.query;
   const [miner, setMiner] = useState(null);
+  const [respData, setRespData] = useState();
+  //get trackId from DB
+  const validatePayment = async () => {
+    const docRef = doc(db, "users", user.userId);
+    const userQs = await getDoc(docRef);
+    if (userQs.exists()) {
+      const userData = userQs.data();
+      const latestTrackId = userData.trackId[userData.trackId.length - 1];
+      console.log(
+        "user data ok",
+        userData,
+        latestTrackId,
+        userData.unCheckedId
+      );
+      if (latestTrackId == userData.unCheckedId) {
+        const resData = await queryOxaPay(userData.unCheckedId);
+        setRespData(resData);
+      }
+    }
+  };
+
+  const queryOxaPay = async (trackId) => {
+    const url = "/api/checkPay";
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        trackId,
+        userId: user.userId,
+      }),
+    });
+
+    const data = await resp.json();
+    console.log("queryOxaPay", data);
+    return data;
+  };
+  useEffect(() => {
+    if (!user) return;
+    validatePayment();
+  }, [user]);
+
   const existingMiner = async (userId) => {
     const minersQuery = query(
       collection(db, "miners"),
@@ -66,7 +108,7 @@ export default function dashboard() {
 
   useEffect(() => {
     const auth = getAuth();
-    setIsLoading(true)
+    setIsLoading(true);
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log(user.uid);
@@ -81,19 +123,17 @@ export default function dashboard() {
               setUser({ userId, ...userData });
               // Assuming each user has only one miner
               existingMiner(userId);
-              
             } else {
               console.log("User document not found.");
             }
-            
           })
           .catch((error) => {
             console.error("Error fetching user data:", error.message);
           });
-          setIsLoading(false)
+        setIsLoading(false);
       } else {
         setUser(null); // Set userdata to null when the user is not logged in
-        setIsLoading(false)
+        setIsLoading(false);
         toast.error("please login");
         router.push("/login");
       }
@@ -114,7 +154,7 @@ export default function dashboard() {
     if (!user) return;
     const userId = user.userId;
     existingMiner(userId);
-  }, [user]);
+  }, [user, respData]);
 
   if (isLoading) {
     return (

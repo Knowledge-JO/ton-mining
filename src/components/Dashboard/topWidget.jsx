@@ -29,7 +29,7 @@ import { db } from "../../../Firebase/firebase";
 export default function TopWidget({ miner, user }) {
   const [balance, setBalance] = useState(0);
   const [numberOfMiners, setNumberOfMiners] = useState(0);
-  console.log(`user deets from top widget`, user);
+  // console.log(`user deets from top widget`, user);
   useEffect(() => {
     const interval = setInterval(() => {
       if (miner) {
@@ -58,7 +58,7 @@ export default function TopWidget({ miner, user }) {
       const data = querySnapshot.docs[0].data();
       setNumberOfMiners(data.minerId.length);
     } catch (error) {
-      console.error("Error fetching number of miners:", error);
+      // console.error("Error fetching number of miners:", error);
       setNumberOfMiners(0);
     }
   }
@@ -85,7 +85,7 @@ export default function TopWidget({ miner, user }) {
   }
 
   useEffect(() => {
-    console.log("user form detch miner number", user?.userId);
+    // console.log("user form detch miner number", user?.userId);
     fetchNumberOfMiners(user?.userId);
   }, [user, miner]);
 
@@ -109,7 +109,7 @@ export default function TopWidget({ miner, user }) {
     // Add more card data objects as needed
   ];
 
-  console.log("miner from top widget", miner);
+  // console.log("miner from top widget", miner);
   return (
     <>
       <SimpleGrid
