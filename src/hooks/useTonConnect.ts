@@ -1,5 +1,7 @@
-import { useTonConnectUI, TonConnectUI } from '@tonconnect/ui-react';
+import { useTonConnectUI, TonConnectUI, useTonWallet } from '@tonconnect/ui-react';
 import { Sender, SenderArguments } from '@ton/core';
+import { Address } from '@ton/core';
+
 
 export function useTonConnect(): {
   sender: Sender;
@@ -7,6 +9,7 @@ export function useTonConnect(): {
   tonConnectUI: TonConnectUI;
 } {
   const [tonConnectUI] = useTonConnectUI();
+  const wallet = useTonWallet()
   return {
     sender: {
       send: async (args: SenderArguments) => {
@@ -21,6 +24,7 @@ export function useTonConnect(): {
           validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes for user to approve
         });
       },
+      address: wallet?.account?.address ? Address.parse(wallet?.account?.address as string) : undefined
     },
     connected: tonConnectUI.connected,
     tonConnectUI: tonConnectUI,
