@@ -48,6 +48,7 @@
     "styled-components": "^6.1.8",
     "ton": "^13.9.0",
     "ton-core": "^0.53.0",
+    "ton-crypto": "^3.2.0",
     "tonweb": "^0.0.66",
     "uuid": "^9.0.1",
     "ws": "^8.16.0"

@@ -71,20 +71,13 @@ import { app } from "../../../Firebase/firebase";
 import { useRouter } from "next/router";
 import { db } from "../../../Firebase/firebase";
 import Miner from "@/pages/api/Controllers/miner";
-import { TonConnectButton, toUserFriendlyAddress } from "@tonconnect/ui-react";
+import { TonConnectButton } from "@tonconnect/ui-react";
 import { useTonConnect } from "@/hooks/useTonConnect";
-import tonweb from "../../../tonweb";
-import TonWeb from "tonweb";
-import { useJettonContract } from "@/hooks/useJettonContract";
-import { useJettonWalletContract } from "@/hooks/useJettonWallet";
-import { Address } from '@ton/core';
-
+import { useJettonWallet } from "@/hooks/useJettonWallet";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
-
-
 
 // const handleCheckout = async (power, userId) => {
 //   console.log(power, userId);
@@ -110,50 +103,38 @@ const stripePromise = loadStripe(
 //   // }
 // };
 
-export default function PaymentModal({ user, payout, power }) {
+export default function PaymentModal({ user, payout, power, closeC }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { sender, tonConnectUI } = useTonConnect()
+  const { userAddress } = useTonConnect();
+  const { getBalance, transfer } = useJettonWallet();
+  const handleCheckout = async (amount) => {
+    onClose();
+    closeC();
+    await transfer(amount);
+  };
 
-  const { value } = useJettonContract();
-  const {transfer, loading} = useJettonWalletContract();
-  const handleCheckout = async (to, amount)=>{
-    event.preventDefault()
-    tonConnectUI.
-      console.log(`Transfering ${amount} jettons to ${to}`);  
-      onClose();
-      const trans  = await transfer(Address.parse(to), BigInt(amount) * BigInt('1000000000'));
-      console.log(trans)
-   
-  }
+  //   const handleCheckout = async () =>{
+  //     try{
+  //       const jettonMinter = new TonWeb.token.jetton.JettonMinter(tonweb.provider, {address: "EQDBwyHGhAFmRLi4zhI-m7D8lZMj4zdbCEXBtY9Q-ghUImvU"});
+  // const data = await jettonMinter.getJettonData();
+  // console.log('Total supply:', data.totalSupply.toString());
+  // const address = await jettonMinter.getJettonWalletAddress(new TonWeb.utils.Address("UQANU5UpmIdgIRZPdLA1y5FUSkMBa8gzXP89lxRC2li76AwB"));
+  // // It is important to always check that wallet indeed is attributed to desired Jetton Master:
+  // const jettonWallet = new TonWeb.token.jetton.JettonWallet(tonweb.provider, {
+  //   address: address
+  // });
+  // const jettonData = await jettonWallet.getData();
 
+  // console.log('Jetton wallet address:', address.toString(true, true, true));
 
-//   const handleCheckout = async () =>{
-//     try{
-//       const jettonMinter = new TonWeb.token.jetton.JettonMinter(tonweb.provider, {address: "EQDBwyHGhAFmRLi4zhI-m7D8lZMj4zdbCEXBtY9Q-ghUImvU"});
-// const data = await jettonMinter.getJettonData();
-// console.log('Total supply:', data.totalSupply.toString());
-// const address = await jettonMinter.getJettonWalletAddress(new TonWeb.utils.Address("UQANU5UpmIdgIRZPdLA1y5FUSkMBa8gzXP89lxRC2li76AwB"));
-// // It is important to always check that wallet indeed is attributed to desired Jetton Master:
-// const jettonWallet = new TonWeb.token.jetton.JettonWallet(tonweb.provider, {
-//   address: address
-// });
-// const jettonData = await jettonWallet.getData();
+  // console.log("Jetton wallet",address)
+  // console.log("jetton wallet 2",jettonWallet)
+  // console.log("jetton data", jettonData)
 
-
-// console.log('Jetton wallet address:', address.toString(true, true, true));
-
-// console.log("Jetton wallet",address)
-// console.log("jetton wallet 2",jettonWallet)
-// console.log("jetton data", jettonData)
-
-
-//     }catch(error){
-//       console.log(error)
-//     }
-//   }
-
-
-
+  //     }catch(error){
+  //       console.log(error)
+  //     }
+  //   }
 
   const [miner, setMiner] = useState(null);
   const [balance, setBalance] = useState(0);
@@ -219,7 +200,7 @@ export default function PaymentModal({ user, payout, power }) {
 
   const handlePayment = async () => {
     if (selectedPaymentMethod === 1) {
-      await handleCheckout("UQAAlLzdeb9Xu3CUc0t4Y8AWwdMRMYKFsk-lrTPirmpPhLQY", 5); // Assume this is already implemented
+      await handleCheckout("100"); // Assume this is already implemented
     } else if (selectedPaymentMethod === 0) {
       await handleCrypto(power, user); // You need to implement this
     }
@@ -268,8 +249,8 @@ export default function PaymentModal({ user, payout, power }) {
                     By Crypto
                   </Tab>
 
-                  <Tab 
-                  // isDisabled={true}
+                  <Tab
+                    // isDisabled={true}
                     bg="#3b49df"
                     border={"none"}
                     rounded={"lg"}
@@ -504,7 +485,7 @@ export default function PaymentModal({ user, payout, power }) {
                         automatically add them to your collection.
                       </Text>
                     </Flex> */}
-                    <TonConnectButton />
+                    {/* <TonConnectButton /> */}
                     <Stack
                       margin={2}
                       border={"2px solid #301287"}
@@ -545,7 +526,6 @@ export default function PaymentModal({ user, payout, power }) {
               textColor={"white"}
               mr={3}
               onClick={handlePayment}
-              isDisabled={selectedPaymentMethod === 1 && loading}
             >
               Pay
             </Button>

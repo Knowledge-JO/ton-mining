@@ -39,7 +39,6 @@ import { signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 import useFirebaseUser from "../utils/useUser";
 
-
 export default function Navbar() {
   // Define state to store user data
   const { colorMode, toggleColorMode } = useColorMode();
@@ -112,7 +111,9 @@ export default function Navbar() {
               >
                 Login
               </Button> */}
-              <TonConnectButton />
+              <Box display={["none", "none", "block"]}>
+                <TonConnectButton />
+              </Box>
               <Button
                 bg={useColorModeValue("#8F6AFB", "#3b49df")}
                 onClick={toggleColorMode}
@@ -141,11 +142,7 @@ export default function Navbar() {
                   borderColor={useColorModeValue("gray.700", "gray.100")}
                   boxShadow="4px 4px 0"
                 >
-                  <Link
-                    
-                    _hover={{ textDecoration: "none" }}
-                    isExternal
-                  >
+                  <Link _hover={{ textDecoration: "none" }} isExternal>
                     <MenuItem>
                       <VStack justifyContent="start" alignItems="left">
                         <Text fontWeight="500">
@@ -164,7 +161,7 @@ export default function Navbar() {
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem>
-                    <Text fontWeight="500" onClick={(e)=>handlesignOut(e)}>
+                    <Text fontWeight="500" onClick={(e) => handlesignOut(e)}>
                       Sign Out
                     </Text>
                   </MenuItem>

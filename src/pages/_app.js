@@ -5,10 +5,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
 
-
+// const manifestUrl =
+//   "https://raw.githubusercontent.com/Knowledge-JO/ton-mining/main/public/manifest.json";
 
 const manifestUrl =
-  "https://raw.githubusercontent.com/Knowledge-JO/ton-mining/main/public/manifest.json";
+  "https://rose-gothic-goose-655.mypinata.cloud/ipfs/QmXZoJcQqFTFyo4VadNdU6b3eNkhqv2VrTTYGGqjAvq6Sr";
 
 export default function App({ Component, pageProps }) {
   return (

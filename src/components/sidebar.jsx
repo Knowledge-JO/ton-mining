@@ -14,6 +14,7 @@ import {
   MenuList,
   MenuItem,
   IconButton,
+  Button,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { IoHome, IoPerson } from "react-icons/io5";
@@ -24,6 +25,7 @@ import { GiMiner } from "react-icons/gi";
 import { useMediaQuery } from "@chakra-ui/react";
 import { IoMdWallet, IoMdMore } from "react-icons/io";
 import { HiDotsHorizontal } from "react-icons/hi";
+import { TonConnectButton } from "@tonconnect/ui-react";
 
 export default function IndexSidebar() {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
@@ -121,6 +123,11 @@ export default function IndexSidebar() {
             <MenuList>
               <MenuItem as={NextLink} href={"/referrals"}>
                 Referrals
+              </MenuItem>
+              <MenuItem>
+                <Button>
+                  <TonConnectButton />
+                </Button>
               </MenuItem>
             </MenuList>
           </Menu>
