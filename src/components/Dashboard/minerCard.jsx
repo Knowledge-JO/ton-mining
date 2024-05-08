@@ -31,19 +31,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
-import nft1 from "../../images/Nft1.png";
-import nft2 from "../../images/Nft2.png";
-import nft3 from "../../images/Nft3.png";
-import NextImage from "next/image";
-import CModal from "./createModal";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  getDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../../Firebase/firebase";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 import {
@@ -56,12 +44,6 @@ import {
 } from "react-icons/io";
 import { TbTriangleSquareCircle } from "react-icons/tb";
 import MintSteps from "../MintSteps";
-import { useTonConnect } from "@/hooks/useTonConnect";
-import tonweb from "../../../tonweb";
-import { useTonClient } from "@/hooks/useTonClient";
-import { Address, toNano } from "@ton/core";
-import useMinerDetails from "@/hooks/useMinerDetails";
-
 import { BiSolidPlug } from "react-icons/bi";
 import UpgradeModal from "./upgradeModal";
 
@@ -70,10 +52,6 @@ export default function MinerCard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [user, setUser] = useState("");
   const [activeMinerId, setActiveMinerId] = useState(null);
-  const client = useTonClient();
-  const { network, connected, wallet } = useTonConnect();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleMintClick = (minerId) => {
     setActiveMinerId(minerId);
