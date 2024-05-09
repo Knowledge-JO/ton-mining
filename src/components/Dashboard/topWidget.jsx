@@ -21,10 +21,9 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { app } from "../../../Firebase/firebase";
-import { FaBitcoin } from "react-icons/fa6";
-import { LuBitcoin } from "react-icons/lu";
+
 import { db } from "../../../Firebase/firebase";
+import { createMiner } from "@/utils/updatedb";
 
 export default function TopWidget({ miner, user }) {
   const [balance, setBalance] = useState(0);
@@ -39,7 +38,7 @@ export default function TopWidget({ miner, user }) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [miner]);
+  }, [miner, createMiner]);
 
   useEffect(() => {
     // Save miner details to database

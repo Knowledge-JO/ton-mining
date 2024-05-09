@@ -193,7 +193,7 @@ export default function CModal({ user }) {
               user={user}
               payout={payout}
               power={Number(power)}
-              closeC={onClose}
+              closeCreateModal={onClose}
             />
             {/* <Button
               bg="#3b49df"

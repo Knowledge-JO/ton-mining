@@ -1,21 +1,8 @@
 import axios from "axios";
-import {
-  getDoc,
-  doc,
-  query,
-  collection,
-  where,
-  getDocs,
-  setDoc,
-  updateDoc,
-  arrayUnion,
-  increment,
-} from "firebase/firestore";
+import { getDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 import { db } from "../../../Firebase/firebase";
-import Miner from "./Controllers/miner";
 
-export const maxDuration = 30;
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
@@ -46,9 +33,7 @@ export default async function handler(req, res) {
   });
 
   try {
-    const apiResponse = await axios.post(url, data, {
-      headers: { "Content-Type": "application/json" },
-    });
+    const apiResponse = await axios.post(url, data);
     if (apiResponse.data && apiResponse.data.payLink) {
       // If there's a payLink, send it back to the client to redirect
       console.log("from make payment", apiResponse.data, power);

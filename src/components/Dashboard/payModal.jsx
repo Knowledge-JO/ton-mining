@@ -74,7 +74,9 @@ import Miner from "@/pages/api/Controllers/miner";
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useTonConnect } from "@/hooks/useTonConnect";
 import { useJettonWallet } from "@/hooks/useJettonWallet";
-
+import { fromNano, toNano } from "ton-core";
+import { useTonClient } from "@/hooks/useTonClient";
+import { createMiner } from "@/utils/updatedb";
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
@@ -103,14 +105,74 @@ const stripePromise = loadStripe(
 //   // }
 // };
 
-export default function PaymentModal({ user, payout, power, closeC }) {
+export default function PaymentModal({
+  user,
+  payout,
+  power,
+  closeCreateModal,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { userAddress } = useTonConnect();
+  const { userAddress, connected } = useTonConnect();
   const { getBalance, transfer } = useJettonWallet();
-  const handleCheckout = async (amount) => {
+  const [userBalance, setUserBalance] = useState();
+  const client = useTonClient();
+
+  useEffect(() => {
+    (async () => {
+      const bal = await getBalance();
+      if (!bal) return;
+      setUserBalance(fromNano(bal));
+    })();
+
+    return () => {};
+  }, [client, userAddress, connected, getBalance, userBalance]);
+
+  const verifyTx = async (paidAmount, power, cost, userId) => {
+    const intervalId = setInterval(async () => {
+      let bal = await getBalance();
+      if (!bal) return;
+      bal = Number(fromNano(bal));
+      if (bal <= Number(userBalance) - paidAmount) {
+        clearInterval(intervalId);
+        const newBal = bal;
+        setBalance(newBal);
+        await createMiner(power, cost, userId);
+      }
+      console.log(bal);
+    }, 2000);
+    setTimeout(() => clearInterval(intervalId), 1800000);
+  };
+
+  const sleep = async (time) =>
+    new Promise((resolve) => setTimeout(resolve, time));
+
+  const handleCheckout = async (power, user) => {
+    if (!user) return;
+    let amount;
+    if (power > 1) {
+      amount = power * 35 * 0.9; // 10% discount applied
+    } else {
+      amount = power * 35;
+    }
     onClose();
-    closeC();
-    await transfer(amount);
+    closeCreateModal();
+    const pricePerTonTon = await fetchTokenPrice();
+    const toPay = amount / Number(pricePerTonTon);
+    console.log("You are paying", toPay);
+    console.log("my balance", userBalance);
+    await transfer(toPay);
+    await sleep(3000);
+    await verifyTx(toPay, power, amount, user.userId);
+  };
+
+  const fetchTokenPrice = async () => {
+    const url =
+      "https://api.dexscreener.com/latest/dex/pairs/ton/EQCiCxCExlV7gZ9o6YlOj4GVm402yK5Aun2q53IP-y9Ik3U9";
+    const resp = await fetch(url);
+    const data = await resp.json();
+    const pair = data.pair;
+    const priceInUSD = pair.priceUsd;
+    return priceInUSD;
   };
 
   //   const handleCheckout = async () =>{
@@ -169,6 +231,7 @@ export default function PaymentModal({ user, payout, power, closeC }) {
 
   const pay = async (amount, user) => {
     try {
+      console.log("handling cryptoo...");
       const response = await fetch("/api/makePayment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -194,14 +257,15 @@ export default function PaymentModal({ user, payout, power, closeC }) {
     } catch (error) {
       // Catch any errors in the fetch operation or JSON parsing and display an error toast
       console.error("Payment Error:", error);
-      toast.error(`Payment failed: ${error.message || "Unknown error"}`);
+      toast.error(`Payment failed: ${error.code || "Unknown error"}`);
     }
   };
 
   const handlePayment = async () => {
     if (selectedPaymentMethod === 1) {
-      await handleCheckout("100"); // Assume this is already implemented
+      await handleCheckout(power, user); // Assume this is already implemented
     } else if (selectedPaymentMethod === 0) {
+      console.log("selectedpayment method", selectedPaymentMethod);
       await handleCrypto(power, user); // You need to implement this
     }
   };

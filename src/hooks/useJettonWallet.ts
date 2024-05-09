@@ -57,16 +57,19 @@ export function useJettonWallet() {
 
   return {
     getBalance: async () => {
-      console.log(
-        "from useJettonWallet",
-        userAddress,
-        userJettonWalletAddress?.toString()
-      );
-      console.log("balance", await jettonWallet?.getJettonBalance());
-      return await jettonWallet?.getJettonBalance();
+      try {
+        console.log(
+          "from useJettonWallet",
+          userAddress,
+          userJettonWalletAddress?.toString()
+        );
+        return await jettonWallet?.getJettonBalance();
+      } catch (err) {
+        console.log(err);
+      }
     },
 
-    transfer: async (transferAmount: string) => {
+    transfer: async (transferAmount: number) => {
       try {
         if (!userAddress) return "Plese connect your wallet";
         const senderAddress = Address.parse(userAddress);
