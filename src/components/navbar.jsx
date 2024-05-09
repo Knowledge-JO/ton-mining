@@ -111,12 +111,13 @@ export default function Navbar() {
               >
                 Login
               </Button> */}
-              <Box display={["none", "none", "block"]}>
+              <Box display={["block", "block", "block"]}>
                 <TonConnectButton />
               </Box>
               <Button
                 bg={useColorModeValue("#8F6AFB", "#3b49df")}
                 onClick={toggleColorMode}
+                display={["none", "none", "block"]}
               >
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>

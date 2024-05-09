@@ -15,7 +15,8 @@ import {
   MenuItem,
   IconButton,
   Button,
-  MenuDivider
+  useColorMode,
+  
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { IoHome, IoPerson } from "react-icons/io5";
@@ -27,9 +28,11 @@ import { useMediaQuery } from "@chakra-ui/react";
 import { IoMdWallet, IoMdMore } from "react-icons/io";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { TonConnectButton } from "@tonconnect/ui-react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 export default function IndexSidebar() {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const navData = [
     { icon: MdSpaceDashboard, title: "Dashboard", link: "/dashboard" },
@@ -111,6 +114,7 @@ export default function IndexSidebar() {
                 <Icon as={item.icon} boxSize={5} mb={2} />
                 <Text fontSize={{ base: "xs", md: "md" }}>{item.title}</Text>
               </Flex>
+              
             </Tooltip>
           ))}
 
@@ -125,16 +129,18 @@ export default function IndexSidebar() {
               <MenuItem as={NextLink} href={"/referrals"}>
                 Referrals
               </MenuItem>
-              <MenuDivider />
-
-              <MenuItem>
-              <TonConnectButton />
-              </MenuItem>
-              
+              <MenuItem >
+              <Button
+                bg={useColorModeValue("#8F6AFB", "#3b49df")}
+                onClick={toggleColorMode}
+                display={["block", "block", "none"]}
+              >
+                {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+              </Button>
+                </MenuItem>
             </MenuList>
-
-            
           </Menu>
+          
         </Flex>
       )}
     </>

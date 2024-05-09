@@ -52,7 +52,8 @@ export default function MinerCard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [user, setUser] = useState("");
   const [activeMinerId, setActiveMinerId] = useState(null);
-
+  const [loading, setLoading] = useState(false)
+  
   const handleMintClick = (minerId) => {
     setActiveMinerId(minerId);
     onOpen(); // Open the modal
