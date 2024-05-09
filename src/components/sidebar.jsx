@@ -15,6 +15,7 @@ import {
   MenuItem,
   IconButton,
   Button,
+  MenuDivider
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { IoHome, IoPerson } from "react-icons/io5";
