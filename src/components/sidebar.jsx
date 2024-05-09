@@ -124,9 +124,9 @@ export default function IndexSidebar() {
               <MenuItem as={NextLink} href={"/referrals"}>
                 Referrals
               </MenuItem>
-              <MenuItem>  
+              
                   <TonConnectButton />
-              </MenuItem>
+              
             </MenuList>
           </Menu>
         </Flex>
