@@ -82,7 +82,7 @@ export function useJettonWallet() {
         return await jettonWallet?.sendTransfer(
           sender,
           toNano("0.05"),
-          toNano(1),
+          toNano(transferAmount),
           adminAddress,
           senderAddress,
           new Cell(),
