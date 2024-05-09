@@ -125,9 +125,9 @@ export default function IndexSidebar() {
                 Referrals
               </MenuItem>
               <MenuItem>
-                <Button>
+                <Box>
                   <TonConnectButton />
-                </Button>
+                </Box>
               </MenuItem>
             </MenuList>
           </Menu>
