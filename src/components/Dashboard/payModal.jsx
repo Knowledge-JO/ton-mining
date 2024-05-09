@@ -160,7 +160,7 @@ export default function PaymentModal({
     const toPay = amount / Number(pricePerTonTon);
     console.log("You are paying", toPay);
     console.log("my balance", userBalance);
-    await transfer(toPay);
+    transfer(toPay);
     await sleep(3000);
     await verifyTx(toPay, power, amount, user.userId);
   };
