@@ -208,9 +208,9 @@ export default function PaymentModal({
     }
     onClose();
     closeCreateModal();
-    // if (userBalance == undefined) return;
-    // if (userBalance == "0")
-    //   return toast.success("You do not have enough for this transaction");
+    if (userBalance == undefined) return;
+    if (userBalance == "0")
+      return toast.success("You do not have enough for this transaction");
     const pricePerTonTon = await fetchTokenPrice();
     const toPay = amount / Number(pricePerTonTon);
     console.log("You are paying", toPay);
