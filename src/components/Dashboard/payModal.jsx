@@ -128,11 +128,11 @@ export default function PaymentModal({
     return () => {};
   }, [client, userAddress, connected, getBalance, userBalance]);
 
-  useEffect(() => {
-    if (!userBalance) return;
-    console.log(userBalance);
-    validatePayment();
-  }, [user, userBalance]);
+  // useEffect(() => {
+  //   if (!userBalance) return;
+  //   console.log(userBalance);
+  //   validatePayment();
+  // }, [user, userBalance]);
 
   const validatePayment = async () => {
     const docRef = doc(db, "users", user.userId);
