@@ -120,7 +120,8 @@ export default function PaymentModal({
   useEffect(() => {
     (async () => {
       const bal = await getBalance();
-      if (!bal) return;
+
+      if (bal == undefined) return;
       setUserBalance(fromNano(bal));
     })();
 
@@ -207,7 +208,9 @@ export default function PaymentModal({
     }
     onClose();
     closeCreateModal();
-    if (!userBalance) return;
+    // if (userBalance == undefined) return;
+    // if (userBalance == "0")
+    //   return toast.success("You do not have enough for this transaction");
     const pricePerTonTon = await fetchTokenPrice();
     const toPay = amount / Number(pricePerTonTon);
     console.log("You are paying", toPay);
@@ -219,7 +222,7 @@ export default function PaymentModal({
       power,
       amount
     );
-    transfer(toPay);
+    await transfer(toPay);
     await sleep(3000);
     // await verifyTx(toPay, power, amount, user.userId);
     await validatePayment();
@@ -360,29 +363,25 @@ export default function PaymentModal({
                 it to your wallet, upgrade it, and resell it anytime.
               </Text>
               <Tabs
-                isFitted
-                variant="enclosed"
+                variant="line"
                 textColor="white"
                 onChange={(index) => setSelectedPaymentMethod(index)}
               >
                 <TabList gap={1} mb={2} border={"none"}>
                   <Tab
-                    bg="#3b49df"
-                    border={"none"}
+                    textColor={useColorModeValue("#200C5A", "#fff")}
                     rounded={"lg"}
-                    textColor={"white"}
                   >
                     By Crypto
                   </Tab>
 
                   <Tab
                     // isDisabled={true}
-                    bg="#3b49df"
-                    border={"none"}
+
+                    textColor={useColorModeValue("#200C5A", "#fff")}
                     rounded={"lg"}
-                    textColor={"white"}
                   >
-                    By Card
+                    Ton Ton
                   </Tab>
                 </TabList>
                 <TabPanels
@@ -612,24 +611,24 @@ export default function PaymentModal({
                       </Text>
                     </Flex> */}
                     {/* <TonConnectButton /> */}
-                    <Stack
-                      margin={2}
-                      border={"2px solid #301287"}
-                      rounded={"lg"}
-                      p={2}
-                    >
+                    <Stack p={2}>
                       <Flex align={"center"} justify={"space-between"}>
                         <Text>Price per TH</Text>
                         <Text>$35</Text>
                       </Flex>
                       <Flex align={"center"} justify={"space-between"}>
                         <Text>Historical ROI</Text>
-                        <Text>${payout}</Text>
+                        <Text>88%</Text>
                       </Flex>
-                      <Flex justify={"space-between"}>
-                        <Text>Total</Text>
+                      <Flex justify={"space-between"} mt={5}>
+                        <Flex>
+                          <Text>Total</Text>
+                        </Flex>
                         <Stack align={"end"}>
-                          <Text>{power * 35 + 1.15}</Text>
+                          <Text>
+                            {power > 1 ? 35 * 0.9 * power + 1.15 : 35 + 1.15}{" "}
+                            USD
+                          </Text>
                           <Text>Includes fee 1.15 USD</Text>
                         </Stack>
                       </Flex>
