@@ -127,26 +127,77 @@ export default function PaymentModal({
     return () => {};
   }, [client, userAddress, connected, getBalance, userBalance]);
 
-  const verifyTx = async (paidAmount, power, cost, userId) => {
+  useEffect(() => {
+    if (!userBalance) return;
+    console.log(userBalance);
+    validatePayment();
+  }, [user, userBalance]);
+
+  const validatePayment = async () => {
+    const docRef = doc(db, "users", user.userId);
+    const userQs = await getDoc(docRef);
+    if (userQs.exists()) {
+      const userData = userQs.data();
+      const oldBalance = userData.oldUserBalance;
+      const unverifiedPaidAmount = userData.unverifiedAmount;
+      const oldPower = userData.oldPower;
+      const oldCost = userData.oldCost;
+      console.log("user data ok", userData, oldBalance, unverifiedPaidAmount);
+      if (oldBalance && unverifiedPaidAmount) {
+        console.log("data intact", oldBalance, unverifiedPaidAmount);
+        await verifyTx(
+          Number(unverifiedPaidAmount),
+          Number(oldBalance),
+          Number(oldPower),
+          Number(oldCost),
+          user.userId
+        );
+      }
+    }
+  };
+
+  const verifyTx = async (paidAmount, oldBalance, power, cost, userId) => {
     const intervalId = setInterval(async () => {
       let bal = await getBalance();
       if (!bal) return;
       bal = Number(fromNano(bal));
-      if (bal <= Number(userBalance) - paidAmount) {
+      if (bal <= oldBalance - paidAmount) {
         clearInterval(intervalId);
         const newBal = bal;
-        setBalance(newBal);
+        setUserBalance(newBal);
         await createMiner(power, cost, userId);
+        await updateUserWithAmount(userId, "", "", "", "");
       }
       console.log(bal);
     }, 2000);
     setTimeout(() => clearInterval(intervalId), 1800000);
   };
 
+  async function updateUserWithAmount(
+    userId,
+    amount,
+    oldUserBalance,
+    oldPower,
+    oldCost
+  ) {
+    const userRef = doc(db, "users", userId);
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+      console.log("updating db", userId);
+      await updateDoc(userRef, {
+        unverifiedAmount: String(amount),
+        oldUserBalance: String(oldUserBalance),
+        oldPower: String(oldPower),
+        oldCost: String(oldCost),
+      });
+    }
+  }
+
   const sleep = async (time) =>
     new Promise((resolve) => setTimeout(resolve, time));
 
   const handleCheckout = async (power, user) => {
+    if (power == 0) return toast.error("Enter a number greater than zero");
     if (!user) return;
     let amount;
     if (power > 1) {
@@ -156,13 +207,22 @@ export default function PaymentModal({
     }
     onClose();
     closeCreateModal();
+    if (!userBalance) return;
     const pricePerTonTon = await fetchTokenPrice();
     const toPay = amount / Number(pricePerTonTon);
     console.log("You are paying", toPay);
     console.log("my balance", userBalance);
+    await updateUserWithAmount(
+      user.userId,
+      toPay,
+      Number(userBalance),
+      power,
+      amount
+    );
     transfer(toPay);
     await sleep(3000);
-    await verifyTx(toPay, power, amount, user.userId);
+    // await verifyTx(toPay, power, amount, user.userId);
+    await validatePayment();
   };
 
   const fetchTokenPrice = async () => {
@@ -219,6 +279,7 @@ export default function PaymentModal({
   };
 
   const handleCrypto = async (power, user) => {
+    if (power == 0) return toast.error("Enter a number greater than zero");
     if (power > 1) {
       const amount = power * 35 * 0.9; // 10% discount applied
       await pay(amount, user);
@@ -262,6 +323,7 @@ export default function PaymentModal({
   };
 
   const handlePayment = async () => {
+    console.log(power);
     if (selectedPaymentMethod === 1) {
       await handleCheckout(power, user); // Assume this is already implemented
     } else if (selectedPaymentMethod === 0) {
