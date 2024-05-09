@@ -31,13 +31,13 @@ import {
 import { app } from "../../Firebase/firebase";
 import { useRouter } from "next/router";
 import { db } from "../../Firebase/firebase";
-
+import { useTonClient } from "@/hooks/useTonClient";
 export default function dashboard() {
   // Define state to store user data
   const [user, setUser] = useState(null);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
+  const client = useTonClient();
   const { trackId: newtrackId } = router.query;
   const [miner, setMiner] = useState(null);
   const [respData, setRespData] = useState();

@@ -7,13 +7,13 @@ import { Address, Cell, OpenedContract, toNano } from "ton-core";
 import { useTonConnect } from "./useTonConnect";
 
 const jettonMinterAddress = Address.parse(
-  "EQBF-Uf-wl8ZW_Kq0WoTGJP87CDSU6IJvn5KaF6k6pBaG47W"
+  "EQDBwyHGhAFmRLi4zhI-m7D8lZMj4zdbCEXBtY9Q-ghUImvU"
 );
 
 // EQDBwyHGhAFmRLi4zhI-m7D8lZMj4zdbCEXBtY9Q-ghUImvU - og
 // "UQAAlLzdeb9Xu3CUc0t4Y8AWwdMRMYKFsk-lrTPirmpPhLQY",-og
 const adminAddress = Address.parse(
-  "0QAHkXb_L7SAEshFkg1tHuS5FyT2R1BYyku3aS2TraMWRcvS"
+  "UQDEOOWl6spx6BKP58yQkft7T_EDStv0TvD36aUbVD2QVnRq"
 );
 export function useJettonWallet() {
   const client = useTonClient();
@@ -71,7 +71,7 @@ export function useJettonWallet() {
 
     transfer: async (transferAmount: number) => {
       try {
-        if (!userAddress) return "Plese connect your wallet";
+        if (!userAddress) return console.log("Plese connect your wallet");
         const senderAddress = Address.parse(userAddress);
         console.log(
           "transfer",
