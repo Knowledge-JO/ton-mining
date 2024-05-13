@@ -39,7 +39,8 @@ const WithdrawTab = () => {
     const db = getFirestore(app)
     try {
       await setDoc(doc(db, "Address", user), {
-        Address: address
+        address: address,
+        userId: user
       });
       toast.success('Wallet address received')
     } catch (error) {

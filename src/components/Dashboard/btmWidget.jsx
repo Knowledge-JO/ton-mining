@@ -38,6 +38,7 @@ import { useEffect, useState } from "react";
 
 export default function BtmWidget({ user }) {
   const [userDets, setUserdets] = useState({});
+  const [address, setAddress] = useState('')
   const cardData = [
     { title: "Monthly Analysis", text: "Total Rewards" },
     // Add more card data objects as needed
@@ -46,6 +47,7 @@ export default function BtmWidget({ user }) {
   useEffect(() => {
     if (!user) return;
     getRewards();
+    getAddress();
   }, [user]);
 
   async function getRewards() {
@@ -57,6 +59,19 @@ export default function BtmWidget({ user }) {
       setUserdets({ rewards: data.totalMinedToday, hashRate: data.hashRate });
     } catch (error) {
       console.error("Error fetching number of miners:", error);
+    }
+  }
+
+  async function getAddress(){
+    const userId = user.userId
+    try {
+      const q = query(collection(db, 'Address'), where("userId",  "==", userId))
+      const querySnapshot= await getDocs(q)
+      const data = querySnapshot.docs[0].data();
+      console.log(querySnapshot.docs)
+      setAddress(data.address)
+    } catch (error) {
+      console.error("Error fetching user address", error)
     }
   }
 
@@ -110,7 +125,7 @@ export default function BtmWidget({ user }) {
                         <Td isNumeric>{"5/15/2024"}</Td>
                         <Td isNumeric>{userDets.hashRate}</Td>
                         <Td isNumeric>{userDets.rewards.toFixed(2)}</Td>
-                        <Td isNumeric></Td>
+                        <Td isNumeric>{address ? address : ''}</Td>
                         <Td color={`${"yellow.500"}`}>pending</Td>
                       </Tr>
                     </Tbody>
