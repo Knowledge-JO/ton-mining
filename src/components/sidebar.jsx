@@ -29,6 +29,7 @@ import { IoMdWallet, IoMdMore } from "react-icons/io";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { PiHandWithdraw } from "react-icons/pi";
 
 export default function IndexSidebar() {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
@@ -42,6 +43,7 @@ export default function IndexSidebar() {
     { icon: GiMiner, title: "My Miner", link: "/miner" },
     { icon: FaCartArrowDown, title: "Marketplace", link: "/marketplace" },
     { icon: MdGroups, title: "Referrals", link: "/referrals" },
+    { icon: PiHandWithdraw, title: "Withdraw", link: "/withdraw"},
   ];
 
   return (

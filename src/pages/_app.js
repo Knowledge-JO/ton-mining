@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
 
+
 // const manifestUrl =
 //   "https://raw.githubusercontent.com/Knowledge-JO/ton-mining/main/public/manifest.json";
 

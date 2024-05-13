@@ -47,7 +47,7 @@ export default function dashboard() {
     const userQs = await getDoc(docRef);
     if (userQs.exists()) {
       const userData = userQs.data();
-      const latestTrackId = userData.trackId[userData.trackId.length - 1];
+      const latestTrackId = userData.trackId ? userData.trackId[userData.trackId.length - 1]: null;
       console.log(
         "user data ok",
         userData,

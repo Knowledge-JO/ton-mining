@@ -238,28 +238,7 @@ export default function PaymentModal({
     return priceInUSD;
   };
 
-  //   const handleCheckout = async () =>{
-  //     try{
-  //       const jettonMinter = new TonWeb.token.jetton.JettonMinter(tonweb.provider, {address: "EQDBwyHGhAFmRLi4zhI-m7D8lZMj4zdbCEXBtY9Q-ghUImvU"});
-  // const data = await jettonMinter.getJettonData();
-  // console.log('Total supply:', data.totalSupply.toString());
-  // const address = await jettonMinter.getJettonWalletAddress(new TonWeb.utils.Address("UQANU5UpmIdgIRZPdLA1y5FUSkMBa8gzXP89lxRC2li76AwB"));
-  // // It is important to always check that wallet indeed is attributed to desired Jetton Master:
-  // const jettonWallet = new TonWeb.token.jetton.JettonWallet(tonweb.provider, {
-  //   address: address
-  // });
-  // const jettonData = await jettonWallet.getData();
-
-  // console.log('Jetton wallet address:', address.toString(true, true, true));
-
-  // console.log("Jetton wallet",address)
-  // console.log("jetton wallet 2",jettonWallet)
-  // console.log("jetton data", jettonData)
-
-  //     }catch(error){
-  //       console.log(error)
-  //     }
-  //   }
+ 
 
   const [miner, setMiner] = useState(null);
   const [balance, setBalance] = useState(0);
