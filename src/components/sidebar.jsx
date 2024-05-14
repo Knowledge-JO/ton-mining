@@ -131,6 +131,10 @@ export default function IndexSidebar() {
               <MenuItem as={NextLink} href={"/referrals"}>
                 Referrals
               </MenuItem>
+
+              <MenuItem as={NextLink} href={'/withdraw'}>
+                Withdrawal
+              </MenuItem>
               <MenuItem >
               <Button
                 bg={useColorModeValue("#8F6AFB", "#3b49df")}
